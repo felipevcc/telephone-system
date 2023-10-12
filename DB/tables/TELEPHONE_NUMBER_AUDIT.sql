@@ -5,7 +5,7 @@ Date 12-10-2023
 @copyright: TechCamp
 *******************************************************************************/
 
-CREATE TABLE APP_ASIG_NUM_TEL.TELEPHONE_NUMBER
+CREATE TABLE APP_ASIG_NUM_TEL.TELEPHONE_NUMBER_AUDIT
 (
     NUMBER_RECORD_ID NUMBER(10),
     CENTER_ID NUMBER(10) NOT NULL,
