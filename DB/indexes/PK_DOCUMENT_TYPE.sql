@@ -1,8 +1,10 @@
 /*******************************************************************************
-Description: Primary key constraint for TELEPHONE NUMBER AUDIT
+Description: Primary key constraint for DOCUMENT TYPE
 Author: Andres Felipe Villamizar Collazos
 Date 12-10-2023
 @copyright: TechCamp
 *******************************************************************************/
 
-ALTER TABLE APP_ASIG_NUM_TEL.TELEPHONE_NUMBER_AUDIT ADD CONSTRAINT PK_TELEPHONE_NUMBER_AUDIT PRIMARY KEY (NUMBER_RECORD_ID);
+ALTER TABLE APP_ASIG_NUM_TEL.DOCUMENT_TYPE
+ADD CONSTRAINT PK_DOCUMENT_TYPE
+PRIMARY KEY (DOCUMENT_TYPE_ID);
