@@ -1,5 +1,5 @@
 /*******************************************************************************
-Description: Table that stores the data of the telephone centers
+Description: APP_ASIG_NUM_TEL schema creation
 Author: Andres Felipe Villamizar Collazos
 Date 12-10-2023
 @copyright: TechCamp

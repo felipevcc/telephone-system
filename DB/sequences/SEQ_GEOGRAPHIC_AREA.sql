@@ -1,8 +1,8 @@
 /*******************************************************************************
-Description: Grant permissions to APP_ASIG_NUM_TEL user
+Description: Sequence for geographic area id
 Author: Andres Felipe Villamizar Collazos
 Date 12-10-2023
 @copyright: TechCamp
 *******************************************************************************/
 
-GRANT CONNECT, RESOURCE, DBA TO APP_ASIG_NUM_TEL;
+CREATE SEQUENCE APP_ASIG_NUM_TEL.SEQ_GEOGRAPHIC_AREA START WITH 1 NOMAXVALUE NOCYCLE;
