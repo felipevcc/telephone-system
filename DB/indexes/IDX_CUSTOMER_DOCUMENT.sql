@@ -1,5 +1,5 @@
 /*******************************************************************************
-Description: Index in the document column to consult customers
+Description: Index on document column to consult customers
 Author: Andres Felipe Villamizar Collazos
 Date 13-10-2023
 @copyright: TechCamp

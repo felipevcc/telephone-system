@@ -1,5 +1,5 @@
 /*******************************************************************************
-Description: Index in the creation date column (CREATED_AT) to query for the most recent record
+Description: Index on creation date column (CREATED_AT) to query for the most recent record
 Author: Andres Felipe Villamizar Collazos
 Date 13-10-2023
 @copyright: TechCamp

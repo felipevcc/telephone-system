@@ -1,8 +1,9 @@
 /*******************************************************************************
-Description: Index on telephone number column to consult the history
+Description: Unique constraint on the CODE column of the GEOGRAPHIC_AREA table
 Author: Andres Felipe Villamizar Collazos
-Date 13-10-2023
+Date 12-10-2023
 @copyright: TechCamp
 *******************************************************************************/
 
-CREATE INDEX IDX_TELEPHONE_AUDIT_NUMBER ON APP_ASIG_NUM_TEL.TELEPHONE_NUMBER_AUDIT (PHONE_NUMBER);
+ALTER TABLE APP_ASIG_NUM_TEL.GEOGRAPHIC_AREA
+ADD CONSTRAINT UK_AREA_CODE UNIQUE (CODE);

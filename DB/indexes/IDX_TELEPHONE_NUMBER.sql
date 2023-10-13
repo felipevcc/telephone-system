@@ -1,5 +1,5 @@
 /*******************************************************************************
-Description: Index in the phone number column
+Description: Index on phone number column
 Author: Andres Felipe Villamizar Collazos
 Date 13-10-2023
 @copyright: TechCamp

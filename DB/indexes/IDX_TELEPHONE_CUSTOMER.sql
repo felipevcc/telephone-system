@@ -1,5 +1,5 @@
 /*******************************************************************************
-Description: Index in the customer id column to query its assigned telephone number
+Description: Index on customer id column to query its assigned telephone number
 Author: Andres Felipe Villamizar Collazos
 Date 13-10-2023
 @copyright: TechCamp

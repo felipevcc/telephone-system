@@ -1,5 +1,5 @@
 /*******************************************************************************
-Description: Index in the customer id column to consult the history
+Description: Index on customer id column to consult the history
 Author: Andres Felipe Villamizar Collazos
 Date 13-10-2023
 @copyright: TechCamp
