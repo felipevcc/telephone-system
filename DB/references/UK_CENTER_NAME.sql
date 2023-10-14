@@ -1,7 +1,7 @@
 /*******************************************************************************
 Description: Unique constraint on the NAME column of the CENTER table
 Author: Andres Felipe Villamizar Collazos
-Date 12-10-2023
+Date 13-10-2023
 @copyright: TechCamp
 *******************************************************************************/
 
