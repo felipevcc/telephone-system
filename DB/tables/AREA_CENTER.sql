@@ -12,7 +12,7 @@ CREATE TABLE APP_ASIG_NUM_TEL.AREA_CENTER
 ) TABLESPACE TS_APP_ASIG_NUM_TEL;
 
 
-COMMENT ON TABLE APP_ASIG_NUM_TEL.AREA_CENTER IS 'Table that stores the relationships between geographic areas and centers'
+COMMENT ON TABLE APP_ASIG_NUM_TEL.AREA_CENTER IS 'Table that stores the relationships between geographic areas and centers';
 
 
 COMMENT ON COLUMN APP_ASIG_NUM_TEL.AREA_CENTER.AREA_ID IS 'Unique identifier for the geographic area';

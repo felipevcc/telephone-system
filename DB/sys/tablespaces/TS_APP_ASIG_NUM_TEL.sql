@@ -6,5 +6,5 @@ Date 12-10-2023
 *******************************************************************************/
 
 CREATE TABLESPACE TS_APP_ASIG_NUM_TEL
-DATAFLE '/TS_APP_ASIG_NUM_TEL.dbf'
+DATAFILE 'C:\app\Usuario\product\21c\oradata\XE\TS_APP_ASIG_NUM_TEL.dbf'
 SIZE 1000M AUTOEXTEND ON NEXT 100M MAXSIZE UNLIMITED;

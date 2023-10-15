@@ -12,7 +12,7 @@ CREATE TABLE APP_ASIG_NUM_TEL.CUSTOMER_TYPE
 ) TABLESPACE TS_APP_ASIG_NUM_TEL;
 
 
-COMMENT ON TABLE APP_ASIG_NUM_TEL.CUSTOMER_TYPE IS 'Table that stores customer types for classification'
+COMMENT ON TABLE APP_ASIG_NUM_TEL.CUSTOMER_TYPE IS 'Table that stores customer types for classification';
 
 
 COMMENT ON COLUMN APP_ASIG_NUM_TEL.CUSTOMER_TYPE.CUSTOMER_TYPE_ID IS 'Unique identifier for the customer type';
