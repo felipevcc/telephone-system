@@ -12,7 +12,7 @@ CREATE OR REPLACE TYPE APP_ASIG_NUM_TEL.TYP_CENTER_CREATION AS OBJECT
     EMAIL VARCHAR2(50),
     PHONE_NUMBER VARCHAR2(20),
     INITIAL_NUMBER NUMBER(8),
-    FINAL_NUMBER NUMBER(8),
+    FINAL_NUMBER NUMBER(8)
 );
 
 /*******************************************************************************
