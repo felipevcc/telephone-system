@@ -1,19 +1,19 @@
 /*******************************************************************************
-Description: Telephone number management package
+Description: Geographic area management package
 Author: Andres Felipe Villamizar Collazos
-Date 16-10-2023
+Date 17-10-2023
 @copyright: TechCamp
 *******************************************************************************/
 
-CREATE OR REPLACE PACKAGE APP_ASIG_NUM_TEL.PCK_TELEPHONE_NUMBER IS
+CREATE OR REPLACE PACKAGE APP_ASIG_NUM_TEL.PCK_GEOGRAPHIC_AREA IS
 
     /*******************************************************************************
     Description: Secondary procedure of Proc_TrackingNumbers to process each transaction
     Author: Andres Felipe Villamizar Collazos
-    Date 16-10-2023
+    Date 17-10-2023
     @copyright: TechCamp
     *******************************************************************************/
-    PROCEDURE Proc_ProcessTransaction (
+    PROCEDURE Proc_TransactionProcessing (
         Ip_center_id IN NUMBER,
         Ip_customer_id IN NUMBER,
         Ip_phone_number IN NUMBER,
@@ -25,7 +25,7 @@ CREATE OR REPLACE PACKAGE APP_ASIG_NUM_TEL.PCK_TELEPHONE_NUMBER IS
     /*******************************************************************************
     Description: Automatic and manual procedure for tracking telephone numbers for complete release
     Author: Andres Felipe Villamizar Collazos
-    Date 16-10-2023
+    Date 17-10-2023
     @copyright: TechCamp
     *******************************************************************************/
     PROCEDURE Proc_TrackingNumbers (Ip_Manual IN NUMBER DEFAULT NULL);
@@ -33,9 +33,9 @@ CREATE OR REPLACE PACKAGE APP_ASIG_NUM_TEL.PCK_TELEPHONE_NUMBER IS
     /*******************************************************************************
     Description: Procedure for releasing telephone numbers
     Author: Andres Felipe Villamizar Collazos
-    Date 16-10-2023
+    Date 17-10-2023
     @copyright: TechCamp
     *******************************************************************************/
     PROCEDURE Proc_ReleaseTelephoneNumber (Ip_Number IN NUMBER);
 
-END PCK_TELEPHONE_NUMBER;
+END PCK_GEOGRAPHIC_AREA;
