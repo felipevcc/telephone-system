@@ -64,6 +64,21 @@ ALTER SESSION SET CURRENT_SCHEMA=APP_ASIG_NUM_TEL;
 @.\references\UK_TELEPHONE_CUSTOMER.sql
 @.\references\UK_TELEPHONE_NUMBER.sql
 
+-- Type creation
+@.\types\TYP_CENTER.sql
+@.\types\TYP_CUSTOMER.sql
+
+-- Package creation
+@.\packages\PCK_CENTER.sql
+@.\packages\PCK_CENTER_BODY.sql
+@.\packages\PCK_CUSTOMER.sql
+@.\packages\PCK_CUSTOMER_BODY.sql
+@.\packages\PCK_TELEPHONE_NUMBER.sql
+@.\packages\PCK_TELEPHONE_NUMBER_BODY.sql
+
+-- Job creation
+@.\sql\JOB_TRACKING_NUMBERS.sql
+
 -- Record insertion
 @.\sql\INSERT_CUSTOMER_TYPES.sql
 @.\sql\INSERT_DOCUMENT_TYPES.sql

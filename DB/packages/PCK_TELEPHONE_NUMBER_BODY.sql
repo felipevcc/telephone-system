@@ -64,23 +64,23 @@ CREATE OR REPLACE PACKAGE BODY APP_ASIG_NUM_TEL.PCK_TELEPHONE_NUMBER IS
 
         OPEN c_telephone_numbers;
         LOOP
-        FETCH c_telephone_numbers INTO l_vc_telephone_numbers;
-        EXIT WHEN c_telephone_numbers%NOTFOUND;
+            FETCH c_telephone_numbers INTO l_vc_telephone_numbers;
+            EXIT WHEN c_telephone_numbers%NOTFOUND;
 
-        /*l_error_occurred BOOLEAN := FALSE;*/
+            /*l_error_occurred BOOLEAN := FALSE;*/
 
-        Proc_ProcessTransaction(
-            l_vc_telephone_numbers.CENTER_ID,
-            l_vc_telephone_numbers.CUSTOMER_ID,
-            l_vc_telephone_numbers.PHONE_NUMBER,
-            l_vc_telephone_numbers.ASSIGNMENT_DATE,
-            l_vc_telephone_numbers.RELEASE_DATE,
-            l_error_occurred
-        );
-        IF NOT l_error_occurred THEN
-            l_successful_count := l_successful_count + 1;
-        END IF;
-        l_total_records := l_total_records + 1;
+            Proc_ProcessTransaction(
+                l_vc_telephone_numbers.CENTER_ID,
+                l_vc_telephone_numbers.CUSTOMER_ID,
+                l_vc_telephone_numbers.PHONE_NUMBER,
+                l_vc_telephone_numbers.ASSIGNMENT_DATE,
+                l_vc_telephone_numbers.RELEASE_DATE,
+                l_error_occurred
+            );
+            IF NOT l_error_occurred THEN
+                l_successful_count := l_successful_count + 1;
+            END IF;
+            l_total_records := l_total_records + 1;
         END LOOP;
 
         CLOSE c_telephone_numbers;
@@ -121,10 +121,13 @@ CREATE OR REPLACE PACKAGE BODY APP_ASIG_NUM_TEL.PCK_TELEPHONE_NUMBER IS
     EXCEPTION
         WHEN NO_DATA_FOUND THEN
             RAISE_APPLICATION_ERROR(-20001, 'The telephone number does not exist or has not been assigned');
+            ROLLBACK;
         WHEN e_already_released THEN
             RAISE_APPLICATION_ERROR(-20002, 'The telephone number has already been released');
+            ROLLBACK;
         WHEN OTHERS THEN
             RAISE_APPLICATION_ERROR(-20003, 'Error executing the Proc_ReleaseTelephoneNumber procedure ' || SQLERRM);
+            ROLLBACK;
     END Proc_ReleaseTelephoneNumber;
 
 END PCK_TELEPHONE_NUMBER;

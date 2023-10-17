@@ -12,22 +12,22 @@ CREATE OR REPLACE PACKAGE BODY APP_ASIG_NUM_TEL.PCK_CENTER IS
     Author: Andres Felipe Villamizar Collazos
     Date 17-10-2023
     @copyright: TechCamp
-    *******************Cu************************************************************/
+    *******************************************************************************/
     PROCEDURE Proc_CreateCenter (
-        Ip_center IN TYP_CENTER_CREATION,
+        Ip_center_data IN TYP_CENTER_CREATION,
         Op_center_id OUT NUMBER
     ) IS
         e_invalid_range EXCEPTION;
         e_range_not_available EXCEPTION;
     BEGIN
-        IF Ip_center.INITIAL_NUMBER >= Ip_center.FINAL_NUMBER THEN
+        IF Ip_center_data.INITIAL_NUMBER >= Ip_center_data.FINAL_NUMBER THEN
             RAISE e_invalid_range;
         END IF;
         
         FOR range IN (SELECT INITIAL_NUMBER, FINAL_NUMBER FROM CENTER FOR UPDATE) LOOP
-            IF (Ip_center.INITIAL_NUMBER >= range.INITIAL_NUMBER AND Ip_center.FINAL_NUMBER <= range.FINAL_NUMBER) OR
-                (Ip_center.INITIAL_NUMBER <= range.INITIAL_NUMBER AND Ip_center.FINAL_NUMBER >= range.INITIAL_NUMBER) OR
-                (Ip_center.INITIAL_NUMBER <= range.FINAL_NUMBER AND Ip_center.FINAL_NUMBER >= range.FINAL_NUMBER)
+            IF (Ip_center_data.INITIAL_NUMBER >= range.INITIAL_NUMBER AND Ip_center_data.FINAL_NUMBER <= range.FINAL_NUMBER) OR
+                (Ip_center_data.INITIAL_NUMBER <= range.INITIAL_NUMBER AND Ip_center_data.FINAL_NUMBER >= range.INITIAL_NUMBER) OR
+                (Ip_center_data.INITIAL_NUMBER <= range.FINAL_NUMBER AND Ip_center_data.FINAL_NUMBER >= range.FINAL_NUMBER)
             THEN
                 RAISE e_range_not_available;
             END IF;
@@ -36,7 +36,7 @@ CREATE OR REPLACE PACKAGE BODY APP_ASIG_NUM_TEL.PCK_CENTER IS
         Op_center_id := SEQ_CENTER.NEXTVAL;
 
         INSERT INTO CENTER (CENTER_ID, NAME, ADDRESS, EMAIL, PHONE_NUMBER, INITIAL_NUMBER, FINAL_NUMBER)
-        VALUES (Op_center_id, Ip_center.NAME, Ip_center.ADDRESS, Ip_center.EMAIL, Ip_center.PHONE_NUMBER, Ip_center.INITIAL_NUMBER, Ip_center.FINAL_NUMBER);
+        VALUES (Op_center_id, Ip_center_data.NAME, Ip_center_data.ADDRESS, Ip_center_data.EMAIL, Ip_center_data.PHONE_NUMBER, Ip_center_data.INITIAL_NUMBER, Ip_center_data.FINAL_NUMBER);
 
         COMMIT;
     
@@ -59,6 +59,29 @@ CREATE OR REPLACE PACKAGE BODY APP_ASIG_NUM_TEL.PCK_CENTER IS
     Date 17-10-2023
     @copyright: TechCamp
     *******************************************************************************/
-    PROCEDURE Proc_UpdateCenter (Ip_center IN TYP_CENTER_UPDATE);
+    PROCEDURE Proc_UpdateCenter (Ip_center_data IN TYP_CENTER_UPDATE) IS
+    BEGIN
+        SELECT NULL
+        INTO NULL
+        FROM CENTER
+        WHERE CENTER_ID = Ip_center_data.CENTER_ID
+        FOR UPDATE;
+
+        UPDATE CENTER
+        SET
+            ADDRESS = Ip_center_data.ADDRESS,
+            EMAIL = Ip_center_data.EMAIL,
+            PHONE_NUMBER = Ip_center_data.PHONE_NUMBER
+        WHERE CENTER_ID = Ip_center_data.CENTER_ID;
+        
+        COMMIT;
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            RAISE_APPLICATION_ERROR(-20001, 'The center does not exist');
+            ROLLBACK;
+        WHEN OTHERS THEN
+            RAISE_APPLICATION_ERROR(-20002, 'Error executing the Proc_UpdateCenter procedure ' || SQLERRM);
+            ROLLBACK;
+    END Proc_UpdateCenter;
 
 END PCK_CENTER;

@@ -14,7 +14,7 @@ CREATE OR REPLACE PACKAGE APP_ASIG_NUM_TEL.PCK_CENTER IS
     @copyright: TechCamp
     *******************************************************************************/
     PROCEDURE Proc_CreateCenter (
-        Ip_center IN TYP_CENTER_CREATION,
+        Ip_center_data IN TYP_CENTER_CREATION,
         Op_center_id OUT NUMBER
     );
 
@@ -24,6 +24,6 @@ CREATE OR REPLACE PACKAGE APP_ASIG_NUM_TEL.PCK_CENTER IS
     Date 17-10-2023
     @copyright: TechCamp
     *******************************************************************************/
-    PROCEDURE Proc_UpdateCenter (Ip_center IN TYP_CENTER_UPDATE);
+    PROCEDURE Proc_UpdateCenter (Ip_center_data IN TYP_CENTER_UPDATE);
 
 END PCK_CENTER;
