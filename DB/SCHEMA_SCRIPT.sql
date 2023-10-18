@@ -7,6 +7,8 @@ Date 16-10-2023
 
 ALTER SESSION SET CURRENT_SCHEMA=SYSTEM;
 
+ALTER SESSION SET "_ORACLE_SCRIPT"=true;
+
 -- Tablespace creation
 @.\sys\tablespaces\TS_APP_ASIG_NUM_TEL.sql
 
@@ -51,6 +53,13 @@ ALTER SESSION SET CURRENT_SCHEMA=APP_ASIG_NUM_TEL;
 @.\indexes\PK_TELEPHONE_NUMBER_AUDIT.sql
 @.\indexes\PK_TELEPHONE_NUMBER.sql
 
+-- Constraint creation
+@.\references\UK_AREA_CODE.sql
+@.\references\UK_CENTER_NAME.sql
+@.\references\UK_CUSTOMER_DOCUMENT.sql
+@.\references\UK_TELEPHONE_CUSTOMER.sql
+@.\references\UK_TELEPHONE_NUMBER.sql
+
 -- Index creation
 @.\indexes\IDX_CUSTOMER_DOCUMENT.sql
 @.\indexes\IDX_TELEPHONE_AUDIT_CUSTOMER.sql
@@ -69,30 +78,38 @@ ALTER SESSION SET CURRENT_SCHEMA=APP_ASIG_NUM_TEL;
 @.\references\FK_TELEPHONE_NUMBER_CENTER.sql
 @.\references\FK_TELEPHONE_NUMBER_CUSTOMER.sql
 
--- Constraint creation
-@.\references\UK_AREA_CODE.sql
-@.\references\UK_CENTER_NAME.sql
-@.\references\UK_CUSTOMER_DOCUMENT.sql
-@.\references\UK_TELEPHONE_CUSTOMER.sql
-@.\references\UK_TELEPHONE_NUMBER.sql
-
 -- Type creation
-@.\types\TYP_CENTER.sql
-@.\types\TYP_CUSTOMER.sql
+@.\types\TYP_CENTER_CREATION.sql
+/
+@.\types\TYP_CENTER_UPDATE.sql
+/
+@.\types\TYP_CUSTOMER_UPDATE.sql
+/
 
 -- Package creation
 @.\packages\PCK_CENTER.sql
+/
 @.\packages\PCK_CENTER_BODY.sql
+/
 @.\packages\PCK_CUSTOMER.sql
+/
 @.\packages\PCK_CUSTOMER_BODY.sql
+/
 @.\packages\PCK_TELEPHONE_NUMBER.sql
+/
 @.\packages\PCK_TELEPHONE_NUMBER_BODY.sql
+/
 
 -- Job creation
 @.\sql\JOB_TRACKING_NUMBERS.sql
+/
 
 -- Record insertion
 @.\sql\INSERT_CUSTOMER_TYPES.sql
+/
 @.\sql\INSERT_DOCUMENT_TYPES.sql
+/
 @.\sql\INSERT_MINIMUM_TIME_SETTING.sql
+/
 @.\sql\INSERT_AREAS.sql
+/
