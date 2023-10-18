@@ -58,9 +58,10 @@ CREATE OR REPLACE PACKAGE BODY APP_ASIG_NUM_TEL.PCK_CENTER IS
     Date 17-10-2023
     *******************************************************************************/
     PROCEDURE Proc_UpdateCenter (Ip_center_data IN TYP_CENTER_UPDATE) IS
+        l_center_id CENTER.CENTER_ID%TYPE;
     BEGIN
-        SELECT NULL
-        INTO NULL
+        SELECT CENTER_ID
+        INTO l_center_id
         FROM CENTER
         WHERE CENTER_ID = Ip_center_data.CENTER_ID
         FOR UPDATE;
@@ -70,7 +71,7 @@ CREATE OR REPLACE PACKAGE BODY APP_ASIG_NUM_TEL.PCK_CENTER IS
             ADDRESS = Ip_center_data.ADDRESS,
             EMAIL = Ip_center_data.EMAIL,
             PHONE_NUMBER = Ip_center_data.PHONE_NUMBER
-        WHERE CENTER_ID = Ip_center_data.CENTER_ID;
+        WHERE CENTER_ID = l_center_id;
         
         COMMIT;
     EXCEPTION

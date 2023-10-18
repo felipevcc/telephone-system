@@ -5,4 +5,4 @@ Date 13-10-2023
 @copyright: TechCamp
 *******************************************************************************/
 
-CREATE INDEX IDX_CUSTOMER_DOCUMENT ON APP_ASIG_NUM_TEL.CUSTOMER (DOCUMENT);
+CREATE UNIQUE INDEX IDX_CUSTOMER_DOCUMENT ON APP_ASIG_NUM_TEL.CUSTOMER (DOCUMENT);

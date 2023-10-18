@@ -13,9 +13,10 @@ CREATE OR REPLACE PACKAGE BODY APP_ASIG_NUM_TEL.PCK_CUSTOMER IS
     Date 17-10-2023
     *******************************************************************************/
     PROCEDURE Proc_UpdateCustomer (Ip_customer_data IN TYP_CUSTOMER_UPDATE) IS
+        l_customer_id CUSTOMER.CUSTOMER_ID%TYPE;
     BEGIN
-        SELECT NULL
-        INTO NULL
+        SELECT CUSTOMER_ID
+        INTO l_customer_id
         FROM CUSTOMER
         WHERE CUSTOMER_ID = Ip_customer_data.CUSTOMER_ID
         FOR UPDATE;
@@ -25,7 +26,7 @@ CREATE OR REPLACE PACKAGE BODY APP_ASIG_NUM_TEL.PCK_CUSTOMER IS
             ADDRESS = Ip_customer_data.ADDRESS,
             EMAIL = Ip_customer_data.EMAIL,
             PHONE_NUMBER = Ip_customer_data.PHONE_NUMBER
-        WHERE CUSTOMER_ID = Ip_customer_data.CUSTOMER_ID;
+        WHERE CUSTOMER_ID = l_customer_id;
         
         COMMIT;
     EXCEPTION

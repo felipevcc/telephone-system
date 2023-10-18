@@ -25,8 +25,8 @@ CREATE OR REPLACE PACKAGE BODY APP_ASIG_NUM_TEL.PCK_TELEPHONE_NUMBER IS
         Op_error_occurred := FALSE;
 
         -- Insert record into audit table
-        INSERT INTO TELEPHONE_NUMBER_AUDIT (CENTER_ID, CUSTOMER_ID, PHONE_NUMBER, ASSIGNMENT_DATE, RELEASE_DATE)
-        VALUES (Ip_center_id, Ip_customer_id, Ip_phone_number, Ip_assignment_date, Ip_release_date);
+        INSERT INTO TELEPHONE_NUMBER_AUDIT (NUMBER_RECORD_ID, CENTER_ID, CUSTOMER_ID, PHONE_NUMBER, ASSIGNMENT_DATE, RELEASE_DATE)
+        VALUES (SEQ_TELEPHONE_NUMBER_AUDIT.NEXTVAL, Ip_center_id, Ip_customer_id, Ip_phone_number, Ip_assignment_date, Ip_release_date);
 
         -- Delete record in assignment table
         DELETE FROM TELEPHONE_NUMBER
@@ -45,7 +45,7 @@ CREATE OR REPLACE PACKAGE BODY APP_ASIG_NUM_TEL.PCK_TELEPHONE_NUMBER IS
     Date 16-10-2023
     *******************************************************************************/
     PROCEDURE Proc_TrackingNumbers (Ip_Manual IN NUMBER DEFAULT NULL) IS
-        l_time_value NUMBER;
+        l_time_value MINIMUM_TIME_SETTING.TIME_VALUE%TYPE;
         CURSOR c_telephone_numbers IS
             SELECT NUMBER_RECORD_ID, CENTER_ID, CUSTOMER_ID, PHONE_NUMBER, ASSIGNMENT_DATE, RELEASE_DATE
             FROM TELEPHONE_NUMBER
@@ -97,16 +97,16 @@ CREATE OR REPLACE PACKAGE BODY APP_ASIG_NUM_TEL.PCK_TELEPHONE_NUMBER IS
     Date 16-10-2023
     *******************************************************************************/
     PROCEDURE Proc_ReleaseTelephoneNumber (Ip_Number IN NUMBER) IS
-        l_release_date DATE;
+        l_release_date TELEPHONE_NUMBER.RELEASE_DATE%TYPE;
         e_already_released EXCEPTION;
     BEGIN
         SELECT RELEASE_DATE
-        INTO v_release_date
+        INTO l_release_date
         FROM TELEPHONE_NUMBER
         WHERE PHONE_NUMBER = Ip_Number
         FOR UPDATE;
 
-        IF v_release_date IS NULL THEN
+        IF l_release_date IS NULL THEN
             UPDATE TELEPHONE_NUMBER
             SET RELEASE_DATE = SYSDATE
             WHERE PHONE_NUMBER = Ip_Number;
