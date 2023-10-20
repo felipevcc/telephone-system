@@ -29,6 +29,10 @@ public class AreaController {
             @RequestParam("page") Integer page,
             @RequestParam("pageSize") Integer pageSize
     ) {
-        return ResponseEntity.status(HttpStatus.OK).body(areaService.getAreasByCenterId(centerId, page, pageSize));
+        AreasPageDTO pagedAreasResponse = areaService.getAreasByCenterId(centerId, page, pageSize);
+        if (pagedAreasResponse.getGeographicAreas().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(pagedAreasResponse);
     }
 }
