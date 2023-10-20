@@ -33,5 +33,10 @@ public class CenterServiceImp implements CenterService {
         pagedCentersResponse.setCenters(centers);
 
         return pagedCentersResponse;
-    };
+    }
+
+    @Override
+    public Center getCenterById(Long centerId) {
+        return centerRepository.findById(centerId).orElse(null);
+    }
 }

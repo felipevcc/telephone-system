@@ -19,7 +19,7 @@ public class AreaServiceImp implements AreaService {
     @Override
     public List<GeographicArea> getAllAreas() {
         return areaRepository.findAllByOrderByAreaId();
-    };
+    }
 
     @Override
     public AreasPageDTO getAreasByCenterId(Long centerId, Integer page, Integer pageSize) {
@@ -38,5 +38,5 @@ public class AreaServiceImp implements AreaService {
         pagedAreasResponse.setGeographicAreas(areas);
 
         return pagedAreasResponse;
-    };
+    }
 }
