@@ -3,14 +3,12 @@ package com.segurosbolivar.centerservice.service;
 import com.segurosbolivar.centerservice.dto.CenterCreationDTO;
 import com.segurosbolivar.centerservice.dto.CentersPageDTO;
 import com.segurosbolivar.centerservice.model.Center;
-import com.segurosbolivar.centerservice.repository.CenterProceduresRepository;
 import com.segurosbolivar.centerservice.repository.CenterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @Service
@@ -18,9 +16,6 @@ public class CenterServiceImp implements CenterService {
 
     @Autowired
     CenterRepository centerRepository;
-
-    @Autowired
-    CenterProceduresRepository centerProcsRepository;
 
     @Override
     public CentersPageDTO getCentersByAreaId(Long areaId, Integer page, Integer pageSize) {
@@ -50,9 +45,17 @@ public class CenterServiceImp implements CenterService {
     public Center createCenter(CenterCreationDTO newCenterData) {
         Long newCenterId = null;
         try {
-            newCenterId = centerProcsRepository.createCenter(newCenterData);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            newCenterId = centerRepository.createCenter(
+                    newCenterData.getName(),
+                    newCenterData.getAddress(),
+                    newCenterData.getEmail(),
+                    newCenterData.getPhoneNumber(),
+                    newCenterData.getInitialNumber(),
+                    newCenterData.getFinalNumber()
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
         if (newCenterId == null) {
             return null;

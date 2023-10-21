@@ -26,8 +26,10 @@ public interface CenterRepository extends JpaRepository<Center, Long> {
     List<Center> findCentersByArea(Long areaId, Pageable pageable);
 
     @Procedure(procedureName = "PCK_CENTER.Proc_CreateCenter")
-    Long createCenter(@Param("Ip_center_data") CenterCreationDTO newCenterData);
-
-    @Query(value = "CALL PCK_CENTER.Proc_CreateCenter(:Ip_center_data);", nativeQuery = true)
-    Long createCenterr(@Param("Ip_center_data") CenterCreationDTO newCenterData);
+    Long createCenter(@Param("Ip_name") String name,
+                      @Param("Ip_address") String address,
+                      @Param("Ip_email") String email,
+                      @Param("Ip_phone_number") String phoneNumber,
+                      @Param("Ip_initial_number") Integer initialNumber,
+                      @Param("Ip_final_number") Integer finalNumber);
 }
