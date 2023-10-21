@@ -13,7 +13,12 @@ CREATE OR REPLACE PACKAGE APP_ASIG_NUM_TEL.PCK_CENTER IS
     Date 17-10-2023
     *******************************************************************************/
     PROCEDURE Proc_CreateCenter (
-        Ip_center_data IN TYP_CENTER_CREATION,
+        Ip_name IN VARCHAR2,
+        Ip_address IN VARCHAR2,
+        Ip_email IN VARCHAR2,
+        Ip_phone_number IN VARCHAR2,
+        Ip_initial_number IN NUMBER,
+        Ip_final_number IN NUMBER,
         Op_center_id OUT NUMBER
     );
 

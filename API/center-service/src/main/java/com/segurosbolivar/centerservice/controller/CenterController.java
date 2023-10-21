@@ -1,5 +1,6 @@
 package com.segurosbolivar.centerservice.controller;
 
+import com.segurosbolivar.centerservice.dto.CenterCreationDTO;
 import com.segurosbolivar.centerservice.dto.CentersPageDTO;
 import com.segurosbolivar.centerservice.model.Center;
 import com.segurosbolivar.centerservice.service.CenterService;
@@ -36,5 +37,14 @@ public class CenterController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.status(HttpStatus.OK).body(foundCenter);
+    }
+
+    @PostMapping
+    public ResponseEntity<Center> createCenter(@RequestBody CenterCreationDTO newCenterData) {
+        Center newCenter = centerService.createCenter(newCenterData);
+        if (newCenter == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(newCenter);
     }
 }

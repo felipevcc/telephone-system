@@ -13,20 +13,25 @@ CREATE OR REPLACE PACKAGE BODY APP_ASIG_NUM_TEL.PCK_CENTER IS
     Date 17-10-2023
     *******************************************************************************/
     PROCEDURE Proc_CreateCenter (
-        Ip_center_data IN TYP_CENTER_CREATION,
+        Ip_name IN VARCHAR2,
+        Ip_address IN VARCHAR2,
+        Ip_email IN VARCHAR2,
+        Ip_phone_number IN VARCHAR2,
+        Ip_initial_number IN NUMBER,
+        Ip_final_number IN NUMBER,
         Op_center_id OUT NUMBER
     ) IS
         e_invalid_range EXCEPTION;
         e_range_not_available EXCEPTION;
     BEGIN
-        IF Ip_center_data.INITIAL_NUMBER >= Ip_center_data.FINAL_NUMBER THEN
+        IF Ip_initial_number >= Ip_final_number THEN
             RAISE e_invalid_range;
         END IF;
         
         FOR range IN (SELECT INITIAL_NUMBER, FINAL_NUMBER FROM CENTER FOR UPDATE) LOOP
-            IF (Ip_center_data.INITIAL_NUMBER >= range.INITIAL_NUMBER AND Ip_center_data.FINAL_NUMBER <= range.FINAL_NUMBER) OR
-                (Ip_center_data.INITIAL_NUMBER <= range.INITIAL_NUMBER AND Ip_center_data.FINAL_NUMBER >= range.INITIAL_NUMBER) OR
-                (Ip_center_data.INITIAL_NUMBER <= range.FINAL_NUMBER AND Ip_center_data.FINAL_NUMBER >= range.FINAL_NUMBER)
+            IF (Ip_initial_number >= range.INITIAL_NUMBER AND Ip_final_number <= range.FINAL_NUMBER) OR
+                (Ip_initial_number <= range.INITIAL_NUMBER AND Ip_final_number >= range.INITIAL_NUMBER) OR
+                (Ip_initial_number <= range.FINAL_NUMBER AND Ip_final_number >= range.FINAL_NUMBER)
             THEN
                 RAISE e_range_not_available;
             END IF;
@@ -35,7 +40,7 @@ CREATE OR REPLACE PACKAGE BODY APP_ASIG_NUM_TEL.PCK_CENTER IS
         Op_center_id := SEQ_CENTER.NEXTVAL;
 
         INSERT INTO CENTER (CENTER_ID, NAME, ADDRESS, EMAIL, PHONE_NUMBER, INITIAL_NUMBER, FINAL_NUMBER)
-        VALUES (Op_center_id, Ip_center_data.NAME, Ip_center_data.ADDRESS, Ip_center_data.EMAIL, Ip_center_data.PHONE_NUMBER, Ip_center_data.INITIAL_NUMBER, Ip_center_data.FINAL_NUMBER);
+        VALUES (Op_center_id, Ip_name, Ip_address, Ip_email, Ip_phone_number, Ip_initial_number, Ip_final_number);
 
         COMMIT;
     

@@ -29,13 +29,13 @@ public class Center {
     private String email;
 
     @Column(name = "PHONE_NUMBER")
-    private String phone_number;
+    private String phoneNumber;
 
     @Column(name = "INITIAL_NUMBER")
-    private Integer initial_number;
+    private Integer initialNumber;
 
     @Column(name = "FINAL_NUMBER")
-    private Integer final_number;
+    private Integer finalNumber;
 
     @JsonIgnore
     @Column(name = "CREATED_AT")
