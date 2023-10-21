@@ -2,7 +2,9 @@ package com.segurosbolivar.centerservice.service;
 
 import com.segurosbolivar.centerservice.dto.CenterCreationDTO;
 import com.segurosbolivar.centerservice.dto.CentersPageDTO;
+import com.segurosbolivar.centerservice.model.AreaCenter;
 import com.segurosbolivar.centerservice.model.Center;
+import com.segurosbolivar.centerservice.repository.AreaCenterRepository;
 import com.segurosbolivar.centerservice.repository.CenterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +18,9 @@ public class CenterServiceImp implements CenterService {
 
     @Autowired
     CenterRepository centerRepository;
+
+    @Autowired
+    AreaCenterRepository areaCenterRepository;
 
     @Override
     public CentersPageDTO getCentersByAreaId(Long areaId, Integer page, Integer pageSize) {
@@ -53,13 +58,24 @@ public class CenterServiceImp implements CenterService {
                     newCenterData.getInitialNumber(),
                     newCenterData.getFinalNumber()
             );
+            if (newCenterId == null) {
+                return null;
+            }
+
+            for (Long areaId:newCenterData.getGeographicAreasIds()) {
+                if (areaCenterRepository.findAreaById(areaId) == null) {
+                    continue;
+                }
+                AreaCenter newAreaCenter = new AreaCenter();
+                newAreaCenter.setAreaId(areaId);
+                newAreaCenter.setCenterId(newCenterId);
+                areaCenterRepository.save(newAreaCenter);
+            }
+
+            return getCenterById(newCenterId);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
-        if (newCenterId == null) {
-            return null;
-        }
-        return getCenterById(newCenterId);
     }
 }
