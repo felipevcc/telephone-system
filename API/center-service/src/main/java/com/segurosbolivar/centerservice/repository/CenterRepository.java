@@ -32,4 +32,10 @@ public interface CenterRepository extends JpaRepository<Center, Long> {
                       @Param("Ip_phone_number") String phoneNumber,
                       @Param("Ip_initial_number") Integer initialNumber,
                       @Param("Ip_final_number") Integer finalNumber);
+
+    @Procedure(procedureName = "PCK_CENTER.Proc_UpdateCenter")
+    void updateCenter(@Param("Ip_center_id") Long centerId,
+                      @Param("Ip_address") String address,
+                      @Param("Ip_email") String email,
+                      @Param("Ip_phone_number") String phoneNumber);
 }

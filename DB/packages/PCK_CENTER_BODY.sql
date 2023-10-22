@@ -62,20 +62,25 @@ CREATE OR REPLACE PACKAGE BODY APP_ASIG_NUM_TEL.PCK_CENTER IS
     Author: Andres Felipe Villamizar Collazos
     Date 17-10-2023
     *******************************************************************************/
-    PROCEDURE Proc_UpdateCenter (Ip_center_data IN TYP_CENTER_UPDATE) IS
+    PROCEDURE Proc_UpdateCenter (
+        Ip_center_id IN NUMBER,
+        Ip_address IN VARCHAR2,
+        Ip_email IN VARCHAR2,
+        Ip_phone_number IN VARCHAR2
+    ) IS
         l_center_id CENTER.CENTER_ID%TYPE;
     BEGIN
         SELECT CENTER_ID
         INTO l_center_id
         FROM CENTER
-        WHERE CENTER_ID = Ip_center_data.CENTER_ID
+        WHERE CENTER_ID = Ip_center_id
         FOR UPDATE;
 
         UPDATE CENTER
         SET
-            ADDRESS = Ip_center_data.ADDRESS,
-            EMAIL = Ip_center_data.EMAIL,
-            PHONE_NUMBER = Ip_center_data.PHONE_NUMBER
+            ADDRESS = Ip_address,
+            EMAIL = Ip_email,
+            PHONE_NUMBER = Ip_phone_number
         WHERE CENTER_ID = l_center_id;
         
         COMMIT;

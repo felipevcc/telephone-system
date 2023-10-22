@@ -1,6 +1,7 @@
 package com.segurosbolivar.centerservice.service;
 
 import com.segurosbolivar.centerservice.dto.CenterCreationDTO;
+import com.segurosbolivar.centerservice.dto.CenterUpdateDTO;
 import com.segurosbolivar.centerservice.dto.CentersPageDTO;
 import com.segurosbolivar.centerservice.model.AreaCenter;
 import com.segurosbolivar.centerservice.model.Center;
@@ -73,6 +74,25 @@ public class CenterServiceImp implements CenterService {
             }
 
             return getCenterById(newCenterId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public Center updateCenter(Long centerId, CenterUpdateDTO centerData) {
+        try {
+            if (!centerRepository.existsById(centerId)) {
+                return null;
+            }
+            centerRepository.updateCenter(
+                    centerId,
+                    centerData.getAddress(),
+                    centerData.getEmail(),
+                    centerData.getPhoneNumber()
+            );
+            return getCenterById(centerId);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
