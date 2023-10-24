@@ -1,4 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~primeicons/primeicons.css";
-@import "~primeng/resources/themes/lara-light-blue/theme.scss";
-@import "~primeng/resources/primeng.scss";
+
+@font-face {
+    font-family: 'RobotoCondensed-Regular';
+    src: url(assets/fonts/Roboto_Condensed/static/RobotoCondensed-Regular.ttf);
+}
+
+@font-face {
+    font-family: 'RobotoCondensed-Bold';
+    src: url(assets/fonts/Roboto_Condensed/static/RobotoCondensed-Bold.ttf);
+}

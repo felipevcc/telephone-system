@@ -15,7 +15,7 @@ CREATE OR REPLACE PACKAGE BODY APP_ASIG_NUM_TEL.PCK_TELEPHONE_NUMBER IS
     PROCEDURE Proc_ProcessTransaction (
         Ip_center_id IN NUMBER,
         Ip_customer_id IN NUMBER,
-        Ip_phone_number IN NUMBER,
+        Ip_phone_number IN VARCHAR2,
         Ip_assignment_date IN DATE,
         Ip_release_date IN DATE,
         Op_error_occurred OUT BOOLEAN
@@ -44,7 +44,7 @@ CREATE OR REPLACE PACKAGE BODY APP_ASIG_NUM_TEL.PCK_TELEPHONE_NUMBER IS
     Author: Andres Felipe Villamizar Collazos
     Date 16-10-2023
     *******************************************************************************/
-    PROCEDURE Proc_TrackingNumbers (Ip_Manual IN NUMBER DEFAULT NULL) IS
+    PROCEDURE Proc_TrackingNumbers IS
         l_time_value MINIMUM_TIME_SETTING.TIME_VALUE%TYPE;
         CURSOR c_telephone_numbers IS
             SELECT NUMBER_RECORD_ID, CENTER_ID, CUSTOMER_ID, PHONE_NUMBER, ASSIGNMENT_DATE, RELEASE_DATE
@@ -92,24 +92,46 @@ CREATE OR REPLACE PACKAGE BODY APP_ASIG_NUM_TEL.PCK_TELEPHONE_NUMBER IS
     END Proc_TrackingNumbers;
 
     /*******************************************************************************
+    Description: Procedure for assigning telephone numbers
+    Author: Andres Felipe Villamizar Collazos
+    Date 23-10-2023
+    *******************************************************************************/
+    PROCEDURE Proc_AssignTelephoneNumber (
+        Ip_center_id IN NUMBER,
+        Ip_customer_id IN NUMBER,
+        Ip_phone_number IN VARCHAR2
+    ) IS
+    BEGIN
+
+        INSERT INTO TELEPHONE_NUMBER (NUMBER_RECORD_ID, CENTER_ID, CUSTOMER_ID, PHONE_NUMBER)
+        VALUES (SEQ_TELEPHONE_NUMBER.NEXTVAL, Ip_center_id, Ip_customer_id, Ip_phone_number);
+
+        COMMIT;
+    EXCEPTION
+        WHEN OTHERS THEN
+            RAISE_APPLICATION_ERROR(-20001, 'Error executing the Proc_AssignTelephoneNumber procedure ' || SQLERRM);
+            ROLLBACK;
+    END Proc_AssignTelephoneNumber;
+
+    /*******************************************************************************
     Description: Procedure for releasing telephone numbers
     Author: Andres Felipe Villamizar Collazos
     Date 16-10-2023
     *******************************************************************************/
-    PROCEDURE Proc_ReleaseTelephoneNumber (Ip_Number IN NUMBER) IS
+    PROCEDURE Proc_ReleaseTelephoneNumber (Ip_number IN NUMBER) IS
         l_release_date TELEPHONE_NUMBER.RELEASE_DATE%TYPE;
         e_already_released EXCEPTION;
     BEGIN
         SELECT RELEASE_DATE
         INTO l_release_date
         FROM TELEPHONE_NUMBER
-        WHERE PHONE_NUMBER = Ip_Number
+        WHERE PHONE_NUMBER = Ip_number
         FOR UPDATE;
 
         IF l_release_date IS NULL THEN
             UPDATE TELEPHONE_NUMBER
             SET RELEASE_DATE = SYSDATE
-            WHERE PHONE_NUMBER = Ip_Number;
+            WHERE PHONE_NUMBER = Ip_number;
         ELSE
             RAISE e_already_released;
         END IF;
