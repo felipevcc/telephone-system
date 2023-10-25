@@ -8,9 +8,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CustomerRepository extends CrudRepository<Customer, Long> {
 
-    @Query("SELECT c FROM CUSTOMER c WHERE DOCUMENT_TYPE_ID = :documentTypeId AND DOCUMENT = :document")
+    @Query("SELECT CUSTOMER_ID, CUSTOMER_TYPE_ID, NAME, LAST_NAME, BIRTHDATE, DOCUMENT_TYPE_ID, " +
+            "DOCUMENT, ADDRESS, AREA_ID, EMAIL, PHONE_NUMBER, CREATED_AT " +
+            "FROM CUSTOMER WHERE DOCUMENT_TYPE_ID = :documentTypeId AND DOCUMENT = :document")
     Customer getCustomerByDocument(Long documentTypeId, String document);
-
-    @Query("SELECT PHONE_NUMBER FROM TELEPHONE_NUMBER WHERE CUSTOMER_ID = :customerId")
-    String getAssignedTelephoneNumber(Long customerId);
 }

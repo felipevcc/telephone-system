@@ -26,9 +26,9 @@ CREATE OR REPLACE PACKAGE BODY APP_ASIG_NUM_TEL.PCK_CUSTOMER IS
         Op_customer_id OUT NUMBER
     ) IS
     BEGIN
-        Op_customer_id := SEQ_CENTER.NEXTVAL;
+        Op_customer_id := SEQ_CUSTOMER.NEXTVAL;
 
-        INSERT INTO CENTER (CUSTOMER_ID, CUSTOMER_TYPE_ID, NAME, LAST_NAME, BIRTHDATE, DOCUMENT_TYPE_ID, DOCUMENT, ADDRESS, AREA_ID, EMAIL, PHONE_NUMBER)
+        INSERT INTO CUSTOMER (CUSTOMER_ID, CUSTOMER_TYPE_ID, NAME, LAST_NAME, BIRTHDATE, DOCUMENT_TYPE_ID, DOCUMENT, ADDRESS, AREA_ID, EMAIL, PHONE_NUMBER)
         VALUES (Op_customer_id, Ip_customer_type_id, Ip_name, Ip_last_name, Ip_birthdate, Ip_document_type_id, Ip_document, Ip_address, Ip_area_id, Ip_email, Ip_phone_number);
 
         COMMIT;

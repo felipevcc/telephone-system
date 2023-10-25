@@ -3,7 +3,6 @@ package com.segurosbolivar.customerservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -15,8 +14,7 @@ import java.util.Date;
 
 @Data
 @AllArgsConstructor @NoArgsConstructor
-@Builder
-@Table("CUSTOMER")
+@Table(name = "CUSTOMER")
 public class Customer {
     @Id
     @Column("CUSTOMER_ID")
@@ -32,7 +30,7 @@ public class Customer {
     private String lastName;
 
     @Column("BIRTHDATE")
-    private Date birthdate;
+    private LocalDateTime birthdate;
 
     @Column("DOCUMENT_TYPE_ID")
     private Long documentTypeId;
