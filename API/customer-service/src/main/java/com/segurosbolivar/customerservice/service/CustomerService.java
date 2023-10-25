@@ -6,6 +6,7 @@ import com.segurosbolivar.customerservice.model.Customer;
 import com.segurosbolivar.customerservice.model.CustomerType;
 import com.segurosbolivar.customerservice.model.DocumentType;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 
 public interface CustomerService {
@@ -19,4 +20,6 @@ public interface CustomerService {
     List<CustomerType> getCustomerTypes();
 
     List<DocumentType> getDocumentTypes();
+
+    ByteArrayInputStream loadCSV();
 }

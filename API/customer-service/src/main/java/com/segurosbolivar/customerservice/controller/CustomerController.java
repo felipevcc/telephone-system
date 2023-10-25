@@ -7,7 +7,11 @@ import com.segurosbolivar.customerservice.model.CustomerType;
 import com.segurosbolivar.customerservice.model.DocumentType;
 import com.segurosbolivar.customerservice.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -70,5 +74,15 @@ public class CustomerController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.status(HttpStatus.OK).body(documentTypes);
+    }
+
+    @GetMapping("/download")
+    public ResponseEntity<Resource> getCSVFile() {
+        String filename = "customers.csv";
+        InputStreamResource file = new InputStreamResource(customerService.loadCSV());
+        return ResponseEntity.status(HttpStatus.OK)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+                .contentType(MediaType.parseMediaType("application/csv"))
+                .body(file);
     }
 }

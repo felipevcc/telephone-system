@@ -9,9 +9,11 @@ import com.segurosbolivar.customerservice.repository.CustomerProcedureRepository
 import com.segurosbolivar.customerservice.repository.CustomerRepository;
 import com.segurosbolivar.customerservice.repository.CustomerTypeRepository;
 import com.segurosbolivar.customerservice.repository.DocumentTypeRepository;
+import com.segurosbolivar.customerservice.util.CSVHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 
 @Service
@@ -72,5 +74,12 @@ public class CustomerServiceImp implements CustomerService {
     @Override
     public List<DocumentType> getDocumentTypes() {
         return documentTypeRepository.findAllDocumentTypes();
+    }
+
+    @Override
+    public ByteArrayInputStream loadCSV() {
+        List<Customer> customers = customerRepository.findAllCustomers();
+        ByteArrayInputStream customerCSV = CSVHelper.customersToCSV(customers);
+        return customerCSV;
     }
 }
