@@ -1,11 +1,12 @@
 package com.segurosbolivar.customerservice.service;
 
 import com.segurosbolivar.customerservice.dto.CustomerCreationDTO;
+import com.segurosbolivar.customerservice.dto.CustomerRowDTO;
 import com.segurosbolivar.customerservice.dto.CustomerUpdateDTO;
 import com.segurosbolivar.customerservice.model.Customer;
 import com.segurosbolivar.customerservice.model.CustomerType;
 import com.segurosbolivar.customerservice.model.DocumentType;
-import com.segurosbolivar.customerservice.repository.CustomerProcedureRepository;
+import com.segurosbolivar.customerservice.repository.CustomerCallRepository;
 import com.segurosbolivar.customerservice.repository.CustomerRepository;
 import com.segurosbolivar.customerservice.repository.CustomerTypeRepository;
 import com.segurosbolivar.customerservice.repository.DocumentTypeRepository;
@@ -23,7 +24,7 @@ public class CustomerServiceImp implements CustomerService {
     CustomerRepository customerRepository;
 
     @Autowired
-    CustomerProcedureRepository customerProcRepository;
+    CustomerCallRepository customerCallRepository;
 
     @Autowired
     CustomerTypeRepository customerTypeRepository;
@@ -33,9 +34,8 @@ public class CustomerServiceImp implements CustomerService {
 
     @Override
     public Customer createCustomer(CustomerCreationDTO newCustomerData) {
-        Long newCustomerId = null;
         try {
-            newCustomerId = customerProcRepository.createCustomer(newCustomerData);
+            Long newCustomerId = customerCallRepository.createCustomer(newCustomerData);
             if (newCustomerId == null) {
                 return null;
             }
@@ -53,7 +53,7 @@ public class CustomerServiceImp implements CustomerService {
             if (!customerRepository.existsById(customerId)) {
                 return null;
             }
-            customerProcRepository.updateCustomer(customerId, customerData);
+            customerCallRepository.updateCustomer(customerId, customerData);
             return customerRepository.findById(customerId).orElse(null);
         } catch (Exception e) {
             e.printStackTrace();
@@ -78,8 +78,7 @@ public class CustomerServiceImp implements CustomerService {
 
     @Override
     public ByteArrayInputStream loadCSV() {
-        List<Customer> customers = customerRepository.findAllCustomers();
-        ByteArrayInputStream customerCSV = CSVHelper.customersToCSV(customers);
-        return customerCSV;
+        List<CustomerRowDTO> customers = customerCallRepository.findAllCustomersToFile();
+        return CSVHelper.customersToCSV(customers);
     }
 }

@@ -1,8 +1,9 @@
 package com.segurosbolivar.customerservice.util;
 
-import com.segurosbolivar.customerservice.model.Customer;
+import com.segurosbolivar.customerservice.dto.CustomerRowDTO;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -13,11 +14,11 @@ import java.util.List;
 
 public class CSVHelper {
 
-    public static ByteArrayInputStream customersToCSV(List<Customer> customers) {
+    public static ByteArrayInputStream customersToCSV(List<CustomerRowDTO> customers) {
         final CSVFormat format = CSVFormat.DEFAULT;
         try (ByteArrayOutputStream out = new ByteArrayOutputStream();
-             CSVPrinter csvPrinter = new CSVPrinter(new PrintWriter(out), format);) {
-            for (Customer customer : customers) {
+             CSVPrinter csvPrinter = new CSVPrinter(new PrintWriter(out), format)) {
+            for (CustomerRowDTO customer : customers) {
                 List<String> rowData = Arrays.asList(
                         String.valueOf(customer.getCustomerTypeId()),
                         customer.getName(),
@@ -26,7 +27,7 @@ public class CSVHelper {
                         String.valueOf(customer.getDocumentTypeId()),
                         customer.getDocument(),
                         customer.getAddress(),
-                        String.valueOf(customer.getAreaId()),
+                        String.valueOf(customer.getAreaCode()),
                         customer.getEmail(),
                         customer.getPhoneNumber()
                 );
@@ -37,5 +38,10 @@ public class CSVHelper {
         } catch (IOException e) {
             throw new RuntimeException("Failed to generate CSV file: " + e.getMessage());
         }
+    }
+
+    public static boolean isCSV(MultipartFile file) {
+        String fileType = "text/csv";
+        return fileType.equals(file.getContentType());
     }
 }

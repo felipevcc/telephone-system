@@ -1,19 +1,19 @@
 package com.segurosbolivar.customerservice.repository;
 
 import com.segurosbolivar.customerservice.dto.CustomerCreationDTO;
+import com.segurosbolivar.customerservice.dto.CustomerRowDTO;
 import com.segurosbolivar.customerservice.dto.CustomerUpdateDTO;
+import com.segurosbolivar.customerservice.mapper.CustomerRowDTORowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
-import java.time.LocalDateTime;
-import java.util.Map;
+import java.util.List;
 import java.util.Objects;
 
 @Repository
-public class CustomerProcedureRepository {
+public class CustomerCallRepository {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -37,7 +37,7 @@ public class CustomerProcedureRepository {
             callableStatement.registerOutParameter(11, Types.NUMERIC);
 
             callableStatement.execute();
-            newCustomerId = (Long) callableStatement.getLong(11);
+            newCustomerId = callableStatement.getLong(11);
 
             callableStatement.close();
             connection.close();
@@ -66,5 +66,14 @@ public class CustomerProcedureRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<CustomerRowDTO> findAllCustomersToFile() {
+        String sql = "SELECT c.CUSTOMER_TYPE_ID, c.NAME, c.LAST_NAME, c.BIRTHDATE, c.DOCUMENT_TYPE_ID, " +
+                "c.DOCUMENT, c.ADDRESS, area.CODE AS AREA_CODE, c.EMAIL, c.PHONE_NUMBER " +
+                "FROM CUSTOMER c, GEOGRAPHIC_AREA area " +
+                "WHERE c.AREA_ID = area.AREA_ID " +
+                "ORDER BY c.CUSTOMER_ID ASC";
+        return jdbcTemplate.query(sql, new CustomerRowDTORowMapper());
     }
 }

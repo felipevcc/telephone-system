@@ -4,22 +4,21 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
+// DTO for customer rows in CSV file
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CustomerDTO {
-    private Long customerId;
+public class CustomerRowDTO {
     private Long customerTypeId;
     private String name;
     private String lastName;
-    private Date birthdate;
+    private LocalDateTime birthdate;
     private Long documentTypeId;
     private String document;
     private String address;
-    private Long areaId;
+    private Long areaCode;
     private String email;
     private String phoneNumber;
-    private String telephoneNumber;
 }
