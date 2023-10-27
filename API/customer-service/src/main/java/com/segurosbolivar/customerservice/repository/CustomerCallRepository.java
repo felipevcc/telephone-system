@@ -42,10 +42,12 @@ public class CustomerCallRepository {
             callableStatement.close();
             connection.close();
 
-        } catch (SQLException e) {
+            return newCustomerId;
+
+        } catch (Exception e) {
             e.printStackTrace();
+            return newCustomerId;
         }
-        return newCustomerId;
     }
 
     public void updateCustomer(Long customerId, CustomerUpdateDTO customerData) {
@@ -63,7 +65,7 @@ public class CustomerCallRepository {
             callableStatement.close();
             connection.close();
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

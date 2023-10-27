@@ -14,7 +14,7 @@ public class CustomerRowDTO {
     private Long customerTypeId;
     private String name;
     private String lastName;
-    private LocalDateTime birthdate;
+    private String birthdate;
     private Long documentTypeId;
     private String document;
     private String address;

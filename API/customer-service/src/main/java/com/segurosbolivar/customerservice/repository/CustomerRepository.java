@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CustomerRepository extends CrudRepository<Customer, Long> {
@@ -16,9 +17,9 @@ public interface CustomerRepository extends CrudRepository<Customer, Long> {
             "FROM CUSTOMER WHERE DOCUMENT_TYPE_ID = :documentTypeId AND DOCUMENT = :document")
     Customer getCustomerByDocument(Long documentTypeId, String document);
 
-    @Query("SELECT c.CUSTOMER_TYPE_ID, c.NAME, c.LAST_NAME, c.BIRTHDATE, c.DOCUMENT_TYPE_ID, " +
-            "c.DOCUMENT, c.ADDRESS, area.CODE, c.EMAIL, c.PHONE_NUMBER FROM CUSTOMER c " +
-            "JOIN GEOGRAPHIC_AREA area ON area.AREA_ID = c.AREA_ID " +
-            "ORDER BY c.CUSTOMER_ID ASC")
-    List<CustomerRowDTO> findAllCustomersToFile();
+    @Query("SELECT CUSTOMER_ID FROM CUSTOMER WHERE DOCUMENT = :document")
+    Long getCustomerIdByDocument(String document);
+
+    @Query("SELECT AREA_ID FROM GEOGRAPHIC_AREA WHERE CODE = :areaCode")
+    Long getAreaIdByAreaCode(Long areaCode);
 }

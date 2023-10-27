@@ -13,7 +13,7 @@ public class CustomerRowDTORowMapper implements RowMapper<CustomerRowDTO> {
         customer.setCustomerTypeId(rs.getLong("CUSTOMER_TYPE_ID"));
         customer.setName(rs.getString("NAME"));
         customer.setLastName(rs.getString("LAST_NAME"));
-        customer.setBirthdate(rs.getTimestamp("BIRTHDATE").toLocalDateTime());
+        customer.setBirthdate(rs.getDate("BIRTHDATE").toString().split(" ")[0]);
         customer.setDocumentTypeId(rs.getLong("DOCUMENT_TYPE_ID"));
         customer.setDocument(rs.getString("DOCUMENT"));
         customer.setAddress(rs.getString("ADDRESS"));

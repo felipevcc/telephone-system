@@ -1,11 +1,13 @@
 package com.segurosbolivar.customerservice.controller;
 
 import com.segurosbolivar.customerservice.dto.CustomerCreationDTO;
+import com.segurosbolivar.customerservice.dto.CustomerRowDTO;
 import com.segurosbolivar.customerservice.dto.CustomerUpdateDTO;
 import com.segurosbolivar.customerservice.model.Customer;
 import com.segurosbolivar.customerservice.model.CustomerType;
 import com.segurosbolivar.customerservice.model.DocumentType;
 import com.segurosbolivar.customerservice.service.CustomerService;
+import com.segurosbolivar.customerservice.util.CSVHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -14,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -84,5 +87,26 @@ public class CustomerController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
                 .contentType(MediaType.parseMediaType("application/csv"))
                 .body(file);
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<Resource> uploadFile(@RequestParam("file") MultipartFile file) {
+        if (!CSVHelper.isCSV(file)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        try {
+            List<CustomerRowDTO> invalidCustomers = customerService.saveCSV(file);
+            if (invalidCustomers.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.OK).build();
+            }
+            String filename = "invalid_customers.csv";
+            InputStreamResource outFile = new InputStreamResource(CSVHelper.customersToCSV(invalidCustomers));
+            return ResponseEntity.status(HttpStatus.OK)
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+                    .contentType(MediaType.parseMediaType("application/csv"))
+                    .body(outFile);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
+        }
     }
 }

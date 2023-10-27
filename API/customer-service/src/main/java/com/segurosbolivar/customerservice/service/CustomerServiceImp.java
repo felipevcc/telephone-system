@@ -11,10 +11,16 @@ import com.segurosbolivar.customerservice.repository.CustomerRepository;
 import com.segurosbolivar.customerservice.repository.CustomerTypeRepository;
 import com.segurosbolivar.customerservice.repository.DocumentTypeRepository;
 import com.segurosbolivar.customerservice.util.CSVHelper;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -80,5 +86,60 @@ public class CustomerServiceImp implements CustomerService {
     public ByteArrayInputStream loadCSV() {
         List<CustomerRowDTO> customers = customerCallRepository.findAllCustomersToFile();
         return CSVHelper.customersToCSV(customers);
+    }
+
+    @Override
+    public List<CustomerRowDTO> saveCSV(MultipartFile file) {
+        try (InputStream inputFile = file.getInputStream();
+             BufferedReader fileReader = new BufferedReader(new InputStreamReader(inputFile, StandardCharsets.UTF_8));
+             CSVParser csvParser = new CSVParser(fileReader, CSVFormat.DEFAULT
+                     .builder().setHeader().setSkipHeaderRecord(true).setIgnoreHeaderCase(true).setTrim(true).build())) {
+
+            List<CustomerRowDTO> invalidCustomers = new ArrayList<>();
+
+            Iterable<CSVRecord> csvRecords = csvParser.getRecords();
+            for (CSVRecord csvRecord : csvRecords) {
+                CustomerRowDTO customerRow = new CustomerRowDTO();
+                customerRow.setCustomerTypeId(Long.parseLong(csvRecord.get("CUSTOMER_TYPE_ID")));
+                customerRow.setName(csvRecord.get("NAME"));
+                customerRow.setLastName(csvRecord.get("LAST_NAME"));
+                String birthdate = csvRecord.get("BIRTHDATE").replace("/", "-");
+                customerRow.setBirthdate(birthdate);
+                customerRow.setDocumentTypeId(Long.parseLong(csvRecord.get("DOCUMENT_TYPE_ID")));
+                customerRow.setDocument(csvRecord.get("DOCUMENT"));
+                customerRow.setAddress(csvRecord.get("ADDRESS"));
+                customerRow.setAreaCode(Long.parseLong(csvRecord.get("AREA_CODE")));
+                customerRow.setEmail(csvRecord.get("EMAIL"));
+                customerRow.setPhoneNumber(csvRecord.get("PHONE_NUMBER"));
+
+                Long customerId = customerRepository.getCustomerIdByDocument(csvRecord.get("DOCUMENT"));
+                Long areaCode = customerRepository.getAreaIdByAreaCode(Long.parseLong(csvRecord.get("AREA_CODE")));
+                if (customerId != null ||areaCode == null) {
+                    invalidCustomers.add(customerRow);
+                    continue;
+                }
+
+                CustomerCreationDTO customerCreationData = new CustomerCreationDTO();
+                customerCreationData.setCustomerTypeId(Long.parseLong(csvRecord.get("CUSTOMER_TYPE_ID")));
+                customerCreationData.setName(csvRecord.get("NAME"));
+                customerCreationData.setLastName(csvRecord.get("LAST_NAME"));
+                customerCreationData.setBirthdate(birthdate);
+                customerCreationData.setDocumentTypeId(Long.parseLong(csvRecord.get("DOCUMENT_TYPE_ID")));
+                customerCreationData.setDocument(csvRecord.get("DOCUMENT"));
+                customerCreationData.setAddress(csvRecord.get("ADDRESS"));
+                customerCreationData.setAreaId(areaCode);
+                customerCreationData.setEmail(csvRecord.get("EMAIL"));
+                customerCreationData.setPhoneNumber(csvRecord.get("PHONE_NUMBER"));
+
+                Long newCustomerId = customerCallRepository.createCustomer(customerCreationData);
+                if (newCustomerId == null) {
+                    invalidCustomers.add(customerRow);
+                }
+            }
+            return invalidCustomers;
+
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to process CSV file " + e.getMessage());
+        }
     }
 }
