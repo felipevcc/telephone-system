@@ -11,6 +11,7 @@ import com.segurosbolivar.customerservice.repository.CustomerRepository;
 import com.segurosbolivar.customerservice.repository.CustomerTypeRepository;
 import com.segurosbolivar.customerservice.repository.DocumentTypeRepository;
 import com.segurosbolivar.customerservice.util.CSVHelper;
+import com.segurosbolivar.customerservice.util.DateFormat;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -103,8 +104,7 @@ public class CustomerServiceImp implements CustomerService {
                 customerRow.setCustomerTypeId(Long.parseLong(csvRecord.get("CUSTOMER_TYPE_ID")));
                 customerRow.setName(csvRecord.get("NAME"));
                 customerRow.setLastName(csvRecord.get("LAST_NAME"));
-                String birthdate = csvRecord.get("BIRTHDATE").replace("/", "-");
-                customerRow.setBirthdate(birthdate);
+                customerRow.setBirthdate(csvRecord.get("BIRTHDATE"));
                 customerRow.setDocumentTypeId(Long.parseLong(csvRecord.get("DOCUMENT_TYPE_ID")));
                 customerRow.setDocument(csvRecord.get("DOCUMENT"));
                 customerRow.setAddress(csvRecord.get("ADDRESS"));
@@ -113,8 +113,9 @@ public class CustomerServiceImp implements CustomerService {
                 customerRow.setPhoneNumber(csvRecord.get("PHONE_NUMBER"));
 
                 Long customerId = customerRepository.getCustomerIdByDocument(csvRecord.get("DOCUMENT"));
+                String birthdate = DateFormat.dateStringFormat(csvRecord.get("BIRTHDATE"));
                 Long areaCode = customerRepository.getAreaIdByAreaCode(Long.parseLong(csvRecord.get("AREA_CODE")));
-                if (customerId != null ||areaCode == null) {
+                if (customerId != null ||areaCode == null || birthdate == null) {
                     invalidCustomers.add(customerRow);
                     continue;
                 }
