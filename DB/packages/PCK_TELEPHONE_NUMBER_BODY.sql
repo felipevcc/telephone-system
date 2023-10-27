@@ -99,16 +99,19 @@ CREATE OR REPLACE PACKAGE BODY APP_ASIG_NUM_TEL.PCK_TELEPHONE_NUMBER IS
     PROCEDURE Proc_AssignTelephoneNumber (
         Ip_center_id IN NUMBER,
         Ip_customer_id IN NUMBER,
-        Ip_phone_number IN VARCHAR2
+        Ip_phone_number IN VARCHAR2,
+        Op_number_record_id OUT NUMBER
     ) IS
     BEGIN
+        Op_number_record_id := SEQ_TELEPHONE_NUMBER.NEXTVAL;
 
         INSERT INTO TELEPHONE_NUMBER (NUMBER_RECORD_ID, CENTER_ID, CUSTOMER_ID, PHONE_NUMBER)
-        VALUES (SEQ_TELEPHONE_NUMBER.NEXTVAL, Ip_center_id, Ip_customer_id, Ip_phone_number);
+        VALUES (Op_number_record_id, Ip_center_id, Ip_customer_id, Ip_phone_number);
 
         COMMIT;
     EXCEPTION
         WHEN OTHERS THEN
+            Op_number_record_id := NULL;
             RAISE_APPLICATION_ERROR(-20001, 'Error executing the Proc_AssignTelephoneNumber procedure ' || SQLERRM);
             ROLLBACK;
     END Proc_AssignTelephoneNumber;

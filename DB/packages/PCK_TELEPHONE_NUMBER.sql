@@ -36,7 +36,8 @@ CREATE OR REPLACE PACKAGE APP_ASIG_NUM_TEL.PCK_TELEPHONE_NUMBER IS
     PROCEDURE Proc_AssignTelephoneNumber (
         Ip_center_id IN NUMBER,
         Ip_customer_id IN NUMBER,
-        Ip_phone_number IN VARCHAR2
+        Ip_phone_number IN VARCHAR2,
+        Op_number_record_id OUT NUMBER
     );
 
     /*******************************************************************************
