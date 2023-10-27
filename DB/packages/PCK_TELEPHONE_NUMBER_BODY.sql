@@ -15,7 +15,7 @@ CREATE OR REPLACE PACKAGE BODY APP_ASIG_NUM_TEL.PCK_TELEPHONE_NUMBER IS
     PROCEDURE Proc_ProcessTransaction (
         Ip_center_id IN NUMBER,
         Ip_customer_id IN NUMBER,
-        Ip_phone_number IN VARCHAR2,
+        Ip_phone_number IN NUMBER,
         Ip_assignment_date IN DATE,
         Ip_release_date IN DATE,
         Op_error_occurred OUT BOOLEAN
@@ -99,7 +99,7 @@ CREATE OR REPLACE PACKAGE BODY APP_ASIG_NUM_TEL.PCK_TELEPHONE_NUMBER IS
     PROCEDURE Proc_AssignTelephoneNumber (
         Ip_center_id IN NUMBER,
         Ip_customer_id IN NUMBER,
-        Ip_phone_number IN VARCHAR2,
+        Ip_phone_number IN NUMBER,
         Op_number_record_id OUT NUMBER
     ) IS
     BEGIN
@@ -121,20 +121,20 @@ CREATE OR REPLACE PACKAGE BODY APP_ASIG_NUM_TEL.PCK_TELEPHONE_NUMBER IS
     Author: Andres Felipe Villamizar Collazos
     Date 16-10-2023
     *******************************************************************************/
-    PROCEDURE Proc_ReleaseTelephoneNumber (Ip_number IN NUMBER) IS
+    PROCEDURE Proc_ReleaseTelephoneNumber (Ip_phone_number IN NUMBER) IS
         l_release_date TELEPHONE_NUMBER.RELEASE_DATE%TYPE;
         e_already_released EXCEPTION;
     BEGIN
         SELECT RELEASE_DATE
         INTO l_release_date
         FROM TELEPHONE_NUMBER
-        WHERE PHONE_NUMBER = Ip_number
+        WHERE PHONE_NUMBER = Ip_phone_number
         FOR UPDATE;
 
         IF l_release_date IS NULL THEN
             UPDATE TELEPHONE_NUMBER
             SET RELEASE_DATE = SYSDATE
-            WHERE PHONE_NUMBER = Ip_number;
+            WHERE PHONE_NUMBER = Ip_phone_number;
         ELSE
             RAISE e_already_released;
         END IF;
