@@ -23,6 +23,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerServiceImp implements CustomerService {
@@ -66,6 +67,11 @@ public class CustomerServiceImp implements CustomerService {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public Optional<Customer> getCustomerById(Long customerId) {
+        return customerRepository.findById(customerId);
     }
 
     @Override

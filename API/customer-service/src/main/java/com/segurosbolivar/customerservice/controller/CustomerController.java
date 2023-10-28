@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/customer")
@@ -47,6 +48,13 @@ public class CustomerController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.status(HttpStatus.OK).body(updateCustomer);
+    }
+
+    @GetMapping("/{customerId}")
+    public ResponseEntity<Customer> getCustomerById(@PathVariable Long customerId) {
+        Optional<Customer> foundCustomer = customerService.getCustomerById(customerId);
+        return foundCustomer.map(customer -> ResponseEntity.status(HttpStatus.OK).body(customer))
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @GetMapping("/{documentType}/{document}")

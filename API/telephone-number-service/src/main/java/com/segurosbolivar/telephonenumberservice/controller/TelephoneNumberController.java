@@ -23,7 +23,7 @@ public class TelephoneNumberController {
     }
 
     @PutMapping("/{phoneNumber}")
-    public ResponseEntity<TelephoneNumber> releaseTelephoneNumber(@PathParam("phoneNumber") Integer phoneNumber) {
+    public ResponseEntity<TelephoneNumber> releaseTelephoneNumber(@PathVariable Integer phoneNumber) {
         try {
             TelephoneNumber releasedTelephoneNumber = telephoneNumberService.releaseTelephoneNumber(phoneNumber);
             // Check if the phone number does not exist or had already been released

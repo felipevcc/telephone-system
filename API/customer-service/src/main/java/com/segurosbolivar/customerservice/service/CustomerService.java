@@ -11,12 +11,15 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 public interface CustomerService {
 
     Customer createCustomer(CustomerCreationDTO newCustomerData);
 
     Customer updateCustomer(Long customerId, CustomerUpdateDTO customerData);
+
+    Optional<Customer> getCustomerById(Long customerId);
 
     Customer getCustomerByDocument(Long documentTypeId, String document);
 
