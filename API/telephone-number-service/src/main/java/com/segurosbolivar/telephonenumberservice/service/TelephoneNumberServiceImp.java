@@ -28,27 +28,16 @@ public class TelephoneNumberServiceImp implements TelephoneNumberService {
 
     @Override
     public TelephoneNumber releaseTelephoneNumber(Integer phoneNumber) {
-        try {
-            TelephoneNumber telephoneNumber = telNumberRepository.findTelephoneNumber(phoneNumber);
-
-            if (telephoneNumber == null || telephoneNumber.getReleaseDate() != null) {
-                return null;
-            }
-            telNumberCallRepository.releaseTelephoneNumber(phoneNumber);
-            return telNumberRepository.findTelephoneNumber(phoneNumber);
-        } catch (Exception e) {
-            e.printStackTrace();
+        TelephoneNumber telephoneNumber = telNumberRepository.findTelephoneNumber(phoneNumber);
+        if (telephoneNumber == null || telephoneNumber.getReleaseDate() != null) {
             return null;
         }
+        telNumberCallRepository.releaseTelephoneNumber(phoneNumber);
+        return telNumberRepository.findTelephoneNumber(phoneNumber);
     }
 
     @Override
     public TelephoneNumber getTelephoneNumberByCustomer(Long customerId) {
-        try {
-            return telNumberRepository.findTelephoneNumberByCustomer(customerId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+        return telNumberRepository.findTelephoneNumberByCustomer(customerId);
     }
 }

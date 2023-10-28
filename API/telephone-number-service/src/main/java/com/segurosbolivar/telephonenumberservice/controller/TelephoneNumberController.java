@@ -18,18 +18,15 @@ public class TelephoneNumberController {
 
     @PostMapping("/numberTracking")
     public ResponseEntity<Object> numberTrackingProcess() {
-        try {
-            telephoneNumberService.runNumberTrackingProcess();
-            return ResponseEntity.status(HttpStatus.OK).body("Executed process");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        telephoneNumberService.runNumberTrackingProcess();
+        return ResponseEntity.status(HttpStatus.OK).body("Executed process");
     }
 
     @PutMapping("/{phoneNumber}")
     public ResponseEntity<TelephoneNumber> releaseTelephoneNumber(@PathParam("phoneNumber") Integer phoneNumber) {
         try {
             TelephoneNumber releasedTelephoneNumber = telephoneNumberService.releaseTelephoneNumber(phoneNumber);
+            // Check if the phone number does not exist or had already been released
             if (releasedTelephoneNumber == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
             }
@@ -41,12 +38,11 @@ public class TelephoneNumberController {
 
     @GetMapping("/customer/{customerId}")
     public ResponseEntity<TelephoneNumber> getTelephoneNumberByCustomer(@PathParam("customerId") Long customerId) {
-        try {
-            TelephoneNumber telephoneNumber = telephoneNumberService.getTelephoneNumberByCustomer(customerId);
-            // Test if the customer does not have a number
-            return ResponseEntity.status(HttpStatus.OK).body(telephoneNumber);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        TelephoneNumber telephoneNumber = telephoneNumberService.getTelephoneNumberByCustomer(customerId);
+        // Check if the customer does not have a number
+        if (telephoneNumber == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+        return ResponseEntity.status(HttpStatus.OK).body(telephoneNumber);
     }
 }
