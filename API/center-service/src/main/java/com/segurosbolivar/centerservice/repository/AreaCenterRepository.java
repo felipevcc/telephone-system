@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AreaCenterRepository extends JpaRepository<AreaCenter, Long> {
-    @Query(value = "SELECT AREA_ID FROM GEOGRAPHIC_AREA WHERE AREA_ID = ?1", nativeQuery = true)
-    Long findAreaById(Long areaId);
+    @Query("SELECT ac FROM AreaCenter ac WHERE ac.areaId = ?1 AND ac.centerId = ?2")
+    AreaCenter findAreaCenterById(Long areaId, Long centerId);
 }

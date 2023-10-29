@@ -18,6 +18,15 @@ public class AreaController {
     @Autowired
     AreaService areaService;
 
+    @GetMapping("/{areaId}")
+    public ResponseEntity<GeographicArea> getAreaById(@PathVariable Long areaId) {
+        GeographicArea foundArea = areaService.getAreaById(areaId);
+        if (foundArea == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(foundArea);
+    }
+
     @GetMapping
     public ResponseEntity<List<GeographicArea>> getAllAreas() {
         return ResponseEntity.status(HttpStatus.OK).body(areaService.getAllAreas());

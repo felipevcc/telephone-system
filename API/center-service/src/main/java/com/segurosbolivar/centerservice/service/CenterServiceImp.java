@@ -3,6 +3,7 @@ package com.segurosbolivar.centerservice.service;
 import com.segurosbolivar.centerservice.dto.CenterCreationDTO;
 import com.segurosbolivar.centerservice.dto.CenterUpdateDTO;
 import com.segurosbolivar.centerservice.dto.CentersPageDTO;
+import com.segurosbolivar.centerservice.dto.GeographicAreaDTO;
 import com.segurosbolivar.centerservice.model.AreaCenter;
 import com.segurosbolivar.centerservice.model.Center;
 import com.segurosbolivar.centerservice.repository.AreaCenterRepository;
@@ -10,7 +11,12 @@ import com.segurosbolivar.centerservice.repository.CenterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -22,6 +28,9 @@ public class CenterServiceImp implements CenterService {
 
     @Autowired
     AreaCenterRepository areaCenterRepository;
+
+    @Autowired
+    RestTemplate restTemplate;
 
     @Override
     public CentersPageDTO getCentersByAreaId(Long areaId, Integer page, Integer pageSize) {
@@ -64,7 +73,7 @@ public class CenterServiceImp implements CenterService {
             }
 
             for (Long areaId:newCenterData.getGeographicAreasIds()) {
-                if (areaCenterRepository.findAreaById(areaId) == null) {
+                if (!areaExistsById(areaId) || areaCenterRepository.findAreaCenterById(areaId, newCenterId) != null) {
                     continue;
                 }
                 AreaCenter newAreaCenter = new AreaCenter();
@@ -96,6 +105,21 @@ public class CenterServiceImp implements CenterService {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public Boolean areaExistsById(Long areaId) {
+        try {
+            ResponseEntity<GeographicAreaDTO> response = restTemplate.exchange(
+                    "http://GEOGRAPHIC-AREA-SERVICE/api/v1/area/{areaId}",
+                    HttpMethod.GET,
+                    null,
+                    GeographicAreaDTO.class,
+                    areaId
+            );
+            return response.getStatusCode() == HttpStatus.OK;
+        } catch (HttpClientErrorException.NotFound e) {
+            return false;
         }
     }
 }

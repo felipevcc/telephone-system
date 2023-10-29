@@ -17,6 +17,11 @@ public class AreaServiceImp implements AreaService {
     AreaRepository areaRepository;
 
     @Override
+    public GeographicArea getAreaById(Long areaId) {
+        return areaRepository.findById(areaId).orElse(null);
+    }
+
+    @Override
     public List<GeographicArea> getAllAreas() {
         return areaRepository.findAllByOrderByAreaId();
     }

@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface AreaService {
 
+    GeographicArea getAreaById(Long areaId);
+
     List<GeographicArea> getAllAreas();
 
     AreasPageDTO getAreasByCenterId(Long centerId, Integer page, Integer pageSize);
