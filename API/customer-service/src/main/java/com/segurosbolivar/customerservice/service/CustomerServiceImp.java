@@ -70,8 +70,8 @@ public class CustomerServiceImp implements CustomerService {
     }
 
     @Override
-    public Optional<Customer> getCustomerById(Long customerId) {
-        return customerRepository.findById(customerId);
+    public Customer getCustomerById(Long customerId) {
+        return customerRepository.findById(customerId).orElse(null);
     }
 
     @Override

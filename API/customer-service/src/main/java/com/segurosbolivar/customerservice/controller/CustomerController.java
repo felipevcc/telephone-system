@@ -52,9 +52,11 @@ public class CustomerController {
 
     @GetMapping("/{customerId}")
     public ResponseEntity<Customer> getCustomerById(@PathVariable Long customerId) {
-        Optional<Customer> foundCustomer = customerService.getCustomerById(customerId);
-        return foundCustomer.map(customer -> ResponseEntity.status(HttpStatus.OK).body(customer))
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        Customer foundCustomer = customerService.getCustomerById(customerId);
+        if (foundCustomer == null) {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(foundCustomer);
     }
 
     @GetMapping("/{documentType}/{document}")

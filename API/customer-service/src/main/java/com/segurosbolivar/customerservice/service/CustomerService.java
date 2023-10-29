@@ -19,7 +19,7 @@ public interface CustomerService {
 
     Customer updateCustomer(Long customerId, CustomerUpdateDTO customerData);
 
-    Optional<Customer> getCustomerById(Long customerId);
+    Customer getCustomerById(Long customerId);
 
     Customer getCustomerByDocument(Long documentTypeId, String document);
 
