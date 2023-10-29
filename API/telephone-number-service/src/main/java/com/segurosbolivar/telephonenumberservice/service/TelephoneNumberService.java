@@ -6,13 +6,15 @@ import java.io.ByteArrayInputStream;
 
 public interface TelephoneNumberService {
 
+    TelephoneNumber getTelephoneNumber(Integer phoneNumber);
+
+    TelephoneNumber getTelephoneNumberByCustomer(Long customerId);
+
     void runNumberTrackingProcess();
 
     TelephoneNumber releaseTelephoneNumber(Integer phoneNumber);
 
-    TelephoneNumber getTelephoneNumberByCustomer(Long customerId);
-
     ByteArrayInputStream loadCustomerHistoryCSV(Long customerId);
 
-    ByteArrayInputStream loadNumberHistoryCSV(Integer telephoneNumber);
+    ByteArrayInputStream loadNumberHistoryCSV(Integer phoneNumber);
 }

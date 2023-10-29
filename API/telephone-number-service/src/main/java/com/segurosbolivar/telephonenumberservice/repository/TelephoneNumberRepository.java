@@ -14,14 +14,22 @@ public interface TelephoneNumberRepository extends CrudRepository<TelephoneNumbe
     TelephoneNumber findTelephoneNumber(Integer phoneNumber);
 
     @Query("SELECT NUMBER_RECORD_ID, CENTER_ID, CUSTOMER_ID, PHONE_NUMBER, ASSIGNMENT_DATE, RELEASE_DATE " +
+            "FROM TELEPHONE_NUMBER_AUDIT " +
+            "WHERE PHONE_NUMBER = :phoneNumber " +
+            "AND RELEASE_DATE = (SELECT MAX(RELEASE_DATE) FROM TELEPHONE_NUMBER_AUDIT WHERE PHONE_NUMBER = :phoneNumber)")
+    TelephoneNumber findLatestTelephoneNumberRelease(Integer phoneNumber);
+
+    @Query("SELECT NUMBER_RECORD_ID, CENTER_ID, CUSTOMER_ID, PHONE_NUMBER, ASSIGNMENT_DATE, RELEASE_DATE " +
             "FROM TELEPHONE_NUMBER WHERE CUSTOMER_ID = :customerId")
     TelephoneNumber findTelephoneNumberByCustomer(Long customerId);
 
     @Query("SELECT NUMBER_RECORD_ID, CENTER_ID, CUSTOMER_ID, PHONE_NUMBER, ASSIGNMENT_DATE, RELEASE_DATE " +
-            "FROM TELEPHONE_NUMBER_AUDIT WHERE CUSTOMER_ID = :customerId")
+            "FROM TELEPHONE_NUMBER_AUDIT WHERE CUSTOMER_ID = :customerId " +
+            "ORDER BY ASSIGNMENT_DATE ASC")
     List<TelephoneNumber> findNumberHistoryByCustomer(Long customerId);
 
     @Query("SELECT NUMBER_RECORD_ID, CENTER_ID, CUSTOMER_ID, PHONE_NUMBER, ASSIGNMENT_DATE, RELEASE_DATE " +
-            "FROM TELEPHONE_NUMBER_AUDIT WHERE PHONE_NUMBER = :phoneNumber")
+            "FROM TELEPHONE_NUMBER_AUDIT WHERE PHONE_NUMBER = :phoneNumber " +
+            "ORDER BY ASSIGNMENT_DATE ASC")
     List<TelephoneNumber> findTelephoneNumberHistory(Integer phoneNumber);
 }

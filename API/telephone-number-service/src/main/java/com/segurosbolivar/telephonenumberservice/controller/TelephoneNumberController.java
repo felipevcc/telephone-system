@@ -2,9 +2,12 @@ package com.segurosbolivar.telephonenumberservice.controller;
 
 import com.segurosbolivar.telephonenumberservice.model.TelephoneNumber;
 import com.segurosbolivar.telephonenumberservice.service.TelephoneNumberService;
-import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +19,26 @@ public class TelephoneNumberController {
     @Autowired
     TelephoneNumberService telephoneNumberService;
 
+    @GetMapping("/{phoneNumber}")
+    public ResponseEntity<TelephoneNumber> getTelephoneNumber(@PathVariable Integer phoneNumber) {
+        TelephoneNumber telephoneNumber = telephoneNumberService.getTelephoneNumber(phoneNumber);
+        // Check if the telephone number has never been assigned
+        if (telephoneNumber == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(telephoneNumber);
+    }
+
+    @GetMapping("/customer/{customerId}")
+    public ResponseEntity<TelephoneNumber> getTelephoneNumberByCustomer(@PathVariable Long customerId) {
+        TelephoneNumber telephoneNumber = telephoneNumberService.getTelephoneNumberByCustomer(customerId);
+        // Check if the customer does not have a number
+        if (telephoneNumber == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(telephoneNumber);
+    }
+
     @PostMapping("/numberTracking")
     public ResponseEntity<Object> numberTrackingProcess() {
         telephoneNumberService.runNumberTrackingProcess();
@@ -26,7 +49,7 @@ public class TelephoneNumberController {
     public ResponseEntity<TelephoneNumber> releaseTelephoneNumber(@PathVariable Integer phoneNumber) {
         try {
             TelephoneNumber releasedTelephoneNumber = telephoneNumberService.releaseTelephoneNumber(phoneNumber);
-            // Check if the phone number does not exist or had already been released
+            // Check if the telephone number had already been released
             if (releasedTelephoneNumber == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
             }
@@ -36,13 +59,23 @@ public class TelephoneNumberController {
         }
     }
 
-    @GetMapping("/customer/{customerId}")
-    public ResponseEntity<TelephoneNumber> getTelephoneNumberByCustomer(@PathParam("customerId") Long customerId) {
-        TelephoneNumber telephoneNumber = telephoneNumberService.getTelephoneNumberByCustomer(customerId);
-        // Check if the customer does not have a number
-        if (telephoneNumber == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(telephoneNumber);
+    @GetMapping("/downloadCustomerHistory/{customerId}")
+    public ResponseEntity<Resource> getCustomerHistoryCSV(@PathVariable Long customerId) {
+        String filename = "customer_history.csv";
+        InputStreamResource file = new InputStreamResource(telephoneNumberService.loadCustomerHistoryCSV(customerId));
+        return ResponseEntity.status(HttpStatus.OK)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+                .contentType(MediaType.parseMediaType("application/csv"))
+                .body(file);
+    }
+
+    @GetMapping("/downloadNumberHistory/{phoneNumber}")
+    public ResponseEntity<Resource> getNumberHistoryCSV(@PathVariable Integer phoneNumber) {
+        String filename = "number_history.csv";
+        InputStreamResource file = new InputStreamResource(telephoneNumberService.loadNumberHistoryCSV(phoneNumber));
+        return ResponseEntity.status(HttpStatus.OK)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+                .contentType(MediaType.parseMediaType("application/csv"))
+                .body(file);
     }
 }
