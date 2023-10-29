@@ -3,10 +3,12 @@ package com.segurosbolivar.telephonenumberservice.service;
 import com.segurosbolivar.telephonenumberservice.dto.CustomerDTO;
 import com.segurosbolivar.telephonenumberservice.dto.DocumentTypeDTO;
 import com.segurosbolivar.telephonenumberservice.dto.NumberHistoryRowDTO;
+import com.segurosbolivar.telephonenumberservice.model.MinimumTimeSetting;
 import com.segurosbolivar.telephonenumberservice.model.TelephoneNumber;
 import com.segurosbolivar.telephonenumberservice.repository.TelephoneNumberAuditRepository;
 import com.segurosbolivar.telephonenumberservice.repository.TelephoneNumberCallRepository;
 import com.segurosbolivar.telephonenumberservice.repository.TelephoneNumberRepository;
+import com.segurosbolivar.telephonenumberservice.repository.TimeSettingRepository;
 import com.segurosbolivar.telephonenumberservice.util.CSVHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,9 @@ public class TelephoneNumberServiceImp implements TelephoneNumberService {
 
     @Autowired
     TelephoneNumberAuditRepository telNumberAuditRepository;
+
+    @Autowired
+    TimeSettingRepository timeSettingRepository;
 
     @Override
     public TelephoneNumber getTelephoneNumber(Integer phoneNumber) {
@@ -100,6 +105,17 @@ public class TelephoneNumberServiceImp implements TelephoneNumberService {
         }
 
         return CSVHelper.historyToCSV(telephoneNumberHistory);
+    }
+
+    @Override
+    public MinimumTimeSetting getTimeSetting() {
+        return timeSettingRepository.getLatestTimeSetting();
+    }
+
+    @Override
+    public MinimumTimeSetting createTimeSetting(Integer timeValue) {
+        timeSettingRepository.createTimeValue(timeValue);
+        return timeSettingRepository.getLatestTimeSetting();
     }
 
     public NumberHistoryRowDTO generateHistoryRow(TelephoneNumber telephoneNumber) {

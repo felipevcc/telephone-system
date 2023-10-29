@@ -1,5 +1,6 @@
 package com.segurosbolivar.telephonenumberservice.controller;
 
+import com.segurosbolivar.telephonenumberservice.model.MinimumTimeSetting;
 import com.segurosbolivar.telephonenumberservice.model.TelephoneNumber;
 import com.segurosbolivar.telephonenumberservice.service.TelephoneNumberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,5 +78,15 @@ public class TelephoneNumberController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
                 .contentType(MediaType.parseMediaType("application/csv"))
                 .body(file);
+    }
+
+    @GetMapping("/timeSetting")
+    public ResponseEntity<MinimumTimeSetting> getTimeSetting() {
+        return ResponseEntity.status(HttpStatus.OK).body(telephoneNumberService.getTimeSetting());
+    }
+
+    @PostMapping("/timeSetting/{timeValue}")
+    public ResponseEntity<MinimumTimeSetting> createTimeSetting(@PathVariable Integer timeValue) {
+        return ResponseEntity.status(HttpStatus.OK).body(telephoneNumberService.createTimeSetting(timeValue));
     }
 }

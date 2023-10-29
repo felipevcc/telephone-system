@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor @NoArgsConstructor
-@Table("TELEPHONE_NUMBER_AUDIT")
+@Table(name = "TELEPHONE_NUMBER_AUDIT")
 public class TelephoneNumberAudit {
     @Id
     @Column("NUMBER_RECORD_ID")
