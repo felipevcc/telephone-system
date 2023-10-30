@@ -2,8 +2,9 @@ package com.segurosbolivar.telephonenumberservice.service;
 
 import com.segurosbolivar.telephonenumberservice.dto.CenterDTO;
 import com.segurosbolivar.telephonenumberservice.dto.CustomerDTO;
-import com.segurosbolivar.telephonenumberservice.dto.DocumentTypeDTO;
 import com.segurosbolivar.telephonenumberservice.dto.NumberHistoryRowDTO;
+import com.segurosbolivar.telephonenumberservice.exceptions.AlreadyHasAssignedNumberException;
+import com.segurosbolivar.telephonenumberservice.exceptions.NoCentersAvailableException;
 import com.segurosbolivar.telephonenumberservice.model.MinimumTimeSetting;
 import com.segurosbolivar.telephonenumberservice.model.TelephoneNumber;
 import com.segurosbolivar.telephonenumberservice.repository.TelephoneNumberAuditRepository;
@@ -13,18 +14,16 @@ import com.segurosbolivar.telephonenumberservice.repository.TimeSettingRepositor
 import com.segurosbolivar.telephonenumberservice.util.CSVHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class TelephoneNumberServiceImp implements TelephoneNumberService {
 
     @Autowired
-    RestTemplate restTemplate;
+    RestClientService restClientService;
 
     @Autowired
     TelephoneNumberCallRepository telNumberCallRepository;
@@ -45,7 +44,6 @@ public class TelephoneNumberServiceImp implements TelephoneNumberService {
         if (activeTelephoneNumber != null) {
             return activeTelephoneNumber;
         }
-
         // Most recent record in the telephone number history
         return telNumberRepository.findLatestTelephoneNumberRelease(phoneNumber);
     }
@@ -63,15 +61,14 @@ public class TelephoneNumberServiceImp implements TelephoneNumberService {
     @Override
     public TelephoneNumber assignTelephoneNumber(Long customerId) {
         if (telNumberRepository.findTelephoneNumberByCustomer(customerId) != null) {
-            return null;
+            throw new AlreadyHasAssignedNumberException("There are no centers with availability in the customer's area");
         }
-        CustomerDTO customer = getCustomerById(customerId);
+        CustomerDTO customer = restClientService.getCustomerById(customerId);
+        List<CenterDTO> centers = restClientService.getAllCentersByArea(customer.getAreaId());
 
-        CenterDTO[] centersByArea = restTemplate.getForObject(
-                "http://CENTER-SERVICE/api/v1/center/area/{areaId}",
-                CenterDTO[].class,
-                customer.getAreaId()
-        );
+        if (centers.isEmpty()) {
+            throw new NoCentersAvailableException("There are no centers with attention in the customer's area");
+        }
 
         return null;
     }
@@ -124,6 +121,18 @@ public class TelephoneNumberServiceImp implements TelephoneNumberService {
         return CSVHelper.historyToCSV(telephoneNumberHistory);
     }
 
+    public NumberHistoryRowDTO generateHistoryRow(TelephoneNumber telephoneNumber) {
+        NumberHistoryRowDTO row = new NumberHistoryRowDTO();
+        CustomerDTO customer = restClientService.getCustomerById(telephoneNumber.getCustomerId());
+        row.setCustomerDocumentType(restClientService.getDocumentTypeCode(customer.getDocumentTypeId()));
+        row.setCustomerDocument(customer.getDocument());
+        row.setTelephoneNumber(telephoneNumber.getPhoneNumber());
+        row.setCenterId(telephoneNumber.getCenterId());
+        row.setAssignmentDate(String.valueOf(telephoneNumber.getAssignmentDate()));
+        row.setReleaseDate(String.valueOf(telephoneNumber.getReleaseDate()));
+        return row;
+    }
+
     @Override
     public MinimumTimeSetting getTimeSetting() {
         return timeSettingRepository.getLatestTimeSetting();
@@ -135,39 +144,4 @@ public class TelephoneNumberServiceImp implements TelephoneNumberService {
         return timeSettingRepository.getLatestTimeSetting();
     }
 
-    public NumberHistoryRowDTO generateHistoryRow(TelephoneNumber telephoneNumber) {
-        NumberHistoryRowDTO row = new NumberHistoryRowDTO();
-        CustomerDTO customer = getCustomerById(telephoneNumber.getCustomerId());
-        row.setCustomerDocumentType(getDocumentTypeCode(customer.getDocumentTypeId()));
-        row.setCustomerDocument(customer.getDocument());
-        row.setTelephoneNumber(telephoneNumber.getPhoneNumber());
-        row.setCenterId(telephoneNumber.getCenterId());
-        row.setAssignmentDate(String.valueOf(telephoneNumber.getAssignmentDate()));
-        row.setReleaseDate(String.valueOf(telephoneNumber.getReleaseDate()));
-        return row;
-    }
-
-    public CustomerDTO getCustomerById(Long customerId) {
-        return restTemplate.getForObject(
-                "http://CUSTOMER-SERVICE/api/v1/customer/{customerId}",
-                CustomerDTO.class,
-                customerId
-        );
-    }
-
-    public String getDocumentTypeCode(Long documentTypeId) {
-        // Get document type abbreviation from client
-        DocumentTypeDTO[] documentTypes = restTemplate.getForObject(
-                "http://CUSTOMER-SERVICE/api/v1/documentTypes",
-                DocumentTypeDTO[].class
-        );
-        if (documentTypes != null) {
-        return Arrays.stream(documentTypes)
-                .filter(dt -> dt.getDocumentTypeId().equals(documentTypeId))
-                .map(DocumentTypeDTO::getTypeCode)
-                .findFirst()
-                .orElse(null);
-        }
-        return null;
-    }
 }

@@ -41,22 +41,15 @@ public class TelephoneNumberController {
     }
 
     @PostMapping("/numberTracking")
-    public ResponseEntity<Object> numberTrackingProcess() {
+    public ResponseEntity<String> numberTrackingProcess() {
         telephoneNumberService.runNumberTrackingProcess();
         return ResponseEntity.status(HttpStatus.OK).body("Executed process");
     }
 
     @PostMapping("/{customerId}")
     public ResponseEntity<TelephoneNumber> assignTelephoneNumber(@PathVariable Long customerId) {
-        try {
-            TelephoneNumber assignedTelephoneNumber = telephoneNumberService.assignTelephoneNumber(customerId);
-            if (assignedTelephoneNumber == null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-            }
-            return ResponseEntity.status(HttpStatus.OK).body(assignedTelephoneNumber);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        TelephoneNumber assignedTelephoneNumber = telephoneNumberService.assignTelephoneNumber(customerId);
+        return ResponseEntity.status(HttpStatus.OK).body(assignedTelephoneNumber);
     }
 
     @PutMapping("/{phoneNumber}")
