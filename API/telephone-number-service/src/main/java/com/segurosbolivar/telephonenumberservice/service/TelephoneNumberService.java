@@ -16,12 +16,4 @@ public interface TelephoneNumberService {
     TelephoneNumber assignTelephoneNumber(Long customerId);
 
     TelephoneNumber releaseTelephoneNumber(Integer phoneNumber);
-
-    ByteArrayInputStream loadCustomerHistoryCSV(Long customerId);
-
-    ByteArrayInputStream loadNumberHistoryCSV(Integer phoneNumber);
-
-    MinimumTimeSetting getTimeSetting();
-
-    MinimumTimeSetting createTimeSetting(Integer timeValue);
 }

@@ -2,7 +2,9 @@ package com.segurosbolivar.telephonenumberservice.controller;
 
 import com.segurosbolivar.telephonenumberservice.model.MinimumTimeSetting;
 import com.segurosbolivar.telephonenumberservice.model.TelephoneNumber;
+import com.segurosbolivar.telephonenumberservice.service.HistoryCSVService;
 import com.segurosbolivar.telephonenumberservice.service.TelephoneNumberService;
+import com.segurosbolivar.telephonenumberservice.service.TimeSettingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -19,6 +21,12 @@ public class TelephoneNumberController {
 
     @Autowired
     TelephoneNumberService telephoneNumberService;
+
+    @Autowired
+    HistoryCSVService historyCSVService;
+
+    @Autowired
+    TimeSettingService timeSettingService;
 
     @GetMapping("/{phoneNumber}")
     public ResponseEntity<TelephoneNumber> getTelephoneNumber(@PathVariable Integer phoneNumber) {
@@ -69,7 +77,7 @@ public class TelephoneNumberController {
     @GetMapping("/downloadCustomerHistory/{customerId}")
     public ResponseEntity<Resource> getCustomerHistoryCSV(@PathVariable Long customerId) {
         String filename = "customer_history.csv";
-        InputStreamResource file = new InputStreamResource(telephoneNumberService.loadCustomerHistoryCSV(customerId));
+        InputStreamResource file = new InputStreamResource(historyCSVService.loadCustomerHistoryCSV(customerId));
         return ResponseEntity.status(HttpStatus.OK)
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
                 .contentType(MediaType.parseMediaType("application/csv"))
@@ -79,7 +87,7 @@ public class TelephoneNumberController {
     @GetMapping("/downloadNumberHistory/{phoneNumber}")
     public ResponseEntity<Resource> getNumberHistoryCSV(@PathVariable Integer phoneNumber) {
         String filename = "number_history.csv";
-        InputStreamResource file = new InputStreamResource(telephoneNumberService.loadNumberHistoryCSV(phoneNumber));
+        InputStreamResource file = new InputStreamResource(historyCSVService.loadNumberHistoryCSV(phoneNumber));
         return ResponseEntity.status(HttpStatus.OK)
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
                 .contentType(MediaType.parseMediaType("application/csv"))
@@ -88,11 +96,11 @@ public class TelephoneNumberController {
 
     @GetMapping("/timeSetting")
     public ResponseEntity<MinimumTimeSetting> getTimeSetting() {
-        return ResponseEntity.status(HttpStatus.OK).body(telephoneNumberService.getTimeSetting());
+        return ResponseEntity.status(HttpStatus.OK).body(timeSettingService.getTimeSetting());
     }
 
     @PostMapping("/timeSetting/{timeValue}")
     public ResponseEntity<MinimumTimeSetting> createTimeSetting(@PathVariable Integer timeValue) {
-        return ResponseEntity.status(HttpStatus.OK).body(telephoneNumberService.createTimeSetting(timeValue));
+        return ResponseEntity.status(HttpStatus.OK).body(timeSettingService.createTimeSetting(timeValue));
     }
 }
