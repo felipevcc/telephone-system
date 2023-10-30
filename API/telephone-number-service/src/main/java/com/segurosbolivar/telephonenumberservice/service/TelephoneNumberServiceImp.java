@@ -1,5 +1,6 @@
 package com.segurosbolivar.telephonenumberservice.service;
 
+import com.segurosbolivar.telephonenumberservice.dto.CenterDTO;
 import com.segurosbolivar.telephonenumberservice.dto.CustomerDTO;
 import com.segurosbolivar.telephonenumberservice.dto.DocumentTypeDTO;
 import com.segurosbolivar.telephonenumberservice.dto.NumberHistoryRowDTO;
@@ -57,6 +58,22 @@ public class TelephoneNumberServiceImp implements TelephoneNumberService {
     @Override
     public void runNumberTrackingProcess() {
         telNumberCallRepository.runNumberTrackingProcess();
+    }
+
+    @Override
+    public TelephoneNumber assignTelephoneNumber(Long customerId) {
+        if (telNumberRepository.findTelephoneNumberByCustomer(customerId) != null) {
+            return null;
+        }
+        CustomerDTO customer = getCustomerById(customerId);
+
+        CenterDTO[] centersByArea = restTemplate.getForObject(
+                "http://CENTER-SERVICE/api/v1/center/area/{areaId}",
+                CenterDTO[].class,
+                customer.getAreaId()
+        );
+
+        return null;
     }
 
     @Override

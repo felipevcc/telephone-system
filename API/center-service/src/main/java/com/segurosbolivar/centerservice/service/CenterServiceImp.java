@@ -57,6 +57,11 @@ public class CenterServiceImp implements CenterService {
     }
 
     @Override
+    public List<Center> getAllCentersByArea(Long areaId) {
+        return centerRepository.findAllCentersByArea(areaId);
+    }
+
+    @Override
     public Center createCenter(CenterCreationDTO newCenterData) {
         Long newCenterId = null;
         try {

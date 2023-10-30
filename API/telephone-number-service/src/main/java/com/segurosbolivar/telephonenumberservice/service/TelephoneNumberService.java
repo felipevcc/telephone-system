@@ -13,6 +13,8 @@ public interface TelephoneNumberService {
 
     void runNumberTrackingProcess();
 
+    TelephoneNumber assignTelephoneNumber(Long customerId);
+
     TelephoneNumber releaseTelephoneNumber(Integer phoneNumber);
 
     ByteArrayInputStream loadCustomerHistoryCSV(Long customerId);

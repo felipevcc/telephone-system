@@ -46,6 +46,19 @@ public class TelephoneNumberController {
         return ResponseEntity.status(HttpStatus.OK).body("Executed process");
     }
 
+    @PostMapping("/{customerId}")
+    public ResponseEntity<TelephoneNumber> assignTelephoneNumber(@PathVariable Long customerId) {
+        try {
+            TelephoneNumber assignedTelephoneNumber = telephoneNumberService.assignTelephoneNumber(customerId);
+            if (assignedTelephoneNumber == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(assignedTelephoneNumber);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
     @PutMapping("/{phoneNumber}")
     public ResponseEntity<TelephoneNumber> releaseTelephoneNumber(@PathVariable Integer phoneNumber) {
         try {

@@ -22,6 +22,12 @@ public interface CenterRepository extends JpaRepository<Center, Long> {
     @Query("SELECT center FROM Center center " +
             "JOIN AreaCenter ac ON ac.centerId = center.centerId " +
             "WHERE ac.areaId = ?1 " +
+            "ORDER BY center.centerId ASC")
+    List<Center> findAllCentersByArea(Long areaId);
+
+    @Query("SELECT center FROM Center center " +
+            "JOIN AreaCenter ac ON ac.centerId = center.centerId " +
+            "WHERE ac.areaId = ?1 " +
             "ORDER BY center.createdAt DESC")
     List<Center> findCentersByArea(Long areaId, Pageable pageable);
 
