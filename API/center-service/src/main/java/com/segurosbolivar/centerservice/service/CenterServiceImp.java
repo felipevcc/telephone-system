@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -65,6 +66,21 @@ public class CenterServiceImp implements CenterService {
     public Center createCenter(CenterCreationDTO newCenterData) {
         Long newCenterId = null;
         try {
+            if (newCenterData.getGeographicAreasIds().isEmpty()) {
+                return null;
+            }
+
+            List<Long> validAreas = new ArrayList<>();
+            for (Long areaId:newCenterData.getGeographicAreasIds()) {
+                if (!areaExistsById(areaId) || validAreas.contains(areaId)) {
+                    continue;
+                }
+                validAreas.add(areaId);
+            }
+            if (validAreas.isEmpty()) {
+                return null;
+            }
+
             newCenterId = centerRepository.createCenter(
                     newCenterData.getName(),
                     newCenterData.getAddress(),
@@ -77,10 +93,7 @@ public class CenterServiceImp implements CenterService {
                 return null;
             }
 
-            for (Long areaId:newCenterData.getGeographicAreasIds()) {
-                if (!areaExistsById(areaId) || areaCenterRepository.findAreaCenterById(areaId, newCenterId) != null) {
-                    continue;
-                }
+            for (Long areaId:validAreas) {
                 AreaCenter newAreaCenter = new AreaCenter();
                 newAreaCenter.setAreaId(areaId);
                 newAreaCenter.setCenterId(newCenterId);
@@ -90,7 +103,7 @@ public class CenterServiceImp implements CenterService {
             return getCenterById(newCenterId);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw new RuntimeException(e.getMessage());
         }
     }
 

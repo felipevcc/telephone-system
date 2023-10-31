@@ -51,7 +51,7 @@ public class CenterController {
     public ResponseEntity<Center> createCenter(@RequestBody CenterCreationDTO newCenterData) {
         Center newCenter = centerService.createCenter(newCenterData);
         if (newCenter == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         return ResponseEntity.status(HttpStatus.OK).body(newCenter);
     }
