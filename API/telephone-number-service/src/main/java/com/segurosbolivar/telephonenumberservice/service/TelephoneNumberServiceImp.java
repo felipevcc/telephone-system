@@ -2,9 +2,13 @@ package com.segurosbolivar.telephonenumberservice.service;
 
 import com.segurosbolivar.telephonenumberservice.dto.CenterDTO;
 import com.segurosbolivar.telephonenumberservice.dto.CustomerDTO;
+import com.segurosbolivar.telephonenumberservice.dto.TelephoneNumberDTO;
 import com.segurosbolivar.telephonenumberservice.exceptions.AlreadyHasAssignedNumberException;
 import com.segurosbolivar.telephonenumberservice.exceptions.NoCentersAvailableException;
+import com.segurosbolivar.telephonenumberservice.exceptions.NoClientExistsException;
+import com.segurosbolivar.telephonenumberservice.mapper.TelephoneNumberMapper;
 import com.segurosbolivar.telephonenumberservice.model.TelephoneNumber;
+import com.segurosbolivar.telephonenumberservice.model.TelephoneNumberAudit;
 import com.segurosbolivar.telephonenumberservice.repository.TelephoneNumberAuditRepository;
 import com.segurosbolivar.telephonenumberservice.repository.TelephoneNumberCallRepository;
 import com.segurosbolivar.telephonenumberservice.repository.TelephoneNumberRepository;
@@ -20,6 +24,9 @@ public class TelephoneNumberServiceImp implements TelephoneNumberService {
     RestClientService restClientService;
 
     @Autowired
+    TelephoneNumberMapper telNumberMapper;
+
+    @Autowired
     TelephoneNumberCallRepository telNumberCallRepository;
 
     @Autowired
@@ -29,19 +36,27 @@ public class TelephoneNumberServiceImp implements TelephoneNumberService {
     TelephoneNumberAuditRepository telNumberAuditRepository;
 
     @Override
-    public TelephoneNumber getTelephoneNumber(Integer phoneNumber) {
+    public TelephoneNumberDTO getTelephoneNumber(Integer phoneNumber) {
         TelephoneNumber activeTelephoneNumber = telNumberRepository.findTelephoneNumber(phoneNumber);
         // Check if the number is currently active
         if (activeTelephoneNumber != null) {
-            return activeTelephoneNumber;
+            return telNumberMapper.telNumberToDTO(activeTelephoneNumber);
         }
         // Most recent record in the telephone number history
-        return telNumberRepository.findLatestTelephoneNumberRelease(phoneNumber);
+        TelephoneNumberAudit latestTelNumber = telNumberAuditRepository.findLatestTelephoneNumberRelease(phoneNumber);
+        if (latestTelNumber == null) {
+            return null;
+        }
+        return telNumberMapper.telNumberAuditToDTO(latestTelNumber);
     }
 
     @Override
-    public TelephoneNumber getTelephoneNumberByCustomer(Long customerId) {
-        return telNumberRepository.findTelephoneNumberByCustomer(customerId);
+    public TelephoneNumberDTO getTelephoneNumberByCustomer(Long customerId) {
+        TelephoneNumber telNumber = telNumberRepository.findTelephoneNumberByCustomer(customerId);
+        if (telNumber == null) {
+            return null;
+        }
+        return telNumberMapper.telNumberToDTO(telNumber);
     }
 
     @Override
@@ -50,13 +65,15 @@ public class TelephoneNumberServiceImp implements TelephoneNumberService {
     }
 
     @Override
-    public TelephoneNumber assignTelephoneNumber(Long customerId) {
-        if (telNumberRepository.findTelephoneNumberByCustomer(customerId) != null) {
-            throw new AlreadyHasAssignedNumberException("There are no centers with availability in the customer's area");
-        }
+    public TelephoneNumberDTO assignTelephoneNumber(Long customerId) {
         CustomerDTO customer = restClientService.getCustomerById(customerId);
-        List<CenterDTO> centers = restClientService.getAllCentersByArea(customer.getAreaId());
+        if (customer == null) {
+            throw new NoClientExistsException("Customer does not exist");
+        } else if (telNumberRepository.findTelephoneNumberByCustomer(customerId) != null) {
+            throw new AlreadyHasAssignedNumberException("The customer already has a telephone number assigned");
+        }
 
+        List<CenterDTO> centers = restClientService.getAllCentersByArea(customer.getAreaId());
         if (centers.isEmpty()) {
             throw new NoCentersAvailableException("There are no centers with attention in the customer's area");
         }
@@ -65,12 +82,16 @@ public class TelephoneNumberServiceImp implements TelephoneNumberService {
     }
 
     @Override
-    public TelephoneNumber releaseTelephoneNumber(Integer phoneNumber) {
+    public TelephoneNumberDTO releaseTelephoneNumber(Integer phoneNumber) {
         TelephoneNumber telephoneNumber = telNumberRepository.findTelephoneNumber(phoneNumber);
-        if (telephoneNumber == null || telephoneNumber.getReleaseDate() != null) {
+        if (telephoneNumber == null) {
             return null;
         }
         telNumberCallRepository.releaseTelephoneNumber(phoneNumber);
-        return telNumberRepository.findTelephoneNumber(phoneNumber);
+        TelephoneNumberAudit releasedTelNumber = telNumberAuditRepository.findReleasedTelephoneNumber(phoneNumber);
+        if (releasedTelNumber == null) {
+            return null;
+        }
+        return telNumberMapper.telNumberAuditToDTO(releasedTelNumber);
     }
 }

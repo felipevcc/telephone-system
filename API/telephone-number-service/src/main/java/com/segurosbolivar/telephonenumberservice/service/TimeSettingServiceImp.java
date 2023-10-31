@@ -3,7 +3,9 @@ package com.segurosbolivar.telephonenumberservice.service;
 import com.segurosbolivar.telephonenumberservice.model.MinimumTimeSetting;
 import com.segurosbolivar.telephonenumberservice.repository.TimeSettingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class TimeSettingServiceImp implements TimeSettingService {
 
     @Autowired

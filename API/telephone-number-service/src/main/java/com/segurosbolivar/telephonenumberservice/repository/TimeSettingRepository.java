@@ -1,6 +1,7 @@
 package com.segurosbolivar.telephonenumberservice.repository;
 
 import com.segurosbolivar.telephonenumberservice.model.MinimumTimeSetting;
+import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -11,6 +12,7 @@ public interface TimeSettingRepository extends CrudRepository<MinimumTimeSetting
             "WHERE CREATED_AT = (SELECT MAX(CREATED_AT) FROM MINIMUM_TIME_SETTING)")
     MinimumTimeSetting getLatestTimeSetting();
 
-    @Query("INSERT INTO MINIMUM_TIME_SETTING (TIME_VALUE) VALUES (:timeValue)")
+    @Modifying
+    @Query("INSERT INTO MINIMUM_TIME_SETTING (TIME_ID, TIME_VALUE) VALUES (SEQ_MINIMUM_TIME_SETTING.NEXTVAL, :timeValue)")
     void createTimeValue(Integer timeValue);
 }

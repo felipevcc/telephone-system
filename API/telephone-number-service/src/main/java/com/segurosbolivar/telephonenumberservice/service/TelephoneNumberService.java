@@ -1,19 +1,16 @@
 package com.segurosbolivar.telephonenumberservice.service;
 
-import com.segurosbolivar.telephonenumberservice.model.MinimumTimeSetting;
-import com.segurosbolivar.telephonenumberservice.model.TelephoneNumber;
-
-import java.io.ByteArrayInputStream;
+import com.segurosbolivar.telephonenumberservice.dto.TelephoneNumberDTO;
 
 public interface TelephoneNumberService {
 
-    TelephoneNumber getTelephoneNumber(Integer phoneNumber);
+    TelephoneNumberDTO getTelephoneNumber(Integer phoneNumber);
 
-    TelephoneNumber getTelephoneNumberByCustomer(Long customerId);
+    TelephoneNumberDTO getTelephoneNumberByCustomer(Long customerId);
 
     void runNumberTrackingProcess();
 
-    TelephoneNumber assignTelephoneNumber(Long customerId);
+    TelephoneNumberDTO assignTelephoneNumber(Long customerId);
 
-    TelephoneNumber releaseTelephoneNumber(Integer phoneNumber);
+    TelephoneNumberDTO releaseTelephoneNumber(Integer phoneNumber);
 }

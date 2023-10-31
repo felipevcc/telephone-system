@@ -28,7 +28,4 @@ public class TelephoneNumber {
 
     @Column("ASSIGNMENT_DATE")
     private LocalDateTime assignmentDate;
-
-    @Column("RELEASE_DATE")
-    private LocalDateTime releaseDate;
 }

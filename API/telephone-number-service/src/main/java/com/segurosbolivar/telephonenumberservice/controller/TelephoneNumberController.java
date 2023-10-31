@@ -1,7 +1,7 @@
 package com.segurosbolivar.telephonenumberservice.controller;
 
+import com.segurosbolivar.telephonenumberservice.dto.TelephoneNumberDTO;
 import com.segurosbolivar.telephonenumberservice.model.MinimumTimeSetting;
-import com.segurosbolivar.telephonenumberservice.model.TelephoneNumber;
 import com.segurosbolivar.telephonenumberservice.service.HistoryCSVService;
 import com.segurosbolivar.telephonenumberservice.service.TelephoneNumberService;
 import com.segurosbolivar.telephonenumberservice.service.TimeSettingService;
@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("telephoneNumber")
+@RequestMapping("/telephoneNumber")
 @CrossOrigin
 public class TelephoneNumberController {
 
@@ -29,8 +29,8 @@ public class TelephoneNumberController {
     TimeSettingService timeSettingService;
 
     @GetMapping("/{phoneNumber}")
-    public ResponseEntity<TelephoneNumber> getTelephoneNumber(@PathVariable Integer phoneNumber) {
-        TelephoneNumber telephoneNumber = telephoneNumberService.getTelephoneNumber(phoneNumber);
+    public ResponseEntity<TelephoneNumberDTO> getTelephoneNumber(@PathVariable Integer phoneNumber) {
+        TelephoneNumberDTO telephoneNumber = telephoneNumberService.getTelephoneNumber(phoneNumber);
         // Check if the telephone number has never been assigned
         if (telephoneNumber == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -39,8 +39,8 @@ public class TelephoneNumberController {
     }
 
     @GetMapping("/customer/{customerId}")
-    public ResponseEntity<TelephoneNumber> getTelephoneNumberByCustomer(@PathVariable Long customerId) {
-        TelephoneNumber telephoneNumber = telephoneNumberService.getTelephoneNumberByCustomer(customerId);
+    public ResponseEntity<TelephoneNumberDTO> getTelephoneNumberByCustomer(@PathVariable Long customerId) {
+        TelephoneNumberDTO telephoneNumber = telephoneNumberService.getTelephoneNumberByCustomer(customerId);
         // Check if the customer does not have a number
         if (telephoneNumber == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -55,15 +55,15 @@ public class TelephoneNumberController {
     }
 
     @PostMapping("/{customerId}")
-    public ResponseEntity<TelephoneNumber> assignTelephoneNumber(@PathVariable Long customerId) {
-        TelephoneNumber assignedTelephoneNumber = telephoneNumberService.assignTelephoneNumber(customerId);
+    public ResponseEntity<TelephoneNumberDTO> assignTelephoneNumber(@PathVariable Long customerId) {
+        TelephoneNumberDTO assignedTelephoneNumber = telephoneNumberService.assignTelephoneNumber(customerId);
         return ResponseEntity.status(HttpStatus.OK).body(assignedTelephoneNumber);
     }
 
     @PutMapping("/{phoneNumber}")
-    public ResponseEntity<TelephoneNumber> releaseTelephoneNumber(@PathVariable Integer phoneNumber) {
+    public ResponseEntity<TelephoneNumberDTO> releaseTelephoneNumber(@PathVariable Integer phoneNumber) {
         try {
-            TelephoneNumber releasedTelephoneNumber = telephoneNumberService.releaseTelephoneNumber(phoneNumber);
+            TelephoneNumberDTO releasedTelephoneNumber = telephoneNumberService.releaseTelephoneNumber(phoneNumber);
             // Check if the telephone number had already been released
             if (releasedTelephoneNumber == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

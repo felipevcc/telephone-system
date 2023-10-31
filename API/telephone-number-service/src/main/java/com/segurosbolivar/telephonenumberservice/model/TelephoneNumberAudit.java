@@ -1,5 +1,6 @@
 package com.segurosbolivar.telephonenumberservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,4 +32,8 @@ public class TelephoneNumberAudit {
 
     @Column("RELEASE_DATE")
     private LocalDateTime releaseDate;
+
+    @JsonIgnore
+    @Column("IS_ACTIVE")
+    private Integer isActive;
 }
