@@ -13,24 +13,17 @@ CREATE OR REPLACE PACKAGE BODY APP_ASIG_NUM_TEL.PCK_TELEPHONE_NUMBER IS
     Date 16-10-2023
     *******************************************************************************/
     PROCEDURE Proc_ProcessTransaction (
-        Ip_center_id IN NUMBER,
-        Ip_customer_id IN NUMBER,
-        Ip_phone_number IN NUMBER,
-        Ip_assignment_date IN DATE,
-        Ip_release_date IN DATE,
+        Ip_number_record_id IN NUMBER,
         Op_error_occurred OUT BOOLEAN
     ) IS
         PRAGMA AUTONOMOUS_TRANSACTION;
     BEGIN
         Op_error_occurred := FALSE;
 
-        -- Insert record into audit table
-        INSERT INTO TELEPHONE_NUMBER_AUDIT (NUMBER_RECORD_ID, CENTER_ID, CUSTOMER_ID, PHONE_NUMBER, ASSIGNMENT_DATE, RELEASE_DATE)
-        VALUES (SEQ_TELEPHONE_NUMBER_AUDIT.NEXTVAL, Ip_center_id, Ip_customer_id, Ip_phone_number, Ip_assignment_date, Ip_release_date);
-
-        -- Delete record in assignment table
-        DELETE FROM TELEPHONE_NUMBER
-        WHERE PHONE_NUMBER = Ip_phone_number;
+        -- Update record to release telephone number completely
+        UPDATE TELEPHONE_NUMBER_AUDIT
+        SET IS_ACTIVE = 0
+        WHERE NUMBER_RECORD_ID = Ip_number_record_id;
 
         COMMIT;
     EXCEPTION
@@ -46,11 +39,10 @@ CREATE OR REPLACE PACKAGE BODY APP_ASIG_NUM_TEL.PCK_TELEPHONE_NUMBER IS
     *******************************************************************************/
     PROCEDURE Proc_TrackingNumbers IS
         l_time_value MINIMUM_TIME_SETTING.TIME_VALUE%TYPE;
-        CURSOR c_telephone_numbers IS
-            SELECT NUMBER_RECORD_ID, CENTER_ID, CUSTOMER_ID, PHONE_NUMBER, ASSIGNMENT_DATE, RELEASE_DATE
-            FROM TELEPHONE_NUMBER
-            WHERE RELEASE_DATE IS NOT NULL AND (SYSDATE - RELEASE_DATE) >= l_time_value;
-        l_vc_telephone_numbers c_telephone_numbers%ROWTYPE;
+
+        TYPE l_tb_ids IS TABLE OF NUMBER INDEX BY PLS_INTEGER;
+        l_number_record_ids l_tb_ids;
+
         l_successful_count NUMBER := 0; -- Successful transaction counter
         l_total_records NUMBER := 0; -- Total number of records
         l_error_occurred BOOLEAN; -- State variable of the result of each autonomous transaction
@@ -60,31 +52,27 @@ CREATE OR REPLACE PACKAGE BODY APP_ASIG_NUM_TEL.PCK_TELEPHONE_NUMBER IS
         FROM MINIMUM_TIME_SETTING
         WHERE CREATED_AT = (SELECT MAX(CREATED_AT) FROM MINIMUM_TIME_SETTING);
 
-        OPEN c_telephone_numbers;
-        LOOP
-            FETCH c_telephone_numbers INTO l_vc_telephone_numbers;
-            EXIT WHEN c_telephone_numbers%NOTFOUND;
+        SELECT NUMBER_RECORD_ID
+        BULK COLLECT INTO l_number_record_ids
+        FROM TELEPHONE_NUMBER_AUDIT
+        WHERE IS_ACTIVE = 1 AND (SYSDATE - RELEASE_DATE) >= l_time_value;
 
+        l_total_records := l_number_record_ids.COUNT;
+
+        FOR i IN 1..l_number_record_ids.COUNT LOOP
             /*l_error_occurred BOOLEAN := FALSE;*/
 
             Proc_ProcessTransaction(
-                l_vc_telephone_numbers.CENTER_ID,
-                l_vc_telephone_numbers.CUSTOMER_ID,
-                l_vc_telephone_numbers.PHONE_NUMBER,
-                l_vc_telephone_numbers.ASSIGNMENT_DATE,
-                l_vc_telephone_numbers.RELEASE_DATE,
+                l_number_record_ids(i),
                 l_error_occurred
             );
             IF NOT l_error_occurred THEN
                 l_successful_count := l_successful_count + 1;
             END IF;
-            l_total_records := l_total_records + 1;
         END LOOP;
 
-        CLOSE c_telephone_numbers;
-
         DBMS_OUTPUT.PUT_LINE('Successful transactions: ' || l_successful_count);
-        DBMS_OUTPUT.PUT_LINE('Total transactions: ' || l_successful_count);
+        DBMS_OUTPUT.PUT_LINE('Total transactions: ' || l_total_records);
 
     EXCEPTION
         WHEN OTHERS THEN
@@ -122,22 +110,33 @@ CREATE OR REPLACE PACKAGE BODY APP_ASIG_NUM_TEL.PCK_TELEPHONE_NUMBER IS
     Date 16-10-2023
     *******************************************************************************/
     PROCEDURE Proc_ReleaseTelephoneNumber (Ip_phone_number IN NUMBER) IS
-        l_release_date TELEPHONE_NUMBER.RELEASE_DATE%TYPE;
+        l_vr_telephone_number TELEPHONE_NUMBER%ROWTYPE;
+        l_number_audit_record_id TELEPHONE_NUMBER_AUDIT.NUMBER_RECORD_ID%TYPE;
         e_already_released EXCEPTION;
     BEGIN
-        SELECT RELEASE_DATE
-        INTO l_release_date
+        SELECT NUMBER_RECORD_ID, CENTER_ID, CUSTOMER_ID, PHONE_NUMBER, ASSIGNMENT_DATE
+        INTO l_vr_telephone_number
         FROM TELEPHONE_NUMBER
         WHERE PHONE_NUMBER = Ip_phone_number
         FOR UPDATE;
 
-        IF l_release_date IS NULL THEN
-            UPDATE TELEPHONE_NUMBER
-            SET RELEASE_DATE = SYSDATE
-            WHERE PHONE_NUMBER = Ip_phone_number;
-        ELSE
+        SELECT NUMBER_RECORD_ID
+        INTO l_number_audit_record_id
+        FROM TELEPHONE_NUMBER_AUDIT
+        WHERE PHONE_NUMBER = Ip_phone_number
+        AND IS_ACTIVE = 1;
+
+        IF l_number_audit_record_id IS NOT NULL THEN
             RAISE e_already_released;
         END IF;
+
+        -- Insert record into audit table
+        INSERT INTO TELEPHONE_NUMBER_AUDIT (NUMBER_RECORD_ID, CENTER_ID, CUSTOMER_ID, PHONE_NUMBER, ASSIGNMENT_DATE)
+        VALUES (SEQ_TELEPHONE_NUMBER_AUDIT.NEXTVAL, l_vr_telephone_number.CENTER_ID, l_vr_telephone_number.CUSTOMER_ID, l_vr_telephone_number.PHONE_NUMBER, l_vr_telephone_number.ASSIGNMENT_DATE);
+
+        -- Delete record in assignment table
+        DELETE FROM TELEPHONE_NUMBER
+        WHERE PHONE_NUMBER = Ip_phone_number;
         
         COMMIT;
     EXCEPTION

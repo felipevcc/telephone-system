@@ -66,10 +66,10 @@ ALTER SESSION SET CURRENT_SCHEMA=APP_ASIG_NUM_TEL;
 @.\references\FK_CUSTOMER_AREA.sql
 @.\references\FK_CUSTOMER_CUSTOMER_TYPE.sql
 @.\references\FK_CUSTOMER_DOCUMENT_TYPE.sql
-@.\references\FK_TELEPHONE_NUMBER_AUDIT_CENTER.sql
-@.\references\FK_TELEPHONE_NUMBER_AUDIT_CUSTOMER.sql
-@.\references\FK_TELEPHONE_NUMBER_CENTER.sql
-@.\references\FK_TELEPHONE_NUMBER_CUSTOMER.sql
+@.\references\FK_TELEPHONE_AUDIT_CENTER.sql
+@.\references\FK_TELEPHONE_AUDIT_CUSTOMER.sql
+@.\references\FK_TELEPHONE_CENTER.sql
+@.\references\FK_TELEPHONE_CUSTOMER.sql
 
 -- Constraint creation
 @.\references\UK_AREA_CODE.sql
@@ -77,6 +77,7 @@ ALTER SESSION SET CURRENT_SCHEMA=APP_ASIG_NUM_TEL;
 @.\references\UK_CUSTOMER_DOCUMENT.sql
 @.\references\UK_TELEPHONE_CUSTOMER.sql
 @.\references\UK_TELEPHONE_NUMBER.sql
+@.\references\CK_TELEPHONE_AUDIT_ACTIVE.sql
 
 -- Type creation
 @.\types\TYP_CENTER_CREATION.sql

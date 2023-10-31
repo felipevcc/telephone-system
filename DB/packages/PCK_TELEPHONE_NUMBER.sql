@@ -13,11 +13,7 @@ CREATE OR REPLACE PACKAGE APP_ASIG_NUM_TEL.PCK_TELEPHONE_NUMBER IS
     Date 16-10-2023
     *******************************************************************************/
     PROCEDURE Proc_ProcessTransaction (
-        Ip_center_id IN NUMBER,
-        Ip_customer_id IN NUMBER,
-        Ip_phone_number IN NUMBER,
-        Ip_assignment_date IN DATE,
-        Ip_release_date IN DATE,
+        Ip_number_record_id IN NUMBER,
         Op_error_occurred OUT BOOLEAN
     );
 

@@ -32,4 +32,7 @@ public interface TelephoneNumberRepository extends CrudRepository<TelephoneNumbe
             "FROM TELEPHONE_NUMBER_AUDIT WHERE PHONE_NUMBER = :phoneNumber " +
             "ORDER BY ASSIGNMENT_DATE ASC")
     List<TelephoneNumber> findTelephoneNumberHistory(Integer phoneNumber);
+
+    @Query("SELECT COUNT(*) FROM TELEPHONE_NUMBER WHERE CENTER_ID = :centerId")
+    Integer countNumbersAssignedByCenter(Long centerId);
 }
