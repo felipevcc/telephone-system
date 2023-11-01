@@ -31,4 +31,11 @@ public interface TelephoneNumberAuditRepository extends CrudRepository<Telephone
             "FROM TELEPHONE_NUMBER_AUDIT WHERE PHONE_NUMBER = :phoneNumber " +
             "ORDER BY ASSIGNMENT_DATE ASC")
     List<TelephoneNumberAudit> findTelephoneNumberHistory(Integer phoneNumber);
+
+    @Query("SELECT COUNT(*) FROM TELEPHONE_NUMBER_AUDIT WHERE CENTER_ID = :centerId AND IS_ACTIVE = 1")
+    Integer countActiveNumbersByCenter(Long centerId);
+
+    @Query("SELECT COUNT(*) FROM TELEPHONE_NUMBER_AUDIT " +
+            "WHERE PHONE_NUMBER >= :initialRangeNumber AND PHONE_NUMBER <= :finalRangeNumber AND IS_ACTIVE = 1")
+    Integer countActiveNumbersByRange(Integer initialRangeNumber, Integer finalRangeNumber);
 }
