@@ -14,7 +14,7 @@ public class TelephoneNumberMapper {
     @Autowired
     ModelMapper modelMapper;
 
-    public TelephoneNumberDTO telNumberToDTO(TelephoneNumber telephoneNumber) {
+    /*public TelephoneNumberDTO telNumberToDTO(TelephoneNumber telephoneNumber) {
         modelMapper.addMappings(new PropertyMap<TelephoneNumber, TelephoneNumberDTO>() {
             @Override
             protected void configure() {
@@ -22,9 +22,9 @@ public class TelephoneNumberMapper {
             }
         });
         return modelMapper.map(telephoneNumber, TelephoneNumberDTO.class);
-    }
+    }*/
 
-    /*public TelephoneNumberDTO telNumberToDTO(TelephoneNumber telephoneNumber) {
+    public TelephoneNumberDTO telNumberToDTO(TelephoneNumber telephoneNumber) {
         TelephoneNumberDTO mapTelNumber = new TelephoneNumberDTO();
         mapTelNumber.setNumberRecordId(telephoneNumber.getNumberRecordId());
         mapTelNumber.setCenterId(telephoneNumber.getCenterId());
@@ -33,7 +33,7 @@ public class TelephoneNumberMapper {
         mapTelNumber.setAssignmentDate(telephoneNumber.getAssignmentDate());
         mapTelNumber.setReleaseDate(null);
         return mapTelNumber;
-    }*/
+    }
 
     public TelephoneNumberDTO telNumberAuditToDTO(TelephoneNumberAudit telephoneNumberAudit) {
         return modelMapper.map(telephoneNumberAudit, TelephoneNumberDTO.class);

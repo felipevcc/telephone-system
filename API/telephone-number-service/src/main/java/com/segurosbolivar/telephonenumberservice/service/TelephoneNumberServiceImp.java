@@ -123,21 +123,24 @@ public class TelephoneNumberServiceImp implements TelephoneNumberService {
 
     public TelephoneNumberDTO assignBusinessNumber(Integer centerFreeSize, CenterDTO center, CustomerDTO customer) {
         int rangeSizeToSearch = 100;
-        int totalNumberPages = (int) Math.ceil((double) centerFreeSize / rangeSizeToSearch);
-        int pageCounter = 1;
+        int numberCounter = 1;
         Integer initialNumber = center.getInitialNumber();
         Integer finalNumber = center.getFinalNumber();
         TelephoneNumberDTO assignedTelephoneNumber = null;
 
-        for (int startOfRange = initialNumber; startOfRange <= finalNumber; startOfRange += rangeSizeToSearch) {
+        for (int startOfRange = initialNumber; startOfRange <= finalNumber && numberCounter <= centerFreeSize; startOfRange += rangeSizeToSearch) {
             int endOfRange = Math.min(startOfRange + rangeSizeToSearch - 1, finalNumber);
             if (endOfRange == finalNumber) {
                 rangeSizeToSearch = endOfRange - startOfRange + 1;
             }
             List<Integer> numbers = telNumberRepository.findAvailableNumbersByRange(startOfRange, rangeSizeToSearch);
             for (Integer number : numbers) {
+                // Validate iteration counter with number of available numbers
+                if (numberCounter > centerFreeSize) {
+                    break;
+                }
                 // Commercial number validation
-                if (NumberHelper.isCommercial(String.valueOf(number))) {
+                if (NumberHelper.isCommercial(number)) {
                     TelephoneNumberAssignmentDTO assignment = new TelephoneNumberAssignmentDTO();
                     assignment.setCenterId(center.getCenterId());
                     assignment.setCustomerId(customer.getCustomerId());
@@ -147,13 +150,11 @@ public class TelephoneNumberServiceImp implements TelephoneNumberService {
                     assignedTelephoneNumber = telNumberMapper.telNumberToDTO(newAssignedNumber);
                     break;
                 }
+                numberCounter++;
             }
             if (assignedTelephoneNumber != null) {
                 break;
-            } else if (pageCounter == totalNumberPages) {
-                break;
             }
-            pageCounter++;
         }
         return assignedTelephoneNumber;
     }

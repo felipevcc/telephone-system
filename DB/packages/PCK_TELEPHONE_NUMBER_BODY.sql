@@ -111,7 +111,7 @@ CREATE OR REPLACE PACKAGE BODY APP_ASIG_NUM_TEL.PCK_TELEPHONE_NUMBER IS
     *******************************************************************************/
     PROCEDURE Proc_ReleaseTelephoneNumber (Ip_phone_number IN NUMBER) IS
         l_vr_telephone_number TELEPHONE_NUMBER%ROWTYPE;
-        l_number_audit_record_id TELEPHONE_NUMBER_AUDIT.NUMBER_RECORD_ID%TYPE;
+        l_found_number_audit NUMBER;
         e_already_released EXCEPTION;
     BEGIN
         SELECT NUMBER_RECORD_ID, CENTER_ID, CUSTOMER_ID, PHONE_NUMBER, ASSIGNMENT_DATE
@@ -120,13 +120,13 @@ CREATE OR REPLACE PACKAGE BODY APP_ASIG_NUM_TEL.PCK_TELEPHONE_NUMBER IS
         WHERE PHONE_NUMBER = Ip_phone_number
         FOR UPDATE;
 
-        SELECT NUMBER_RECORD_ID
-        INTO l_number_audit_record_id
+        SELECT COUNT(*) AS FOUND_NUMBER_AUDIT
+        INTO l_found_number_audit
         FROM TELEPHONE_NUMBER_AUDIT
         WHERE PHONE_NUMBER = Ip_phone_number
         AND IS_ACTIVE = 1;
 
-        IF l_number_audit_record_id IS NOT NULL THEN
+        IF l_found_number_audit > 0 THEN
             RAISE e_already_released;
         END IF;
 

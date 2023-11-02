@@ -33,7 +33,7 @@ public class TelephoneNumberCallRepository {
         Long newNumberRecordId = null;
         try {
             Connection connection = Objects.requireNonNull(jdbcTemplate.getDataSource()).getConnection();
-            CallableStatement callableStatement = connection.prepareCall("{call PCK_TELEPHONE_NUMBER.Proc_AssignTelephoneNumber(?, ?, ?)}");
+            CallableStatement callableStatement = connection.prepareCall("{call PCK_TELEPHONE_NUMBER.Proc_AssignTelephoneNumber(?, ?, ?, ?)}");
             callableStatement.setLong(1, telephoneNumberData.getCenterId());
             callableStatement.setLong(2, telephoneNumberData.getCustomerId());
             callableStatement.setInt(3, telephoneNumberData.getPhoneNumber());
