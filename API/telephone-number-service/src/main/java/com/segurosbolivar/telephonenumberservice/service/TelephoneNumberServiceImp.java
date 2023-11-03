@@ -79,13 +79,10 @@ public class TelephoneNumberServiceImp implements TelephoneNumberService {
             throw new NoCentersAvailableException("There are no centers with attention in the customer's area");
         }
         Collections.shuffle(foundCenters);
-        System.out.println(foundCenters);
 
         List<CenterDTO> centers = new ArrayList<>(foundCenters);
 
         TelephoneNumberDTO assignedTelephoneNumber = null;
-
-        System.out.println(centers);
 
         for (CenterDTO center : centers) {
             Integer centerRangeSize = center.getFinalNumber() - center.getInitialNumber() + 1;
@@ -107,9 +104,6 @@ public class TelephoneNumberServiceImp implements TelephoneNumberService {
             if (assignedTelephoneNumber != null) {
                 break;
             }
-            System.out.println(centerRangeSize);
-            System.out.println(occupiedSize);
-            System.out.println(centerFreeSize);
         }
         if (assignedTelephoneNumber == null && centers.isEmpty()) {
             throw new NoCentersAvailableException("There are no centers with availability in the customer's area");

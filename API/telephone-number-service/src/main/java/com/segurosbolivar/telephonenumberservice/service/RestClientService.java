@@ -34,7 +34,6 @@ public class RestClientService {
                 new ParameterizedTypeReference<List<CenterDTO>>() {},
                 areaId
         );
-        System.out.println(responseEntity.getBody());
         return responseEntity.getBody();
     }
 

@@ -72,17 +72,18 @@ public class NumberHelper {
         String name = normalized.replaceAll("[^\\p{ASCII}]", "").replaceAll("\\s", "");
         String splitName = name.substring(0, 4).toLowerCase();
         for (char letter : splitName.toCharArray()) {
-            char mappedChar = switch (letter) {
-                case 'a', 'b', 'c' -> '2';
-                case 'd', 'e', 'f' -> '3';
-                case 'g', 'h', 'i' -> '4';
-                case 'j', 'k', 'l' -> '5';
-                case 'm', 'n', 'o' -> '6';
-                case 'p', 'q', 'r', 's' -> '7';
-                case 't', 'u', 'v' -> '8';
-                case 'w', 'x', 'y', 'z' -> '9';
-                default -> letter;
-            };
+            char mappedChar;
+            switch (letter) {
+                case 'a': case 'b': case 'c': mappedChar = '2'; break;
+                case 'd': case 'e': case 'f': mappedChar = '3'; break;
+                case 'g': case 'h': case 'i': mappedChar = '4'; break;
+                case 'j': case 'k': case 'l': mappedChar = '5'; break;
+                case 'm': case 'n': case 'o': mappedChar = '6'; break;
+                case 'p': case 'q': case 'r': case 's': mappedChar = '7'; break;
+                case 't': case 'u': case 'v': mappedChar = '8'; break;
+                case 'w': case 'x': case 'y': case 'z': mappedChar = '9'; break;
+                default: mappedChar = letter;
+            }
             result.append(mappedChar);
         }
         return result.toString();
