@@ -1,9 +1,6 @@
 package com.segurosbolivar.telephonenumberservice.service;
 
-import com.segurosbolivar.telephonenumberservice.dto.CenterDTO;
-import com.segurosbolivar.telephonenumberservice.dto.CustomerDTO;
-import com.segurosbolivar.telephonenumberservice.dto.TelephoneNumberAssignmentDTO;
-import com.segurosbolivar.telephonenumberservice.dto.TelephoneNumberDTO;
+import com.segurosbolivar.telephonenumberservice.dto.*;
 import com.segurosbolivar.telephonenumberservice.exceptions.AlreadyHasAssignedNumberException;
 import com.segurosbolivar.telephonenumberservice.exceptions.NoCentersAvailableException;
 import com.segurosbolivar.telephonenumberservice.exceptions.NoClientExistsException;
@@ -88,8 +85,9 @@ public class TelephoneNumberServiceImp implements TelephoneNumberService {
 
         TelephoneNumberDTO assignedTelephoneNumber = null;
 
+        System.out.println(centers);
+
         for (CenterDTO center : centers) {
-            System.out.println(centers);
             Integer centerRangeSize = center.getFinalNumber() - center.getInitialNumber() + 1;
 
             // Validate if there is availability in the center
@@ -100,10 +98,12 @@ public class TelephoneNumberServiceImp implements TelephoneNumberService {
                 centers.remove(center);
                 continue;
             }
-
-            if (customer.getCustomerTypeId() == 2) {
+            if (customer.getCustomerTypeId() == 1) {
+                assignedTelephoneNumber = assignResidentialNumber(centerFreeSize, center, customer);
+            } else if (customer.getCustomerTypeId() == 2) {
                 assignedTelephoneNumber = assignBusinessNumber(centerFreeSize, center, customer);
             }
+
             if (assignedTelephoneNumber != null) {
                 break;
             }
@@ -114,11 +114,51 @@ public class TelephoneNumberServiceImp implements TelephoneNumberService {
         if (assignedTelephoneNumber == null && centers.isEmpty()) {
             throw new NoCentersAvailableException("There are no centers with availability in the customer's area");
         } else if (assignedTelephoneNumber == null) {
-            System.out.println("elseif de solo null");
             throw new RuntimeException();
         }
 
         return assignedTelephoneNumber;
+    }
+
+    public TelephoneNumberDTO assignResidentialNumber(Integer centerFreeSize, CenterDTO center, CustomerDTO customer) {
+        int rangeSizeToSearch = 100;
+        int numberCounter = 1;
+        TelephoneNumberDTO assignedTelephoneNumber = null;
+        String fullName = customer.getName() + customer.getLastName();
+        String nameNumber = NumberHelper.mapNameToNumbers(fullName);
+
+        List<RangeDTO> rangesByName = NumberHelper.rangesByNameNumber(nameNumber, center);
+
+        for (RangeDTO range : rangesByName) {
+
+            for (int startOfPage = range.getInitialNumber(); startOfPage <= range.getFinalNumber() && numberCounter <= centerFreeSize; startOfPage += rangeSizeToSearch) {
+                int endOfPage = Math.min(startOfPage + rangeSizeToSearch - 1, range.getFinalNumber());
+                if (endOfPage == range.getFinalNumber()) {
+                    rangeSizeToSearch = endOfPage - startOfPage + 1;
+                }
+                List<Integer> numbers = telNumberRepository.findAvailableNumbersByRange(startOfPage, rangeSizeToSearch);
+                for (Integer number : numbers) {
+                    // Validate iteration counter with number of available numbers
+                    if (numberCounter > centerFreeSize) {
+                        break;
+                    }
+
+                    TelephoneNumberAssignmentDTO assignment = new TelephoneNumberAssignmentDTO();
+                    assignment.setCenterId(center.getCenterId());
+                    assignment.setCustomerId(customer.getCustomerId());
+                    assignment.setPhoneNumber(number);
+                    Long numberRecordId = telNumberCallRepository.assignTelephoneNumber(assignment);
+                    if (numberRecordId == null) {
+                        numberCounter++;
+                        continue;
+                    }
+                    TelephoneNumber newAssignedNumber = telNumberRepository.findTelephoneNumberById(numberRecordId);
+                    assignedTelephoneNumber = telNumberMapper.telNumberToDTO(newAssignedNumber);
+                    return assignedTelephoneNumber;
+                }
+            }
+        }
+        return null;
     }
 
     public TelephoneNumberDTO assignBusinessNumber(Integer centerFreeSize, CenterDTO center, CustomerDTO customer) {
@@ -146,6 +186,10 @@ public class TelephoneNumberServiceImp implements TelephoneNumberService {
                     assignment.setCustomerId(customer.getCustomerId());
                     assignment.setPhoneNumber(number);
                     Long numberRecordId = telNumberCallRepository.assignTelephoneNumber(assignment);
+                    if (numberRecordId == null) {
+                        numberCounter++;
+                        continue;
+                    }
                     TelephoneNumber newAssignedNumber = telNumberRepository.findTelephoneNumberById(numberRecordId);
                     assignedTelephoneNumber = telNumberMapper.telNumberToDTO(newAssignedNumber);
                     break;

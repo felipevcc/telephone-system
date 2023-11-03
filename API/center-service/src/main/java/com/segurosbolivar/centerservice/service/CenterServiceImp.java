@@ -66,7 +66,11 @@ public class CenterServiceImp implements CenterService {
     public Center createCenter(CenterCreationDTO newCenterData) {
         Long newCenterId = null;
         try {
-            if (newCenterData.getGeographicAreasIds().isEmpty()) {
+            int lengthInitialNumber = String.valueOf(newCenterData.getInitialNumber()).length();
+            int lengthFinalNumber = String.valueOf(newCenterData.getFinalNumber()).length();
+            if (newCenterData.getGeographicAreasIds().isEmpty()
+                || lengthInitialNumber < 7 || lengthFinalNumber > 8
+                || newCenterData.getFinalNumber() - newCenterData.getInitialNumber() + 1 < 10000000) {
                 return null;
             }
 
