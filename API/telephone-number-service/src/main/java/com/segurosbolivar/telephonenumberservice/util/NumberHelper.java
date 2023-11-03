@@ -69,7 +69,7 @@ public class NumberHelper {
         StringBuilder result = new StringBuilder();
 
         String normalized = Normalizer.normalize(fullName, Normalizer.Form.NFD);
-        String name = normalized.replaceAll("[^\\p{ASCII}]", "");
+        String name = normalized.replaceAll("[^\\p{ASCII}]", "").replaceAll("\\s", "");
         String splitName = name.substring(0, 4).toLowerCase();
         for (char letter : splitName.toCharArray()) {
             char mappedChar = switch (letter) {
