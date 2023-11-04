@@ -3,21 +3,21 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "tc-gb-09": {
+    "calitel-front": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
         }
       },
-      "root": "",
+      "root": "calitel-front",
       "sourceRoot": "src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/tc-gb-09",
+            "outputPath": "dist/calitel-front",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -30,10 +30,10 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss",
-              "node_modules/primeicons/primeicons.css",
               "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
-              "node_modules/primeng/resources/primeng.min.css"
+              "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/primeicons/primeicons.css",
+              "src/styles.scss"
             ],
             "scripts": []
           },
@@ -68,10 +68,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "tc-gb-09:build:production"
+              "browserTarget": "calitel-front:build:production"
             },
             "development": {
-              "browserTarget": "tc-gb-09:build:development"
+              "browserTarget": "calitel-front:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -79,7 +79,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "tc-gb-09:build"
+            "browserTarget": "calitel-front:build"
           }
         },
         "test": {
