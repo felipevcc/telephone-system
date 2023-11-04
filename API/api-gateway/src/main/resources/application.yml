@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: GEOGRAPHIC-AREA-SERVICE
+          uri: lb://GEOGRAPHIC-AREA-SERVICE
+          predicates:
+            - Path=/api/v1/area/**
+        - id: CENTER-SERVICE
+          uri: lb://CENTER-SERVICE
+          predicates:
+            - Path=/api/v1/center/**
+        - id: CUSTOMER-SERVICE
+          uri: lb://CUSTOMER-SERVICE
+          predicates:
+            - Path=/api/v1/customer/**
+        - id: TELEPHONE-NUMBER-SERVICE
+          uri: lb://TELEPHONE-NUMBER-SERVICE
+          predicates:
+            - Path=/api/v1/telephoneNumber/**
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
