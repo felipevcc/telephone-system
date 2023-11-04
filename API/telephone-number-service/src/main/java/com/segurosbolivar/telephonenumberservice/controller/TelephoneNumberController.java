@@ -48,19 +48,19 @@ public class TelephoneNumberController {
         return ResponseEntity.status(HttpStatus.OK).body(telephoneNumber);
     }
 
-    @PostMapping("/numberTracking")
+    @PostMapping("/trackingProcess")
     public ResponseEntity<String> numberTrackingProcess() {
         telephoneNumberService.runNumberTrackingProcess();
         return ResponseEntity.status(HttpStatus.OK).body("Executed process");
     }
 
-    @PostMapping("/{customerId}")
+    @PostMapping("/assign/{customerId}")
     public ResponseEntity<TelephoneNumberDTO> assignTelephoneNumber(@PathVariable Long customerId) {
         TelephoneNumberDTO assignedTelephoneNumber = telephoneNumberService.assignTelephoneNumber(customerId);
         return ResponseEntity.status(HttpStatus.OK).body(assignedTelephoneNumber);
     }
 
-    @PutMapping("/{phoneNumber}")
+    @PutMapping("/release/{phoneNumber}")
     public ResponseEntity<TelephoneNumberDTO> releaseTelephoneNumber(@PathVariable Integer phoneNumber) {
         try {
             TelephoneNumberDTO releasedTelephoneNumber = telephoneNumberService.releaseTelephoneNumber(phoneNumber);
