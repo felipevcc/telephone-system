@@ -1,5 +1,3 @@
-/* You can add global styles to this file, and also import other style files */
-
 @font-face {
     font-family: 'RobotoCondensed-Regular';
     src: url(assets/fonts/Roboto_Condensed/static/RobotoCondensed-Regular.ttf);
@@ -8,4 +6,28 @@
 @font-face {
     font-family: 'RobotoCondensed-Bold';
     src: url(assets/fonts/Roboto_Condensed/static/RobotoCondensed-Bold.ttf);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+
+    --font-regular: 'RobotoCondensed-Regular', sans-serif;
+    --font-bold: 'RobotoCondensed-Bold', sans-serif;
+    
+    font-family: var(--font-regular);
+
+    --color-primary300: #FFD333;
+    --color-primary200: #FFDC5D;
+    --color-primary100: #FFF9E2;
+
+    --color-secondary200: #016D38;
+    --color-secondary100: #338E43;
+
+    --color-grayscale600: #333333;
+    --color-grayscale500: #686868;
+    --color-grayscale400: #999999;
+    --color-grayscale300: #CCCCCC;
+    --color-grayscale200: #EEEEEE;
+    --color-grayscale100: #FFFFFF;
 }
