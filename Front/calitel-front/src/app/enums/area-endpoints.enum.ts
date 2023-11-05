@@ -1,4 +1,4 @@
 export enum AreaEndpoints {
-    AreaDomain = "/area",
-    AreasByCenterPaginator = "/area/paged",
+  AreaDomain = "/area",
+  AreasByCenterPaginator = "/area/paged",
 }

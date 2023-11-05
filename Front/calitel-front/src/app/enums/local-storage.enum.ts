@@ -1,4 +1,4 @@
 export enum LocalStorageEnum {
-    AuthStateKey = "logged",
-    SucessAuthStateValue = "ok",
+  AuthStateKey = "logged",
+  SucessAuthStateValue = "ok",
 }

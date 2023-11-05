@@ -1,4 +1,4 @@
 export enum CenterEndpoints {
-    CenterDomain = "/center",
-    CentersByAreaPaginator = "/center/paged",
+  CenterDomain = "/center",
+  CentersByAreaPaginator = "/center/paged",
 }

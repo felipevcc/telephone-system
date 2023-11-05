@@ -1,5 +1,5 @@
 export interface TimeSetting {
-    timeId: number;
-    timeValue: number;
-    createdAt: string;
+  timeId: number;
+  timeValue: number;
+  createdAt: string;
 }
