@@ -10,7 +10,7 @@ import { InputTextModule } from 'primeng/inputtext';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BarComponent } from './components/bar/bar.component';
+import { TopBarComponent } from './components/top-bar/top-bar.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { LoginComponent } from './containers/login/login.component';
 import { NotFoundComponent } from './containers/not-found/not-found.component';
@@ -34,7 +34,7 @@ import { TimeSettingComponent } from './containers/time-setting/time-setting.com
 @NgModule({
   declarations: [
     AppComponent,
-    BarComponent,
+    TopBarComponent,
     NavbarComponent,
     LoginComponent,
     NotFoundComponent,
