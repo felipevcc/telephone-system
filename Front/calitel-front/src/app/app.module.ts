@@ -15,6 +15,20 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { LoginComponent } from './containers/login/login.component';
 import { NotFoundComponent } from './containers/not-found/not-found.component';
 import { WelcomeBarComponent } from './components/welcome-bar/welcome-bar.component';
+import { CentersComponent } from './containers/centers/centers.component';
+import { CentersByAreaComponent } from './containers/centers-by-area/centers-by-area.component';
+import { RegisterCenterComponent } from './containers/register-center/register-center.component';
+import { CenterDetailsComponent } from './containers/center-details/center-details.component';
+import { UpdateCenterComponent } from './containers/update-center/update-center.component';
+import { CustomersComponent } from './containers/customers/customers.component';
+import { RegisterCustomerComponent } from './containers/register-customer/register-customer.component';
+import { UploadCustomersComponent } from './containers/upload-customers/upload-customers.component';
+import { CustomerDetailsComponent } from './containers/customer-details/customer-details.component';
+import { UpdateCustomerComponent } from './containers/update-customer/update-customer.component';
+import { TelephonesComponent } from './containers/telephones/telephones.component';
+import { TelephoneDetailsComponent } from './containers/telephone-details/telephone-details.component';
+import { TelephoneTrackingProcessComponent } from './containers/telephone-tracking-process/telephone-tracking-process.component';
+import { TimeSettingComponent } from './containers/time-setting/time-setting.component';
 
 
 @NgModule({
@@ -24,7 +38,21 @@ import { WelcomeBarComponent } from './components/welcome-bar/welcome-bar.compon
     NavbarComponent,
     LoginComponent,
     NotFoundComponent,
-    WelcomeBarComponent
+    WelcomeBarComponent,
+    CentersComponent,
+    CentersByAreaComponent,
+    RegisterCenterComponent,
+    CenterDetailsComponent,
+    UpdateCenterComponent,
+    CustomersComponent,
+    RegisterCustomerComponent,
+    UploadCustomersComponent,
+    CustomerDetailsComponent,
+    UpdateCustomerComponent,
+    TelephonesComponent,
+    TelephoneDetailsComponent,
+    TelephoneTrackingProcessComponent,
+    TimeSettingComponent
   ],
   imports: [
     BrowserModule,

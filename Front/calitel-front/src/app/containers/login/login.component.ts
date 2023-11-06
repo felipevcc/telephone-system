@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Message, MessageService } from 'primeng/api';
 import { LocalStorageEnum } from 'src/app/enums/local-storage.enum';
 import { Messages } from 'src/app/enums/messages.enum';
+import { Paths } from 'src/app/enums/paths.enum';
 
 @Component({
   selector: 'app-login',
@@ -11,9 +13,8 @@ import { Messages } from 'src/app/enums/messages.enum';
 })
 export class LoginComponent implements OnInit {
   form!: FormGroup;
-  value: string | undefined;
 
-  constructor(private fb: FormBuilder, private messageService: MessageService) { }
+  constructor(private router: Router, private fb: FormBuilder, private messageService: MessageService) { }
 
   ngOnInit(): void {
     localStorage.clear();
@@ -29,7 +30,7 @@ export class LoginComponent implements OnInit {
     const formData = this.form.value;
     if (formData.username === "admin" && formData.password === "1234") {
       localStorage.setItem(LocalStorageEnum.AuthStateKey, LocalStorageEnum.SucessAuthStateValue);
-      alert("Login success");
+      this.router.navigate([Paths.Centers]);
     } else {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: Messages.INCORRECT_CREDETIALS });
     }

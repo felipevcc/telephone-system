@@ -1,4 +1,18 @@
 export enum Paths {
   Login = "",
   Undefined = "**",
+  Centers = "centers",
+  CentersByArea = "centers/area/:areaId",
+  RegisterCenter = "centers/register",
+  CenterDetails = "centers/:centerId",
+  UpdateCenter = "centers/:centerId/update",
+  Customers = "customers",
+  RegisterCustomer = "customers/register",
+  UploadCustomers = "customers/upload",
+  CustomerDetails = "customers/:customerId",
+  UpdateCustomer = "customers/:customerId/update",
+  TelephoneNumbers = "telephone-numbers",
+  TelephoneNumberDetails = "telephone-numbers/:telephoneNumber",
+  TelephoneNumberTrackingProcess = "telephone-numbers/tracking-process",
+  TimeSetting = "time-setting",
 }
