@@ -7,6 +7,7 @@ import { BarComponent } from './components/bar/bar.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { LoginComponent } from './containers/login/login.component';
 import { NotFoundComponent } from './containers/not-found/not-found.component';
+import { WelcomeBarComponent } from './components/welcome-bar/welcome-bar.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { NotFoundComponent } from './containers/not-found/not-found.component';
     BarComponent,
     NavbarComponent,
     LoginComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    WelcomeBarComponent
   ],
   imports: [
     BrowserModule,
