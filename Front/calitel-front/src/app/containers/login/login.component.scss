@@ -8,7 +8,7 @@
 
   &__form-container {
     height: 75%;
-    width: 30%;
+    width: 540px;
     margin-left: 7%;
     padding: 4%;
     border-radius: 10px;
@@ -16,6 +16,7 @@
     box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.25);
 
     h2 {
+      font-size: 1.25rem;
       color: var(--color-secondary200);
     }
 
@@ -42,11 +43,15 @@
           margin-bottom: 3%;
           color: var(--color-grayscale700);
         }
+
+        input {
+          font-family: var(--font-regular);
+        }
       }
 
       button {
         margin-top: 6%;
-        width: 26%;
+        width: 30%;
         border: none;
         background-color: var(--color-primary200);
         color: var(--color-secondary200);
