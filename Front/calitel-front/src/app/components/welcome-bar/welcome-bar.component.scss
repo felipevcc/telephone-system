@@ -1,4 +1,4 @@
-.welcomeBar {
+.welcome-bar {
   position: relative;
   width: 100%;
   height: 70px;
@@ -14,7 +14,7 @@
     left: 20%;
     transform: translateX(-80%);
     font-family: var(--font-bold);
-    color: var(--color-grayscale600);
+    color: var(--color-grayscale700);
   }
 
   &__message {

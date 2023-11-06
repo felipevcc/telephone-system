@@ -7,7 +7,7 @@ import { Paths } from '../enums/paths.enum';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class AuthGuard {
 
   constructor(private router: Router) {}
 

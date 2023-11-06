@@ -1,5 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MessageService } from 'primeng/api';
+import { MessagesModule } from 'primeng/messages';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -8,6 +15,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { LoginComponent } from './containers/login/login.component';
 import { NotFoundComponent } from './containers/not-found/not-found.component';
 import { WelcomeBarComponent } from './components/welcome-bar/welcome-bar.component';
+
 
 @NgModule({
   declarations: [
@@ -20,9 +28,14 @@ import { WelcomeBarComponent } from './components/welcome-bar/welcome-bar.compon
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule,
+    MessagesModule,
+    ButtonModule,
+    InputTextModule,
+    BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

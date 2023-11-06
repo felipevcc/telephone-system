@@ -9,4 +9,7 @@ export enum Messages {
 
   EXECUTED_PROCESS = "El proceso se ha ejecutado correctamente",
   ERROR_EXECUTING_PROCESS = "Ha ocurrido un error ejecutando el proceso",
+
+  INCORRECT_CREDETIALS = "Credenciales incorrectas",
+  INVALID_FORM = "Formulario inválido",
 }
