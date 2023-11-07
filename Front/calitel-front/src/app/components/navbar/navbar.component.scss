@@ -1,0 +1,109 @@
+.navbar {
+  position: relative;
+  width: 100%;
+  height: 70px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  background-color: var(--color-grayscale100);
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.27);
+
+  h1 {
+    position: absolute;
+    left: 20%;
+    transform: translateX(-80%);
+    font-family: var(--font-bold);
+    color: var(--color-grayscale700);
+  }
+  
+  p-menubar {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 200px;
+    
+    ::ng-deep {
+      .p-menubar {
+        background-color: var(--color-grayscale100);
+        border: none;
+
+        .p-menuitem-text {
+          //font-weight: normal;
+          color: var(--color-grayscale700);
+        }
+
+        .p-menuitem-link {
+          &:focus {
+            box-shadow: none;
+          }
+          &:focus-visible {
+            box-shadow: inset 0 0 0 0.15rem var(--color-secondary200);
+          }
+        }
+
+        .p-menubar-root-list > .p-menuitem > .p-menuitem-link:not(.p-disabled) {
+          border-radius: 100px;
+          .p-menuitem-text {
+            font-weight: 700;
+            color: var(--color-grayscale700);
+          }
+          &:hover {
+            .p-menuitem-text {
+              color: var(--color-secondary400);
+            }
+            background: none;
+          }
+        }
+
+        .p-menuitem.p-menuitem-active > .p-menuitem-link {
+          background: none;
+          .p-menuitem-text, .p-submenu-icon {
+            color: var(--color-secondary400);
+          }
+          &:hover {
+            background: var(--color-secondary100);
+            .p-menuitem-text {
+              color: var(--color-secondary400);
+            }
+          }
+        }
+
+      }
+    }
+    
+  }
+
+  button {
+    position: absolute;
+    right: 20%;
+    transform: translateX(80%);
+
+    border: none;
+    font-size: 14px;
+    width: 140px;
+    height: 40px;
+    background-color: var(--color-primary200);
+    color: var(--color-secondary400);
+
+    &:hover {
+      background-color: var(--color-primary300);
+      transition: all .2s;
+    }
+
+    &:active {
+      background: var(--color-primary200);
+      box-shadow: inset 0 4px 4px #00000026 !important;
+    }
+
+    &:focus {
+      box-shadow: none;
+    }
+
+    &:focus-visible {
+      box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #ddcc85, 0 1px 2px 0 black;
+    }
+
+  }
+
+}
