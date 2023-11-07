@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
 
 import { MessageService } from 'primeng/api';
 import { MessagesModule } from 'primeng/messages';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { MenubarModule } from 'primeng/menubar';
+import { DropdownModule } from 'primeng/dropdown';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -58,12 +60,15 @@ import { TimeSettingComponent } from './containers/time-setting/time-setting.com
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
     ReactiveFormsModule,
     MessagesModule,
     ButtonModule,
     InputTextModule,
     BrowserAnimationsModule,
-    MenubarModule
+    MenubarModule,
+    DropdownModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

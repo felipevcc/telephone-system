@@ -1,3 +1,32 @@
 <app-top-bar></app-top-bar>
 <app-navbar></app-navbar>
-<p>centers works!</p>
+
+<div class="center-bar">
+  <h2>Consultar centrales</h2>
+  <button pButton type="button" [routerLink]="registerCenterPath" class="p-button-raised p-button-rounded" label="Registrar central"></button>
+</div>
+
+<div class="center-container">
+  <div class="center-container__search-container">
+    <h2>Buscar centrales por zona geográficas</h2>
+    <p>Selecciona una zona geográfica para consultar sus centrales</p>
+
+    <div class="dropdown-input">
+      <label>Zona geográfica</label>
+      <p-dropdown [options]="countries" [(ngModel)]="selectedCountry" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Seleccione la zona">
+        <ng-template pTemplate="selectedItem">
+            <div class="flex align-items-center gap-2" *ngIf="selectedCountry">
+                <div>{{ selectedCountry.name }}</div>
+            </div>
+        </ng-template>
+        <ng-template let-country pTemplate="item">
+            <div class="flex align-items-center gap-2">
+                <div>{{ country.name }}</div>
+            </div>
+        </ng-template>
+      </p-dropdown>
+    </div>
+
+    <button pButton type="button" (click)="onSearch()" class="p-button-raised p-button-rounded" label="Buscar" [disabled]="!selectedCountry"></button>
+  </div>
+</div>

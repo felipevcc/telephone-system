@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Message, MessageService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { LocalStorageEnum } from 'src/app/enums/local-storage.enum';
 import { Messages } from 'src/app/enums/messages.enum';
 import { Paths } from 'src/app/enums/paths.enum';

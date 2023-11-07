@@ -1,5 +1,6 @@
 .navbar {
   position: relative;
+  z-index: 9;
   width: 100%;
   height: 70px;
   align-items: center;
@@ -23,6 +24,7 @@
     transform: translateX(-50%);
     min-width: 200px;
     
+    // Override and modify menu bar styles
     ::ng-deep {
       .p-menubar {
         background-color: var(--color-grayscale100);
