@@ -1,5 +1,5 @@
 <div class="navbar">
   <h1>{{ companyName }}</h1>
   <p-menubar [model]="items"></p-menubar>
-  <button pButton type="submit" class="p-button-raised p-button-rounded" label="Cerrar sesión"></button>
+  <button pButton type="button" (click)="logOut()" class="p-button-raised p-button-rounded" label="Cerrar sesión"></button>
 </div>
