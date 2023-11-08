@@ -4,6 +4,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
+import { StoreModule } from '@ngrx/store';
+
 import { MessageService } from 'primeng/api';
 import { MessagesModule } from 'primeng/messages';
 import { ButtonModule } from 'primeng/button';
@@ -32,6 +34,7 @@ import { TelephonesComponent } from './containers/telephones/telephones.componen
 import { TelephoneDetailsComponent } from './containers/telephone-details/telephone-details.component';
 import { TelephoneTrackingProcessComponent } from './containers/telephone-tracking-process/telephone-tracking-process.component';
 import { TimeSettingComponent } from './containers/time-setting/time-setting.component';
+import { appReducer } from './store/app.reducer';
 
 
 @NgModule({
@@ -61,6 +64,7 @@ import { TimeSettingComponent } from './containers/time-setting/time-setting.com
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    StoreModule.forRoot({ app: appReducer }),
     FormsModule,
     ReactiveFormsModule,
     MessagesModule,
