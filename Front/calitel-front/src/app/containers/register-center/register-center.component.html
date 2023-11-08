@@ -1,3 +1,7 @@
 <app-top-bar></app-top-bar>
 <app-navbar></app-navbar>
-<p>register-center works!</p>
+
+<h2>Tipos de Documento</h2>
+<ul>
+  <li *ngFor="let documentType of documentTypes$ | async">{{ documentType.description }}</li>
+</ul>

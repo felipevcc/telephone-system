@@ -2,9 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { forkJoin } from 'rxjs';
 import { LocalStorageEnum } from 'src/app/enums/local-storage.enum';
 import { Messages } from 'src/app/enums/messages.enum';
 import { Paths } from 'src/app/enums/paths.enum';
+import { RecordsState } from 'src/app/models/state/records.state';
+import { AppStateService } from 'src/app/services/app-state/app-state.service';
+import { CustomerService } from 'src/app/services/customer/customer.service';
+import { GeographicAreaService } from 'src/app/services/geographic-area/geographic-area.service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +19,22 @@ import { Paths } from 'src/app/enums/paths.enum';
 export class LoginComponent implements OnInit {
   form!: FormGroup;
 
-  constructor(private router: Router, private fb: FormBuilder, private messageService: MessageService) { }
+  recordsState: RecordsState = {
+    geographicAreas: [],
+    customerTypes: [],
+    documentTypes: []
+  };
+
+  stateIsEmpy: boolean = true;
+
+  constructor(
+    private router: Router,
+    private fb: FormBuilder,
+    private messageService: MessageService,
+    private appStateService: AppStateService,
+    private geographicAreaService: GeographicAreaService,
+    private customerService: CustomerService
+  ) { }
 
   ngOnInit(): void {
     localStorage.clear();
@@ -22,6 +42,14 @@ export class LoginComponent implements OnInit {
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
+
+    this.appStateService.isStateEmpty().subscribe((value) => {
+      if (value === false) {
+        this.stateIsEmpy = false;
+      }
+    });
+
+
   }
 
   onSubmit(): void {
@@ -30,7 +58,25 @@ export class LoginComponent implements OnInit {
     const formData = this.form.value;
     if (formData.username === "admin" && formData.password === "1234") {
       localStorage.setItem(LocalStorageEnum.AuthStateKey, LocalStorageEnum.SucessAuthStateValue);
-      this.router.navigate([Paths.Centers]);
+
+      if (this.stateIsEmpy === false) {
+        this.router.navigate([Paths.Centers]);
+        return;
+      }
+
+      forkJoin([
+        this.geographicAreaService.getAllAreas(),
+        this.customerService.getAllCustomerTypes(),
+        this.customerService.getAllDocumentTypes()
+      ]).subscribe(([geographicAreas, customerTypes, documentTypes]) => {
+        this.recordsState.geographicAreas = geographicAreas;
+        this.recordsState.customerTypes = customerTypes;
+        this.recordsState.documentTypes = documentTypes;
+
+        this.appStateService.loadRecordsState(this.recordsState);
+
+        this.router.navigate([Paths.Centers]);
+      });
     } else {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: Messages.INCORRECT_CREDETIALS });
     }
