@@ -32,7 +32,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: Paths.CentersByArea,
+    path: `${Paths.CentersByArea}/:areaId`,
     title: "Centrales encontradas - Calitel",
     component: CentersByAreaComponent,
     canActivate: [AuthGuard]
@@ -44,13 +44,13 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: Paths.CenterDetails,
+    path: `${Paths.CenterDetails}/:centerId`,
     title: "Detalles de central - Calitel",
     component: CenterDetailsComponent,
     canActivate: [AuthGuard]
   },
   {
-    path: Paths.UpdateCenter,
+    path: `${Paths.UpdateCenter}/:centerId`,
     title: "Actualizar central - Calitel",
     component: UpdateCenterComponent,
     canActivate: [AuthGuard]
@@ -74,13 +74,13 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: Paths.CustomerDetails,
+    path: `${Paths.CustomerDetails}/:customerId`,
     title: "Detalles de cliente - Calitel",
     component: CustomerDetailsComponent,
     canActivate: [AuthGuard]
   },
   {
-    path: Paths.UpdateCustomer,
+    path: `${Paths.UpdateCustomer}/:customerId`,
     title: "Actualizar cliente - Calitel",
     component: UpdateCustomerComponent,
     canActivate: [AuthGuard]
@@ -92,7 +92,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: Paths.TelephoneNumberDetails,
+    path: `${Paths.TelephoneNumberDetails}/:telephoneNumber`,
     title: "Detalles de número telefónico - Calitel",
     component: TelephoneDetailsComponent,
     canActivate: [AuthGuard]

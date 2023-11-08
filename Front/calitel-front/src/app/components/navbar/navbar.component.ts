@@ -18,26 +18,26 @@ export class NavbarComponent implements OnInit {
     this.items = [
       {
         label: "Centrales",
-        routerLink: Paths.Centers
+        routerLink: `/${Paths.Centers}`
       },
       {
         label: "Clientes",
-        routerLink: Paths.Customers
+        routerLink: `/${Paths.Customers}`
       },
       {
         label: "Números telefónicos",
         items: [
           {
             label: "Consultar número telefónico",
-            routerLink: Paths.TelephoneNumbers
+            routerLink: `/${Paths.TelephoneNumbers}`
           },
           {
             label: "Rastrear números liberados",
-            routerLink: Paths.TelephoneNumberTrackingProcess
+            routerLink: `/${Paths.TelephoneNumberTrackingProcess}`
           },
           {
             label: "Tiempo requerido de liberación",
-            routerLink: Paths.TimeSetting
+            routerLink: `/${Paths.TimeSetting}`
           }
         ]
       }
