@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { Messages } from 'src/app/enums/messages.enum';
 import { Paths } from 'src/app/enums/paths.enum';
 import { CentersPage } from 'src/app/models/center-service/centers-page.interface';
 import { GeographicArea } from 'src/app/models/geographic-area-service/geographic-area.interface';
@@ -13,17 +15,24 @@ import { GeographicAreaService } from 'src/app/services/geographic-area/geograph
 })
 export class CentersByAreaComponent implements OnInit {
 
-  centersPage!: CentersPage;
+  centerPath = `/${Paths.Centers}`;
 
-  areaId!: number;
+  centersPage: CentersPage = {
+    page: 0,
+    pageSize: 5,
+    totalRecords: 0,
+    totalPages: 0,
+    centers: []
+  };
+
+  areaId: number = 0;
+
   selectedArea!: GeographicArea;
-
-  page: number = 0;
-  pageSize: number = 5;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private messageService: MessageService,
     private centerService: CenterService,
     private areaService: GeographicAreaService
   ) { }
@@ -46,13 +55,14 @@ export class CentersByAreaComponent implements OnInit {
         this.selectedArea = data;
       },
       error: (error) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: Messages.ERROR_GET_AREA });
         console.log(error);
       },
     });
   }
 
   getCentersPaged(): void {
-    this.centerService.getCentersByAreaPaginator(this.areaId, this.page, this.pageSize).subscribe({
+    this.centerService.getCentersByAreaPaginator(this.areaId, this.centersPage.page, this.centersPage.pageSize).subscribe({
       next: (data) => {
         this.centersPage = data;
       },
@@ -63,7 +73,7 @@ export class CentersByAreaComponent implements OnInit {
   }
 
   onPageChange(event: any) {
-    this.page = event.page;
+    this.centersPage.page = event.page;
     this.getCentersPaged();
   }
 

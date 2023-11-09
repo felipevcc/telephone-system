@@ -1,39 +1,54 @@
 <app-top-bar></app-top-bar>
 <app-navbar></app-navbar>
-<!-- <div class="card">
-</div> -->
-<p-table
-    [value]="centersPage.centers"
-    [paginator]="false"
-    [rows]="pageSize"
-    [first]="centersPage.page"
-    [tableStyle]="{ 'min-width': '50rem' }"
->
-    <ng-template pTemplate="header">
-        <tr>
-            <th style="width:25%">Id</th>
-            <th style="width:25%">Nombre</th>
-            <th style="width:25%">Dirección</th>
-            <th style="width:25%">Correo</th>
-            <th style="width:25%">Teléfono</th>
-            <th style="width:25%">Rango inicial</th>
-            <th style="width:25%">Rango final</th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-center>
-        <tr>
-            <td>{{ center.centerId }}</td>
-            <td>{{ center.name }}</td>
-            <td>{{ center.address }}</td>
-            <td>{{ center.email }}</td>
-            <td>{{ center.phoneNumber }}</td>
-            <td>{{ center.initialNumber }}</td>
-            <td>{{ center.finalNumber }}</td>
-            <td>
-              <button pButton type="button" (click)="centerDetail(center.centerId)" class="p-button-raised p-button-rounded" label="Detalles"></button>
-            </td>
-        </tr>
-    </ng-template>
-</p-table>
 
-<p-paginator (onPageChange)="onPageChange($event)" [rows]="pageSize" [totalRecords]="centersPage.totalRecords"></p-paginator>
+<div *ngIf="selectedArea; else elseBlock">
+
+  <div class="center-table-bar">
+    <h2 class="center-table-bar__title">Centrales con atención en el barrio <span class="center-table-bar__title__area-name">{{ selectedArea.name }}</span></h2>
+  </div>
+
+  <div class="centers-table">
+    <p-table [value]="centersPage.centers" [paginator]="false" [first]="centersPage.page"
+      [tableStyle]="{ 'min-width': '50rem' }">
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width:12.5%">Id</th>
+          <th style="width:12.5%">Nombre</th>
+          <th style="width:12.5%">Dirección</th>
+          <th style="width:12.5%">Correo</th>
+          <th style="width:12.5%">Teléfono</th>
+          <th style="width:12.5%">Rango inicial</th>
+          <th style="width:12.5%">Rango final</th>
+          <th style="width:12.5%">Consultar</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-center>
+        <tr>
+          <td>{{ center.centerId }}</td>
+          <td>{{ center.name }}</td>
+          <td>{{ center.address }}</td>
+          <td>{{ center.email }}</td>
+          <td>{{ center.phoneNumber }}</td>
+          <td>{{ center.initialNumber }}</td>
+          <td>{{ center.finalNumber }}</td>
+          <td>
+            <button pButton type="button" (click)="centerDetail(center.centerId)" class="p-button-raised p-button-rounded" label="Detalles"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    
+    <p-paginator (onPageChange)="onPageChange($event)" [rows]="centersPage.pageSize" [totalRecords]="centersPage.totalRecords"></p-paginator>
+  </div>
+
+</div>
+
+<ng-template #elseBlock>
+  <div class="center-table-bar"></div>
+  <div class="centerNotFound">
+    <h2>Central no encontrada</h2>
+    <button pButton type="button" [routerLink]="centerPath" class="back-btn p-button-raised p-button-rounded" label="Volver"></button>
+  </div>
+</ng-template>
+
+<p-messages></p-messages>
