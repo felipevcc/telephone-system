@@ -13,20 +13,20 @@
 
     <div class="dropdown-input">
       <label>Zona geográfica</label>
-      <p-dropdown [options]="countries" [(ngModel)]="selectedCountry" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Seleccione la zona">
+      <p-dropdown [options]="geographicAreas" [(ngModel)]="selectedArea" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Seleccione la zona">
         <ng-template pTemplate="selectedItem">
-            <div class="flex align-items-center gap-2" *ngIf="selectedCountry">
-                <div>{{ selectedCountry.name }}</div>
+            <div class="flex align-items-center gap-2" *ngIf="selectedArea">
+                <div>{{ selectedArea.name }}</div>
             </div>
         </ng-template>
-        <ng-template let-country pTemplate="item">
+        <ng-template let-area pTemplate="item">
             <div class="flex align-items-center gap-2">
-                <div>{{ country.name }}</div>
+                <div>{{ area.name }}</div>
             </div>
         </ng-template>
       </p-dropdown>
     </div>
 
-    <button pButton type="button" (click)="onSearch()" class="p-button-raised p-button-rounded" label="Buscar" [disabled]="!selectedCountry"></button>
+    <button pButton type="button" (click)="onSearch()" class="p-button-raised p-button-rounded" label="Buscar" [disabled]="!selectedArea"></button>
   </div>
 </div>

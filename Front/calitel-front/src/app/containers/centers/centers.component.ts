@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable, of } from 'rxjs';
 import { Paths } from 'src/app/enums/paths.enum';
+import { GeographicArea } from 'src/app/models/geographic-area-service/geographic-area.interface';
+import { AppStateService } from 'src/app/services/app-state/app-state.service';
 
 @Component({
   selector: 'app-centers',
@@ -9,28 +12,18 @@ import { Paths } from 'src/app/enums/paths.enum';
 export class CentersComponent implements OnInit {
   registerCenterPath = `/${Paths.RegisterCenter}`;
 
-  countries!: any[];
+  geographicAreas: GeographicArea[] = [];
+  selectedArea: any;
 
-  selectedCountry: any;
-
-  constructor() { }
+  constructor(private appStateService: AppStateService) { }
 
   ngOnInit(): void {
-    this.countries = [
-      { name: 'Australia', code: 'AU' },
-      { name: 'Brazil', code: 'BR' },
-      { name: 'China', code: 'CN' },
-      { name: 'Egypt', code: 'EG' },
-      { name: 'France', code: 'FR' },
-      { name: 'Germany', code: 'DE' },
-      { name: 'India', code: 'IN' },
-      { name: 'Japan', code: 'JP' },
-      { name: 'Spain', code: 'ES' },
-      { name: 'United States', code: 'US' }
-    ];
+    this.appStateService.getGeographicAreas().subscribe(data => {
+      this.geographicAreas = data;
+    });
   }
 
   onSearch(): void {
-    console.log(this.selectedCountry);
+    console.log(this.selectedArea);
   }
 }
