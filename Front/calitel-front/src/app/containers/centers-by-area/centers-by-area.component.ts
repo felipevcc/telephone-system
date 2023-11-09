@@ -19,9 +19,7 @@ export class CentersByAreaComponent implements OnInit {
   selectedArea!: GeographicArea;
 
   page: number = 0;
-  pageSize: number = 1;
-
-  first = 0;
+  pageSize: number = 5;
 
   constructor(
     private router: Router,
@@ -66,36 +64,10 @@ export class CentersByAreaComponent implements OnInit {
 
   onPageChange(event: any) {
     this.page = event.page;
-    //this.pageSize = event.rows;
     this.getCentersPaged();
   }
 
   centerDetail(centerId: number) {
     this.router.navigate([`/${Paths.CenterDetails}/${centerId}`]);
-  }
-
-
-
-
-  next() {
-    this.first = this.first + this.pageSize;
-    this.page = this.page + 1;
-  }
-
-  prev() {
-      this.first = this.first - this.pageSize;
-      this.page = this.page - 1;
-  }
-
-  reset() {
-      this.first = 0;
-  }
-
-  isLastPage(): boolean {
-      return this.centersPage.centers ? this.first === this.centersPage.totalRecords - this.pageSize : true;
-  }
-
-  isFirstPage(): boolean {
-      return this.centersPage.centers ? this.first === 0 : true;
   }
 }

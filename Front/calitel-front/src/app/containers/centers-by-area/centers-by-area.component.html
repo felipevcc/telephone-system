@@ -4,11 +4,9 @@
 </div> -->
 <p-table
     [value]="centersPage.centers"
-    [paginator]="true"
+    [paginator]="false"
     [rows]="pageSize"
     [first]="centersPage.page"
-    [totalRecords]="first"
-    (onPage)="onPageChange($event)"
     [tableStyle]="{ 'min-width': '50rem' }"
 >
     <ng-template pTemplate="header">
@@ -37,3 +35,5 @@
         </tr>
     </ng-template>
 </p-table>
+
+<p-paginator (onPageChange)="onPageChange($event)" [rows]="pageSize" [totalRecords]="centersPage.totalRecords"></p-paginator>
