@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { Paths } from 'src/app/enums/paths.enum';
 import { GeographicArea } from 'src/app/models/geographic-area-service/geographic-area.interface';
@@ -15,7 +16,7 @@ export class CentersComponent implements OnInit {
   geographicAreas: GeographicArea[] = [];
   selectedArea: any;
 
-  constructor(private appStateService: AppStateService) { }
+  constructor(private appStateService: AppStateService, private router: Router) { }
 
   ngOnInit(): void {
     this.appStateService.getGeographicAreas().subscribe(data => {
@@ -25,5 +26,6 @@ export class CentersComponent implements OnInit {
 
   onSearch(): void {
     console.log(this.selectedArea);
+    this.router.navigate([`/${Paths.CentersByArea}/${this.selectedArea.areaId}`]);
   }
 }

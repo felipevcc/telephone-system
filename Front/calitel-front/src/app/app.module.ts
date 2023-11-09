@@ -13,6 +13,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { MenubarModule } from 'primeng/menubar';
 import { DropdownModule } from 'primeng/dropdown';
+import { TableModule } from 'primeng/table';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -74,7 +75,8 @@ import { ROOT_REDUCERS } from './state/app.state';
     InputTextModule,
     BrowserAnimationsModule,
     MenubarModule,
-    DropdownModule
+    DropdownModule,
+    TableModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

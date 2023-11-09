@@ -31,7 +31,7 @@ public interface CenterRepository extends JpaRepository<Center, Long> {
             "ORDER BY center.createdAt DESC")
     List<Center> findCentersByArea(Long areaId, Pageable pageable);
 
-    @Procedure(procedureName = "PCK_CENTER.Proc_CreateCenter")
+    @Procedure(procedureName = "PCK_CENTER.Proc_CreateCenter", outputParameterName = "Op_center_id")
     Long createCenter(@Param("Ip_name") String name,
                       @Param("Ip_address") String address,
                       @Param("Ip_email") String email,
