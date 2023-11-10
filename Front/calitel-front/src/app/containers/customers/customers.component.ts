@@ -21,7 +21,6 @@ export class CustomersComponent implements OnInit {
 
   documentTypes: DocumentType[] = [];
   form!: FormGroup;
-  selectedDocType: any;
 
   customer!: Customer;
 
@@ -48,7 +47,7 @@ export class CustomersComponent implements OnInit {
     this.messageService.clear();
     
     const formData = this.form.value;
-    this.customerService.getCustomerByDocument(formData.documentTypeId, formData.document).subscribe({
+    this.customerService.getCustomerByDocument(formData.documentType.documentTypeId, formData.document).subscribe({
       next: (data) => {
         this.customer = data;
         this.router.navigate([`/${Paths.CustomerDetails}/${this.customer.customerId}`]);

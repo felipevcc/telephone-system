@@ -1,11 +1,13 @@
 <app-top-bar></app-top-bar>
 <app-navbar></app-navbar>
 
-<div class="center-bar">
-  <h2>Clientes</h2>
-  <button pButton type="button" [routerLink]="registerCustomerPath" class="p-button-raised p-button-rounded" label="Registrar cliente"></button>
-  <p-button label="Cargar clientes" styleClass="p-button-link" [routerLink]="uploadCustomersPath"></p-button>
-  <p-button label="Descargar clientes" styleClass="p-button-link" (onClick)="downloadCustomers()"></p-button>
+<div class="customer-bar">
+  <h2>Consultar clientes</h2>
+  <div class="customer-nav">
+    <button pButton type="button" [routerLink]="registerCustomerPath" class="p-button-raised p-button-rounded" label="Registrar cliente"></button>
+    <p-button label="Cargar clientes" styleClass="p-button-link" [routerLink]="uploadCustomersPath"></p-button>
+    <p-button label="Descargar clientes" styleClass="p-button-link" (onClick)="downloadCustomers()"></p-button>
+  </div>
 </div>
 
 <div class="customer-container">
@@ -15,8 +17,8 @@
 
     <form (ngSubmit)="onSearch()" [formGroup]="form">
       <div class="form-input">
-        <label for="documentTypes">Nombre de usuario</label>
-        <p-dropdown [options]="documentTypes" [(ngModel)]="selectedDocType" optionLabel="description" placeholder="Selecciona el tipo de documento" formControlName="documentType"></p-dropdown>
+        <label for="documentType">Nombre de usuario</label>
+        <p-dropdown [options]="documentTypes" optionLabel="description" placeholder="Selecciona el tipo de documento" formControlName="documentType"></p-dropdown>
       </div>
       <div class="form-input">
         <label for="document">Número de documento</label>

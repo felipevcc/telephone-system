@@ -3,15 +3,13 @@
   width: 100%;
   height: 70px;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
   background-color: var(--color-grayscale200);
 
   h2 {
     font-size: 1.35rem;
-    position: absolute;
-    left: 23%;
-    transform: translateX(-76%);
+    margin-left: 13%;
     font-family: var(--font-bold);
     color: var(--color-grayscale700);
   }
