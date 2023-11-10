@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
+import { Message } from 'primeng/api';
 import { Messages } from 'src/app/enums/messages.enum';
 import { Paths } from 'src/app/enums/paths.enum';
 import { CentersPage } from 'src/app/models/center-service/centers-page.interface';
@@ -27,12 +27,15 @@ export class CentersByAreaComponent implements OnInit {
 
   areaId: number = 0;
 
+  isLoading: boolean = true;
+
+  messages: Message[] = [];
+
   selectedArea!: GeographicArea;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private messageService: MessageService,
     private centerService: CenterService,
     private areaService: GeographicAreaService
   ) { }
@@ -43,8 +46,8 @@ export class CentersByAreaComponent implements OnInit {
       if (areaIdStr != null) {
         this.areaId = parseInt(areaIdStr, 10);
 
+        this.isLoading = true;
         this.getAreaById(this.areaId);
-        this.getCentersPaged();
       }
     });
   }
@@ -53,10 +56,12 @@ export class CentersByAreaComponent implements OnInit {
     this.areaService.getAreaById(areaId).subscribe({
       next: (data) => {
         this.selectedArea = data;
+        this.getCentersPaged();
       },
       error: (error) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: Messages.ERROR_GET_AREA });
+        this.isLoading = false;
         console.log(error);
+        this.messages = [{ severity: 'error', summary: 'Error', detail: Messages.ERROR_GET_AREA }];
       },
     });
   }
@@ -65,8 +70,10 @@ export class CentersByAreaComponent implements OnInit {
     this.centerService.getCentersByAreaPaginator(this.areaId, this.centersPage.page, this.centersPage.pageSize).subscribe({
       next: (data) => {
         this.centersPage = data;
+        this.isLoading = false;
       },
       error: (error) => {
+        this.isLoading = false;
         console.log(error);
       },
     });
