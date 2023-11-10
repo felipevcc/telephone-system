@@ -1,3 +1,18 @@
 <app-top-bar></app-top-bar>
 <app-navbar></app-navbar>
-<p>upload-customers works!</p>
+
+<div class="upload-customers-container">
+  <div class="upload-customers-container__upload-file-container">
+    <h2>Carga de nuevos clientes</h2>
+    <p>Carga de archivo para registrar nuevos clientes<br>El archivo debe tener todos los datos del cliente</p>
+
+    <p-fileUpload name="demo[]" [customUpload]="true" (uploadHandler)="upload($event)" (onUpload)="onUpload($event)" [multiple]="false" accept=".csv, text/csv" [maxFileSize]="maxSize">
+      <ng-template pTemplate="content">
+          <ul *ngIf="uploadedFiles.length">
+              <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+          </ul>
+      </ng-template>
+    </p-fileUpload>
+
+  </div>
+</div>

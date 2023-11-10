@@ -1,0 +1,46 @@
+.upload-customers-container {
+  position: relative;
+  height: calc(100vh - 110px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &__upload-file-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 65%;
+    max-height: 500px;
+    min-height: 400px;
+    width: 600px;
+    padding: 4%;
+    border-radius: 10px;
+    background-color: var(--color-grayscale100);
+    box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.25);
+
+    h2 {
+      font-size: 1.25rem;
+      color: var(--color-secondary400);
+    }
+
+    p {
+      margin-top: 6%;
+      text-align: center;
+      line-height: 1.5;
+      color: var(--color-grayscale600);
+    }
+
+    ::ng-deep .p-fileupload {
+      margin-top: 6%;
+      .p-button {
+        background-color: var(--color-secondary300);
+        border: var(--color-secondary400);
+        &:focus {
+          box-shadow: 0 0 0 0.2rem var(--color-secondary200);
+        }
+      }
+    }
+
+  }
+}
