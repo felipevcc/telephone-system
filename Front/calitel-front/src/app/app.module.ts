@@ -38,6 +38,7 @@ import { TelephoneDetailsComponent } from './containers/telephone-details/teleph
 import { TelephoneTrackingProcessComponent } from './containers/telephone-tracking-process/telephone-tracking-process.component';
 import { TimeSettingComponent } from './containers/time-setting/time-setting.component';
 import { ROOT_REDUCERS } from './state/app.state';
+import { localStorageSyncReducer } from './state/reducers/local.reducers';
 
 
 @NgModule({
@@ -67,7 +68,9 @@ import { ROOT_REDUCERS } from './state/app.state';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    StoreModule.forRoot(ROOT_REDUCERS),
+    StoreModule.forRoot(ROOT_REDUCERS, {
+      metaReducers: [localStorageSyncReducer],
+    }),
     StoreDevtoolsModule.instrument({ name: 'TEST' }),
     FormsModule,
     ReactiveFormsModule,

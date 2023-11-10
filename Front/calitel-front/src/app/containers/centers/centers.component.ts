@@ -25,7 +25,6 @@ export class CentersComponent implements OnInit {
   }
 
   onSearch(): void {
-    console.log(this.selectedArea);
     this.router.navigate([`/${Paths.CentersByArea}/${this.selectedArea.areaId}`]);
   }
 }

@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    localStorage.clear();
+    localStorage.removeItem(LocalStorageEnum.AuthStateKey);
     this.form = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
@@ -48,8 +48,6 @@ export class LoginComponent implements OnInit {
         this.stateIsEmpy = false;
       }
     });
-
-
   }
 
   onSubmit(): void {
@@ -78,7 +76,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate([Paths.Centers]);
       });
     } else {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: Messages.INCORRECT_CREDETIALS });
+      this.messageService.add({ severity: 'error', detail: Messages.INCORRECT_CREDETIALS });
     }
   }
 }
