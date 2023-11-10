@@ -34,11 +34,11 @@ export class TelephoneNumberService {
   }
 
   downloadCustomerHistory(customerId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}${TelephoneEndpoints.DownloadCustomerHistory}/${customerId}`, { responseType: 'blob' });
+    return this.http.get(`${this.apiUrl}${TelephoneEndpoints.DownloadCustomerHistory}/${customerId}`, { responseType: 'blob', observe: 'response' });
   }
 
   downloadTelephoneNumberHistory(telephoneNumber: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}${TelephoneEndpoints.DownloadTelephoneHistory}/${telephoneNumber}`, { responseType: 'blob' });
+    return this.http.get(`${this.apiUrl}${TelephoneEndpoints.DownloadTelephoneHistory}/${telephoneNumber}`, { responseType: 'blob', observe: 'response' });
   }
 
   getTimeSetting(): Observable<any> {

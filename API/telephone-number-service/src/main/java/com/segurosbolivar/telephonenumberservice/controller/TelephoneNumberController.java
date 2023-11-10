@@ -80,6 +80,7 @@ public class TelephoneNumberController {
         InputStreamResource file = new InputStreamResource(historyCSVService.loadCustomerHistoryCSV(customerId));
         return ResponseEntity.status(HttpStatus.OK)
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+                .header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.CONTENT_DISPOSITION)
                 .contentType(MediaType.parseMediaType("application/csv"))
                 .body(file);
     }
@@ -90,6 +91,7 @@ public class TelephoneNumberController {
         InputStreamResource file = new InputStreamResource(historyCSVService.loadNumberHistoryCSV(phoneNumber));
         return ResponseEntity.status(HttpStatus.OK)
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+                .header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.CONTENT_DISPOSITION)
                 .contentType(MediaType.parseMediaType("application/csv"))
                 .body(file);
     }

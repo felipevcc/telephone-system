@@ -95,6 +95,7 @@ public class CustomerController {
         InputStreamResource file = new InputStreamResource(customerService.loadCSV());
         return ResponseEntity.status(HttpStatus.OK)
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+                .header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.CONTENT_DISPOSITION)
                 .contentType(MediaType.parseMediaType("application/csv"))
                 .body(file);
     }

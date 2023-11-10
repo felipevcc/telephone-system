@@ -11,13 +11,17 @@
 </div>
 
 <div class="customer-container">
+  <div class="download-messages">
+    <p-messages [(value)]="onDownloadMessages"></p-messages>
+  </div>
+  
   <div class="customer-container__form-container">
     <h2>Buscar cliente por su documento</h2>
     <p>Selecciona el tipo de documento y digita el número para consultar el ciente</p>
 
     <form (ngSubmit)="onSearch()" [formGroup]="form">
       <div class="form-input">
-        <label for="documentType">Nombre de usuario</label>
+        <label>Nombre de usuario</label>
         <p-dropdown [options]="documentTypes" optionLabel="description" placeholder="Selecciona el tipo de documento" formControlName="documentType"></p-dropdown>
       </div>
       <div class="form-input">
@@ -27,7 +31,7 @@
       <button pButton type="submit" class="p-button-raised p-button-rounded" label="Buscar" [disabled]="form.invalid"></button>
     </form>
 
-    <p-messages></p-messages>
+    <p-messages [(value)]="onSearchMessages"></p-messages>
     
   </div>
 </div>
