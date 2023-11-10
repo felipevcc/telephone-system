@@ -6,6 +6,8 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { ROOT_REDUCERS } from './state/app.state';
+import { localStorageSyncReducer } from './state/reducers/local.reducers';
 
 import { MessageService } from 'primeng/api';
 import { MessagesModule } from 'primeng/messages';
@@ -37,8 +39,6 @@ import { TelephonesComponent } from './containers/telephones/telephones.componen
 import { TelephoneDetailsComponent } from './containers/telephone-details/telephone-details.component';
 import { TelephoneTrackingProcessComponent } from './containers/telephone-tracking-process/telephone-tracking-process.component';
 import { TimeSettingComponent } from './containers/time-setting/time-setting.component';
-import { ROOT_REDUCERS } from './state/app.state';
-import { localStorageSyncReducer } from './state/reducers/local.reducers';
 
 
 @NgModule({
@@ -81,7 +81,7 @@ import { localStorageSyncReducer } from './state/reducers/local.reducers';
     MenubarModule,
     DropdownModule,
     TableModule,
-    PaginatorModule
+    PaginatorModule,
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

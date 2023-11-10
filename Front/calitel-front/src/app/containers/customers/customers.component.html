@@ -1,3 +1,31 @@
 <app-top-bar></app-top-bar>
 <app-navbar></app-navbar>
-<p>customers works!</p>
+
+<div class="center-bar">
+  <h2>Clientes</h2>
+  <button pButton type="button" [routerLink]="registerCustomerPath" class="p-button-raised p-button-rounded" label="Registrar cliente"></button>
+  <p-button label="Cargar clientes" styleClass="p-button-link" [routerLink]="uploadCustomersPath"></p-button>
+  <p-button label="Descargar clientes" styleClass="p-button-link" (onClick)="downloadCustomers()"></p-button>
+</div>
+
+<div class="customer-container">
+  <div class="customer-container__form-container">
+    <h2>Buscar cliente por su documento</h2>
+    <p>Selecciona el tipo de documento y digita el número para consultar el ciente</p>
+
+    <form (ngSubmit)="onSearch()" [formGroup]="form">
+      <div class="form-input">
+        <label for="documentTypes">Nombre de usuario</label>
+        <p-dropdown [options]="documentTypes" [(ngModel)]="selectedDocType" optionLabel="description" placeholder="Selecciona el tipo de documento" formControlName="documentType"></p-dropdown>
+      </div>
+      <div class="form-input">
+        <label for="document">Número de documento</label>
+        <input type="text" pInputText id="document" name="document" formControlName="document" placeholder="Ingrese el número" autocomplete="off" />
+      </div>
+      <button pButton type="submit" class="p-button-raised p-button-rounded" label="Buscar" [disabled]="form.invalid"></button>
+    </form>
+
+    <p-messages></p-messages>
+    
+  </div>
+</div>

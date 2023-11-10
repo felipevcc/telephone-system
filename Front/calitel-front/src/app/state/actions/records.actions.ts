@@ -1,7 +1,7 @@
 import { createAction, props } from "@ngrx/store";
 import { GeographicArea } from "../../models/geographic-area-service/geographic-area.interface";
-import { CustomerTypes } from "../../models/customer-service/customer-types.interface";
-import { DocumentTypes } from "../../models/customer-service/document-types.interface";
+import { CustomerType } from "../../models/customer-service/customer-type.interface";
+import { DocumentType } from "../../models/customer-service/document-type.interface";
 
 
 export const loadGeographicAreas = createAction(
@@ -11,10 +11,10 @@ export const loadGeographicAreas = createAction(
 
 export const loadCustomerTypes = createAction(
   '[Customer type list] Load - Login success',
-  props<{ customerTypes: CustomerTypes[] }>()
+  props<{ customerTypes: CustomerType[] }>()
 );
 
 export const loadDocumentTypes = createAction(
   '[Document type list] Load - Login success',
-  props<{ documentTypes: DocumentTypes[] }>()
+  props<{ documentTypes: DocumentType[] }>()
 );

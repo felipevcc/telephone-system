@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, catchError, map, of } from 'rxjs';
-import { CustomerTypes } from 'src/app/models/customer-service/customer-types.interface';
-import { DocumentTypes } from 'src/app/models/customer-service/document-types.interface';
+import { CustomerType } from 'src/app/models/customer-service/customer-type.interface';
+import { DocumentType } from 'src/app/models/customer-service/document-type.interface';
 import { GeographicArea } from 'src/app/models/geographic-area-service/geographic-area.interface';
 import { RecordsState } from 'src/app/models/state/records.state';
 import { loadCustomerTypes, loadDocumentTypes, loadGeographicAreas } from 'src/app/state/actions/records.actions';
@@ -44,11 +44,11 @@ export class AppStateService {
     return this.store.select(selectGeographicAreas);
   }
 
-  getCustomerTypes(): Observable<CustomerTypes[]> {
+  getCustomerTypes(): Observable<CustomerType[]> {
     return this.store.select(selectCustomerTypes);
   }
 
-  getDocumentTypes(): Observable<DocumentTypes[]> {
+  getDocumentTypes(): Observable<DocumentType[]> {
     return this.store.select(selectDocumentTypes);
   }
 }

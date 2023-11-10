@@ -14,4 +14,5 @@ export enum Messages {
   INCORRECT_CREDETIALS = "Credenciales incorrectas",
   INVALID_FORM = "Formulario inválido",
   NUMBER_NOT_FOUND = "El número nunca ha sido asignado o no existe",
+  CUSTOMER_NOT_FOUND = "El cliente no existe",
 }

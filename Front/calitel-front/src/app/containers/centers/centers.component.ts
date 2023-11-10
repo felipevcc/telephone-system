@@ -11,7 +11,7 @@ import { AppStateService } from 'src/app/services/app-state/app-state.service';
   styleUrls: ['./centers.component.scss']
 })
 export class CentersComponent implements OnInit {
-  registerCenterPath = `/${Paths.RegisterCenter}`;
+  registerCenterPath: string = `/${Paths.RegisterCenter}`;
 
   geographicAreas: GeographicArea[] = [];
   selectedArea: any;
