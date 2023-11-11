@@ -26,27 +26,26 @@
 
     .info-section {
       margin-top: 10%;
-      /* text-align: center;
-      color: var(--color-grayscale600); */
-      /* display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between; */
       display: grid;
-      grid-template-columns: repeat(2, 1fr); // Dos columnas de igual ancho
-      grid-row-gap: 50px; // Espacio vertical entre elementos
+      grid-template-columns: repeat(2, 1fr);
+      grid-row-gap: 50px;
       grid-column-gap: 120px;
 
       .info {
-        /* width: calc(50% - 10px);
-        margin-bottom: 20px;
-        box-sizing: border-box; */
-        width: 100%; // Cada elemento ocupa todo el ancho de su contenedor
-        margin-bottom: 20px; // Ajusta según sea necesario
-        box-sizing: border-box;
-      }
+        width: 100%;
+        color: var(--color-grayscale700);
+
+        .info-main {
+          font-size: 1.5rem;
+          font-weight: bold;
+        }
+
+        h4, p {
+          max-width: 220px;
+        }
+      } 
     }
     
-
     button {
       margin-top: 12%;
 

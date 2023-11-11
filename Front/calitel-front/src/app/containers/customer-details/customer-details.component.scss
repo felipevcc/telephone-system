@@ -1,0 +1,139 @@
+.customer-detail-container {
+  position: relative;
+  height: calc(100vh - 180px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &__detail-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 90%;
+    max-height: 670px;
+    min-height: 620px;
+    width: 780px;
+    padding: 4%;
+    border-radius: 10px;
+    background-color: var(--color-grayscale100);
+    box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.25);
+
+    h2 {
+      font-size: 1.25rem;
+      color: var(--color-secondary400);
+    }
+
+    .info-section {
+      margin-top: 10%;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-row-gap: 50px;
+      grid-column-gap: 120px;
+
+      .info {
+        width: 100%;
+        color: var(--color-grayscale700);
+
+        .info-main {
+          font-size: 1.25rem;
+          font-weight: bold;
+        }
+
+        h4, p {
+          max-width: 220px;
+        }
+      } 
+    }
+
+    .action-btns {
+
+      button {
+        margin-top: 12%;
+  
+        border: none;
+        font-size: 14px;
+        width: 140px;
+        height: 40px;
+        min-height: 40px;
+        background-color: var(--color-primary200);
+        color: var(--color-secondary400);
+  
+        &:hover {
+          background-color: var(--color-primary300);
+          transition: all .2s;
+        }
+  
+        &:active {
+          background: var(--color-primary200);
+          box-shadow: inset 0 4px 4px #00000026 !important;
+        }
+  
+        &:focus {
+          box-shadow: none;
+        }
+  
+        &:focus-visible {
+          box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #ddcc85, 0 1px 2px 0 black;
+        }
+  
+        &:disabled {
+          background-color: var(--color-grayscale300);
+          color: var(--color-grayscale600);
+        }
+      }
+
+      button:not(:last-child) {
+        margin-right: 10px;
+      }
+    }
+
+  }
+}
+
+.customerNotFound {
+  margin-top: 30px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  h2 {
+    margin-bottom: 15px;
+    font-family: var(--font-bold);
+    color: var(--color-grayscale700);
+  }
+
+  .back-btn {
+    border: none;
+    font-size: 14px;
+    width: 140px;
+    height: 40px;
+    background-color: var(--color-primary200);
+    color: var(--color-secondary400);
+  
+    &:hover {
+      background-color: var(--color-primary300);
+      transition: all .2s;
+    }
+  
+    &:active {
+      background: var(--color-primary200);
+      box-shadow: inset 0 4px 4px #00000026 !important;
+    }
+  
+    &:focus {
+      box-shadow: none;
+    }
+  
+    &:focus-visible {
+      box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #ddcc85, 0 1px 2px 0 black;
+    }
+  }
+}
+
+:host ::ng-deep .p-messages {
+  max-width: 500px;
+  margin: auto;
+}

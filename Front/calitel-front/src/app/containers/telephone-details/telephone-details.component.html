@@ -15,25 +15,25 @@
         <div class="info-section">
           <div class="info">
             <h4>Número telefónico</h4>
-            <p>{{ telephoneNumber.phoneNumber }}</p>
+            <p class="info-main">{{ telephoneNumber.phoneNumber }}</p>
           </div>
-          <div>
+          <div class="info">
             <h4>Cliente</h4>
             <p>{{ customer.name }} {{ customer.lastName }}<br>{{ documentType.typeCode }} {{ customer.document }}</p>
           </div>
-          <div>
+          <div class="info">
             <h4>Central</h4>
             <p>{{ center.name}}</p>
           </div>
-          <div>
+          <div class="info">
             <h4>Fecha de asignación</h4>
             <p>{{ telephoneNumber.assignmentDate | date:'dd-MM-yyyy' }}</p>
           </div>
-          <div>
-            <h4>Disponibilidad</h4>
+          <div class="info">
+            <h4>Disponible</h4> <!-- Devolver desde el backend is_active para validar disponibilidad -->
             <p>{{ telephoneNumber.releaseDate ? "No" : "Si" }}</p>
           </div>
-          <div>
+          <div class="info">
             <h4>Fecha de liberación</h4>
             <p>{{ telephoneNumber.releaseDate ? (telephoneNumber.releaseDate | date:'dd-MM-yyyy') : "Indefinido" }}</p>
           </div>
@@ -41,7 +41,7 @@
         
         <button pButton type="button" (click)="downloadHistory()" class="p-button-raised p-button-rounded" label="Descargar histórico"></button>
         
-        <p-messages></p-messages>
+        <p-messages [(value)]="messages"></p-messages>
       </div>
     </div>
   </div>
@@ -51,8 +51,7 @@
       <h2>Número telefónico no encontrado</h2>
       <button pButton type="button" [routerLink]="telephonePath" class="back-btn p-button-raised p-button-rounded" label="Volver"></button>
     </div>
+    <p-messages [(value)]="messages" ></p-messages>
   </ng-template>
-
-  <p-messages [(value)]="messages" ></p-messages>
 
 </ng-template>

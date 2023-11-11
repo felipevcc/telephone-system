@@ -28,9 +28,6 @@ export class TelephoneDetailsComponent implements OnInit {
   selectedNumber!: number;
 
   telephoneNumber!: TelephoneNumber;
-  /* assignmentDate!: Date;
-  releaseDate!: Date; */
-
   customer!: Customer;
   documentType!: DocumentType;
   center!: Center;
@@ -58,8 +55,6 @@ export class TelephoneDetailsComponent implements OnInit {
     this.telephoneNumberService.getTelephoneNumber(selectedNumber).subscribe({
       next: (data) => {
         this.telephoneNumber = data;
-        this.telephoneNumber.assignmentDate = new Date(this.telephoneNumber.assignmentDate).toDateString();
-        this.telephoneNumber.releaseDate = new Date(this.telephoneNumber.releaseDate).toDateString();
         this.getCustomer();
         this.getCenter();
       },
@@ -81,6 +76,7 @@ export class TelephoneDetailsComponent implements OnInit {
         this.isLoading = false;
       },
       error: (error) => {
+        this.isLoading = false;
         console.log(error);
       }
     });
@@ -93,13 +89,14 @@ export class TelephoneDetailsComponent implements OnInit {
         this.isLoading = false;
       },
       error: (error) => {
+        this.isLoading = false;
         console.log(error);
       }
     });
   }
 
   downloadHistory(): void {
-    this.telephoneNumberService.downloadTelephoneNumberHistory(this.selectedNumber).subscribe({
+    this.telephoneNumberService.downloadTelephoneNumberHistory(this.telephoneNumber.phoneNumber).subscribe({
       next: (response: HttpResponse<Blob>) => {
         if (!response.body) {
           console.error("Error downloading number history");
@@ -118,4 +115,5 @@ export class TelephoneDetailsComponent implements OnInit {
       }
     });
   }
+
 }

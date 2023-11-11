@@ -13,8 +13,13 @@ export enum Messages {
   SUCESS_CREATE_TIME = "Tiempo requerido actualizado correctamente",
   ERROR_CREATE_TIME = "Ha ocurrido un error actualizando el tiempo requerido",
 
+  SUCESS_ASSIGN_TELEPHONE = "El número se ha asignado correctamente",
+  ERROR_ASSIGN_TELEPHONE = "Ha ocurrido un error asignando el número",
+
   INCORRECT_CREDETIALS = "Credenciales incorrectas",
   INVALID_FORM = "Formulario inválido",
   NUMBER_NOT_FOUND = "El número nunca ha sido asignado o no existe",
   CUSTOMER_NOT_FOUND = "El cliente no existe",
+
+  INVALID_ACTION = "Acción inválida",
 }

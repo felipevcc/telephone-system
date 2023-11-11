@@ -2,7 +2,7 @@ export interface TelephoneNumber {
   numberRecordId: number;
   centerId: number;
   customerId: number;
-  phoneNumber: string;
+  phoneNumber: number;
   assignmentDate: string;
   releaseDate: string;
 }
