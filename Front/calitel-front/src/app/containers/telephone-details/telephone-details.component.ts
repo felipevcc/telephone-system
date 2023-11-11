@@ -23,6 +23,7 @@ export class TelephoneDetailsComponent implements OnInit {
 
   telephonePath = `/${Paths.TelephoneNumbers}`;
   messages: Message[] = [];
+  isLoading: boolean = true;
 
   selectedNumber!: number;
 
@@ -47,6 +48,7 @@ export class TelephoneDetailsComponent implements OnInit {
       const selectedNumberStr = params.get('telephoneNumber');
       if (selectedNumberStr != null) {
         this.selectedNumber = parseInt(selectedNumberStr, 10);
+        this.isLoading = true;
         this.getTelephoneNumber(this.selectedNumber);
       }
     });
@@ -62,6 +64,7 @@ export class TelephoneDetailsComponent implements OnInit {
         this.getCenter();
       },
       error: (error) => {
+        this.isLoading = false;
         console.log(error);
         this.messages = [{ severity: 'error', summary: 'Error', detail: Messages.ERROR_GET }];
       }
@@ -75,6 +78,7 @@ export class TelephoneDetailsComponent implements OnInit {
         this.appStateService.getDocumentTypes().subscribe(data => {
           this.documentType = data.find(doc => doc.documentTypeId == this.customer.documentTypeId)!;
         });
+        this.isLoading = false;
       },
       error: (error) => {
         console.log(error);
@@ -86,6 +90,7 @@ export class TelephoneDetailsComponent implements OnInit {
     this.centerService.getCenterById(this.telephoneNumber.centerId).subscribe({
       next: (data) => {
         this.center = data;
+        this.isLoading = false;
       },
       error: (error) => {
         console.log(error);

@@ -14,16 +14,6 @@ public class TelephoneNumberMapper {
     @Autowired
     ModelMapper modelMapper;
 
-    /*public TelephoneNumberDTO telNumberToDTO(TelephoneNumber telephoneNumber) {
-        modelMapper.addMappings(new PropertyMap<TelephoneNumber, TelephoneNumberDTO>() {
-            @Override
-            protected void configure() {
-                skip(destination.getReleaseDate());
-            }
-        });
-        return modelMapper.map(telephoneNumber, TelephoneNumberDTO.class);
-    }*/
-
     public TelephoneNumberDTO telNumberToDTO(TelephoneNumber telephoneNumber) {
         TelephoneNumberDTO mapTelNumber = new TelephoneNumberDTO();
         mapTelNumber.setNumberRecordId(telephoneNumber.getNumberRecordId());
@@ -38,15 +28,4 @@ public class TelephoneNumberMapper {
     public TelephoneNumberDTO telNumberAuditToDTO(TelephoneNumberAudit telephoneNumberAudit) {
         return modelMapper.map(telephoneNumberAudit, TelephoneNumberDTO.class);
     }
-
-    /*public TelephoneNumberDTO telNumberAuditToDTO(TelephoneNumberAudit telephoneNumber) {
-        TelephoneNumberDTO mapTelNumber = new TelephoneNumberDTO();
-        mapTelNumber.setNumberRecordId(telephoneNumber.getNumberRecordId());
-        mapTelNumber.setCenterId(telephoneNumber.getCenterId());
-        mapTelNumber.setCustomerId(telephoneNumber.getCustomerId());
-        mapTelNumber.setPhoneNumber(telephoneNumber.getPhoneNumber());
-        mapTelNumber.setAssignmentDate(telephoneNumber.getAssignmentDate());
-        mapTelNumber.setReleaseDate(null);
-        return mapTelNumber;
-    }*/
 }

@@ -10,10 +10,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 65%;
-    max-height: 470px;
-    min-height: 400px;
-    width: 580px;
+    height: 75%;
+    max-height: 570px;
+    min-height: 520px;
+    width: 700px;
     padding: 4%;
     border-radius: 10px;
     background-color: var(--color-grayscale100);
@@ -28,7 +28,24 @@
       margin-top: 10%;
       /* text-align: center;
       color: var(--color-grayscale600); */
+      /* display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between; */
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); // Dos columnas de igual ancho
+      grid-row-gap: 50px; // Espacio vertical entre elementos
+      grid-column-gap: 120px;
+
+      .info {
+        /* width: calc(50% - 10px);
+        margin-bottom: 20px;
+        box-sizing: border-box; */
+        width: 100%; // Cada elemento ocupa todo el ancho de su contenedor
+        margin-bottom: 20px; // Ajusta según sea necesario
+        box-sizing: border-box;
+      }
     }
+    
 
     button {
       margin-top: 12%;
