@@ -1,3 +1,17 @@
 <app-top-bar></app-top-bar>
 <app-navbar></app-navbar>
-<p>telephone-tracking-process works!</p>
+
+<div class="process-bar">
+  <h2>Rastrear números liberados</h2>
+</div>
+
+<div class="process-container">
+  <div class="process-container__tracking-process-container">
+    <h2>Rastrear números telefónicos</h2>
+    <p>Todos los días a la media noche el sistema ejecuta este proceso para hacer seguimiento a los números telefónicos liberados, comprobando si ha pasado el tiempo requerido para ponerlos nuevamente a disposición</p>
+
+    <button pButton type="button" (click)="onExecute()" class="p-button-raised p-button-rounded" label="Ejecutar proceso manualmente"></button>
+  
+    <p-messages></p-messages>
+  </div>
+</div>

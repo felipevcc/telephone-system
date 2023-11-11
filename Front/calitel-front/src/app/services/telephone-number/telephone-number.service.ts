@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TelephoneEndpoints } from 'src/app/enums/telephone-endpoints.enum';
@@ -22,7 +22,7 @@ export class TelephoneNumberService {
   }
 
   runTrackingProcess(): Observable<any> {
-    return this.http.post(`${this.apiUrl}${TelephoneEndpoints.TelephoneTrackingProcess}`, {});
+    return this.http.post(`http://localhost:8084/api/v1${TelephoneEndpoints.TelephoneTrackingProcess}`, {}, { responseType: "text" });
   }
 
   assignTelephoneNumber(customerId: number): Observable<any> {
