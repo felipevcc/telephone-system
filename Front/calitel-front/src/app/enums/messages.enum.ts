@@ -1,6 +1,5 @@
 export enum Messages {
   ERROR_GET = "Ha ocurrido un error obteniendo los datos",
-  ERROR_GET_AREA = "Ha ocurrido un error obteniendo la zona geográfica",
 
   SUCESS_SAVE = "Los datos se han guardado correctamente",
   ERROR_SAVE = "Ha ocurrido un error guardando los datos",

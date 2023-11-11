@@ -1,3 +1,32 @@
 <app-top-bar></app-top-bar>
 <app-navbar></app-navbar>
-<p>telephone-details works!</p>
+
+<div *ngIf="telephoneNumber; else elseBlock">
+  <div class="tel-detail-container">
+    <div class="tel-detail-container__detail-container">
+      <h2>Información del número telefónico</h2>
+
+      <div class="info-section">
+        <div>{{ telephoneNumber.phoneNumber }}</div>
+        <div>{{ customer.name }}{{ customer.lastName }}<br>{{ documentType.typeCode }} {{ customer.document }}</div>
+        <div>{{ center.name }}</div>
+        <div>{{ telephoneNumber.assignmentDate | date:'dd-MM-yyyy' }}</div>
+        <div>{{ telephoneNumber.releaseDate ? "No" : "Si" }}</div>
+        <div>{{ telephoneNumber.releaseDate ? (telephoneNumber.releaseDate | date:'dd-MM-yyyy') : "Indefinido" }}</div>
+      </div>
+      
+      <button pButton type="button" (click)="downloadHistory()" class="p-button-raised p-button-rounded" label="Descargar histórico"></button>
+      
+      <p-messages></p-messages>
+    </div>
+  </div>
+</div>
+
+<ng-template #elseBlock>
+  <div class="telephoneNotFound">
+    <h2>Número telefónico no encontrado</h2>
+    <button pButton type="button" [routerLink]="telephonePath" class="back-btn p-button-raised p-button-rounded" label="Volver"></button>
+  </div>
+</ng-template>
+
+<p-messages [(value)]="messages" ></p-messages>

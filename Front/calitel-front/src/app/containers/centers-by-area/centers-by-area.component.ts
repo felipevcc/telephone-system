@@ -61,7 +61,7 @@ export class CentersByAreaComponent implements OnInit {
       error: (error) => {
         this.isLoading = false;
         console.log(error);
-        this.messages = [{ severity: 'error', summary: 'Error', detail: Messages.ERROR_GET_AREA }];
+        this.messages = [{ severity: 'error', summary: 'Error', detail: Messages.ERROR_GET }];
       },
     });
   }
