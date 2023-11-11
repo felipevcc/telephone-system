@@ -11,6 +11,9 @@ export enum Messages {
   EXECUTED_PROCESS = "El proceso se ha ejecutado correctamente",
   ERROR_EXECUTING_PROCESS = "Ha ocurrido un error ejecutando el proceso",
 
+  SUCESS_CREATE_TIME = "Tiempo requerido actualizado correctamente",
+  ERROR_CREATE_TIME = "Ha ocurrido un error actualizando el tiempo requerido",
+
   INCORRECT_CREDETIALS = "Credenciales incorrectas",
   INVALID_FORM = "Formulario inválido",
   NUMBER_NOT_FOUND = "El número nunca ha sido asignado o no existe",

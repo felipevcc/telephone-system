@@ -46,6 +46,6 @@ export class TelephoneNumberService {
   }
 
   createTimeSetting(timeSetting: number): Observable<any> {
-    return this.http.post(`${this.apiUrl}${TelephoneEndpoints.TimeSetting}/${timeSetting}`, {});
+    return this.http.post(`http://localhost:8084/api/v1${TelephoneEndpoints.TimeSetting}/${timeSetting}`, {});
   }
 }

@@ -12,7 +12,7 @@
 
     <div class="numberInput">
       <label for="telephoneNumber">Número telefónico</label>
-      <p-inputNumber [(ngModel)]="selectedNumber" mode="decimal" inputId="telephoneNumber" placeholder="Ingrese el número" [useGrouping]="false"> </p-inputNumber>
+      <p-inputNumber [(ngModel)]="selectedNumber" mode="decimal" inputId="telephoneNumber" placeholder="Ingrese el número" [useGrouping]="false" [min]="1000000" [max]="99999999"> </p-inputNumber>
     </div>
 
     <button pButton type="button" (click)="onSearch()" class="p-button-raised p-button-rounded" label="Buscar" [disabled]="!selectedNumber"></button>
