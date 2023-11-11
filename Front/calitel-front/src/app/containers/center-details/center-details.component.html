@@ -1,3 +1,79 @@
 <app-top-bar></app-top-bar>
 <app-navbar></app-navbar>
-<p>center-details works!</p>
+
+<div *ngIf="isLoading; else contentBlock">
+
+</div>
+
+<ng-template #contentBlock>
+
+  <div *ngIf="center; else elseBlock">
+    <div class="center-detail-container">
+
+      <div class="center-detail-container__detail-container">
+        <h2>Información de central</h2>
+
+        <div class="info-section">
+          <div class="info">
+            <h4>Central</h4>
+            <p class="info-main">{{ center.name }}</p>
+          </div>
+          <div class="info">
+            <h4>Correo electrónico</h4>
+            <p>{{ center.email }}</p>
+          </div>
+          <div class="info">
+            <h4>Rango de números telefónicos</h4>
+            <p>{{ center.initialNumber }} - {{ center.finalNumber }}</p>
+          </div>
+          <div class="info">
+            <h4>Número de teléfono</h4>
+            <p>{{ center.phoneNumber}}</p>
+          </div>
+          <div class="info">
+            <h4>Dirección</h4>
+            <p>{{ center.address }}</p>
+          </div>
+        </div>
+
+        <button pButton type="button" (click)="onUpdate()" class="p-button-raised p-button-rounded" label="Actualizar"></button>
+        
+        <p-messages [(value)]="messages"></p-messages>
+      </div>
+
+      <div class="center-detail-container__areas-table-container">
+        <h2>Central con atención en las siguientes zonas</h2>
+
+        <div class="areas-table">
+          <p-table [value]="areasPage.geographicAreas" [paginator]="false" [first]="areasPage.page" [tableStyle]="{ 'min-width': '50rem' }">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Comuna</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-area>
+              <tr>
+                <td>{{ area.code }}</td>
+                <td>{{ area.name }}</td>
+                <td>{{ area.commune }}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+          <p-paginator (onPageChange)="onPageChange($event)" [rows]="areasPage.pageSize" [totalRecords]="areasPage.totalRecords"></p-paginator>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <ng-template #elseBlock>
+    <div class="centerNotFound">
+      <h2>Central no encontrada</h2>
+      <button pButton type="button" [routerLink]="centerPath" class="back-btn p-button-raised p-button-rounded" label="Volver"></button>
+    </div>
+    <p-messages [(value)]="messages" ></p-messages>
+  </ng-template>
+
+</ng-template>

@@ -79,12 +79,12 @@ export class CentersByAreaComponent implements OnInit {
     });
   }
 
-  onPageChange(event: any) {
+  onPageChange(event: any): void {
     this.centersPage.page = event.page;
     this.getCentersPaged();
   }
 
-  centerDetail(centerId: number) {
+  centerDetail(centerId: number): void {
     this.router.navigate([`/${Paths.CenterDetails}/${centerId}`]);
   }
 }
