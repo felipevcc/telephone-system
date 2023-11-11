@@ -9,9 +9,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TimeSettingRepository extends CrudRepository<MinimumTimeSetting, Long> {
 
-    @Query("SELECT TIME_ID, TIME_VALUE, CREATED_AT " +
-            "FROM (SELECT TIME_ID, TIME_VALUE, CREATED_AT, ROW_NUMBER() OVER (ORDER BY CREATED_AT DESC) AS rn FROM MINIMUM_TIME_SETTING) " +
-            "WHERE rn = 1")
+    @Query("SELECT TIME_ID, TIME_VALUE, CREATED_AT FROM MINIMUM_TIME_SETTING " +
+            "WHERE TIME_ID = (SELECT MAX(TIME_ID) FROM MINIMUM_TIME_SETTING)")
     MinimumTimeSetting getLatestTimeSetting();
 
     @Modifying
