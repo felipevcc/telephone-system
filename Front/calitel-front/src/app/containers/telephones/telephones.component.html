@@ -10,13 +10,13 @@
     <h2>Buscar número telefónico</h2>
     <p>Digita el número telefónico para consultar la línea</p>
 
-    <div class="numberInput"> <!-- Actualizar a form -->
-      <label for="telephoneNumber">Número telefónico</label>
-      <p-inputNumber [(ngModel)]="selectedNumber" mode="decimal" inputId="telephoneNumber" placeholder="Ingrese el número" [useGrouping]="false" [min]="1000000" [max]="99999999"> </p-inputNumber>
-    </div>
-
-    <button pButton type="button" (click)="onSearch()" class="p-button-raised p-button-rounded" label="Buscar" [disabled]="!selectedNumber"></button>
-
+    <form (ngSubmit)="onSearch()" [formGroup]="form">
+      <div class="numberInput">
+        <label for="telNumber">Número telefónico</label>
+        <p-inputNumber mode="decimal" inputId="telNumber" name="telNumber" formControlName="telNumber" placeholder="Ingrese el número" [useGrouping]="false" [min]="1000000" [max]="99999999" autocomplete="off"> </p-inputNumber>
+      </div>
+      <button pButton type="submit" class="p-button-raised p-button-rounded" label="Buscar" [disabled]="form.invalid"></button>
+    </form>
     <p-messages></p-messages>
   </div>
 </div>

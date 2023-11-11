@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Messages } from 'src/app/enums/messages.enum';
@@ -13,22 +14,27 @@ import { TelephoneNumberService } from 'src/app/services/telephone-number/teleph
 })
 export class TelephonesComponent implements OnInit {
 
-  telephoneNumber!: TelephoneNumber;
+  form!: FormGroup;
 
-  selectedNumber!: number;
+  telephoneNumber!: TelephoneNumber;
 
   constructor(
     private router: Router,
     private messageService: MessageService,
-    private telephoneNumberService: TelephoneNumberService
+    private telephoneNumberService: TelephoneNumberService,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit(): void {
+    this.form = this.fb.group({
+      telNumber: [null, Validators.required]
+    });
   }
 
   onSearch(): void {
     this.messageService.clear();
-    this.telephoneNumberService.getTelephoneNumber(this.selectedNumber).subscribe({
+    const formData = this.form.value;
+    this.telephoneNumberService.getTelephoneNumber(formData.telNumber).subscribe({
       next: (data) => {
         this.telephoneNumber = data;
         this.router.navigate([`/${Paths.TelephoneNumberDetails}/${this.telephoneNumber.phoneNumber}`]);
