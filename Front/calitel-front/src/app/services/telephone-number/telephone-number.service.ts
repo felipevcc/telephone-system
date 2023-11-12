@@ -22,15 +22,15 @@ export class TelephoneNumberService {
   }
 
   runTrackingProcess(): Observable<any> {
-    return this.http.post(`http://localhost:8084/api/v1${TelephoneEndpoints.TelephoneTrackingProcess}`, {}, { responseType: "text" });
+    return this.http.post(`${this.apiUrl}${TelephoneEndpoints.TelephoneTrackingProcess}`, {}, { responseType: "text" });
   }
 
   assignTelephoneNumber(customerId: number): Observable<any> {
-    return this.http.post(`http://localhost:8084/api/v1${TelephoneEndpoints.AssignTelephone}/${customerId}`, {});
+    return this.http.post(`${this.apiUrl}${TelephoneEndpoints.AssignTelephone}/${customerId}`, {});
   }
 
   releaseTelephoneNumber(telephoneNumber: number): Observable<any> {
-    return this.http.put(`http://localhost:8084/api/v1${TelephoneEndpoints.ReleaseTelephone}/${telephoneNumber}`, {});
+    return this.http.put(`${this.apiUrl}${TelephoneEndpoints.ReleaseTelephone}/${telephoneNumber}`, {});
   }
 
   downloadCustomerHistory(customerId: number): Observable<any> {
@@ -46,6 +46,6 @@ export class TelephoneNumberService {
   }
 
   createTimeSetting(timeSetting: number): Observable<any> {
-    return this.http.post(`http://localhost:8084/api/v1${TelephoneEndpoints.TimeSetting}/${timeSetting}`, {});
+    return this.http.post(`${this.apiUrl}${TelephoneEndpoints.TimeSetting}/${timeSetting}`, {});
   }
 }

@@ -24,7 +24,7 @@ export class CenterService {
   }
 
   createCenter(centerData: CenterCreationReq): Observable<any> {
-    return this.http.post(`http://localhost:8082/api/v1${CenterEndpoints.CenterDomain}`, centerData);
+    return this.http.post(`${this.apiUrl}${CenterEndpoints.CenterDomain}`, centerData);
   }
 
   updateCenter(centerId: number, centerData: CenterUpdateReq): Observable<any> {

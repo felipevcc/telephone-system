@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Message } from 'primeng/api';
-import { forkJoin } from 'rxjs';
 import { Messages } from 'src/app/enums/messages.enum';
 import { Paths } from 'src/app/enums/paths.enum';
 import { CustomerCreationReq } from 'src/app/models/customer-service/customer-creation-req.interface';
