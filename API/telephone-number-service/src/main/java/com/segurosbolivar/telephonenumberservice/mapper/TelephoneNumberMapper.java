@@ -22,6 +22,7 @@ public class TelephoneNumberMapper {
         mapTelNumber.setPhoneNumber(telephoneNumber.getPhoneNumber());
         mapTelNumber.setAssignmentDate(telephoneNumber.getAssignmentDate());
         mapTelNumber.setReleaseDate(null);
+        mapTelNumber.setIsActive(1);
         return mapTelNumber;
     }
 

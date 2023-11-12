@@ -16,4 +16,5 @@ public class TelephoneNumberDTO {
     private Integer phoneNumber;
     private LocalDateTime assignmentDate;
     private LocalDateTime releaseDate;
+    private Integer isActive;
 }

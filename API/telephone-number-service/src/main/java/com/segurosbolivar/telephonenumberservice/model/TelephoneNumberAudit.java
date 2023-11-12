@@ -33,7 +33,6 @@ public class TelephoneNumberAudit {
     @Column("RELEASE_DATE")
     private LocalDateTime releaseDate;
 
-    @JsonIgnore
     @Column("IS_ACTIVE")
     private Integer isActive;
 }

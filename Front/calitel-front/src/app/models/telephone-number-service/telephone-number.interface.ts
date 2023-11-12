@@ -5,4 +5,5 @@ export interface TelephoneNumber {
   phoneNumber: number;
   assignmentDate: string;
   releaseDate: string;
+  isActive: number;
 }
