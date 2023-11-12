@@ -84,7 +84,7 @@ public class TelephoneNumberServiceImp implements TelephoneNumberService {
 
         TelephoneNumberDTO assignedTelephoneNumber = null;
 
-        for (CenterDTO center : centers) {
+        for (CenterDTO center : foundCenters) {
             Integer centerRangeSize = center.getFinalNumber() - center.getInitialNumber() + 1;
 
             // Validate if there is availability in the center
@@ -104,6 +104,7 @@ public class TelephoneNumberServiceImp implements TelephoneNumberService {
             if (assignedTelephoneNumber != null) {
                 break;
             }
+            centers.remove(center);
         }
         if (assignedTelephoneNumber == null && centers.isEmpty()) {
             throw new NoCentersAvailableException("There are no centers with availability in the customer's area");
