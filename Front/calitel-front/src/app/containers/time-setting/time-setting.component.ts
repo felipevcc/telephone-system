@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Messages } from 'src/app/enums/messages.enum';
 import { TimeSetting } from 'src/app/models/telephone-number-service/time-setting.interface';
@@ -17,14 +18,21 @@ export class TimeSettingComponent implements OnInit {
     createdAt: ""
   }
 
-  selectedTimeValue!: number;
+  form!: FormGroup;
 
   isLoading: boolean = false;
 
-  constructor(private telephoneNumberService: TelephoneNumberService, private messageService: MessageService) { }
+  constructor(
+    private fb: FormBuilder,
+    private telephoneNumberService: TelephoneNumberService,
+    private messageService: MessageService
+  ) { }
 
   ngOnInit(): void {
     this.getLastTimeSetting();
+    this.form = this.fb.group({
+      timeValue: [null, Validators.required]
+    });
   }
 
   getLastTimeSetting(): void {
@@ -44,7 +52,8 @@ export class TimeSettingComponent implements OnInit {
     }
     this.isLoading = true;
     this.messageService.clear();
-    this.telephoneNumberService.createTimeSetting(this.selectedTimeValue).subscribe({
+    const formData = this.form.value;
+    this.telephoneNumberService.createTimeSetting(formData.timeValue).subscribe({
       next: (data) => {
         this.lastTimeSetting = data;
         this.messageService.add({ severity: 'success', detail: Messages.SUCESS_CREATE_TIME });

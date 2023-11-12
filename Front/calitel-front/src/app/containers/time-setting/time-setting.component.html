@@ -10,13 +10,13 @@
     <h2>Tiempo requerido</h2>
     <p>Actualizar el tiempo mínimo requerido de un número telefónico en días, desde su fecha de liberación hasta el tiempo establecido para disponer nuevamente de ellos<br>Tiempo actual establecido: <span class="currentTime">{{ lastTimeSetting.timeValue }} días</span></p>
 
-    <div class="numberInput">
-      <label for="timeValue">Tiempo requerido (en días)</label>
-      <p-inputNumber [(ngModel)]="selectedTimeValue" mode="decimal" inputId="timeValue" placeholder="Ingrese el número" [useGrouping]="false" [min]="0" [max]="9999"> </p-inputNumber>
-    </div>
-
-    <button pButton type="button" (click)="onSubmit()" class="p-button-raised p-button-rounded" label="Actualizar" [disabled]="selectedTimeValue == null || isLoading"></button>
-
+    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+      <div class="numberInput">
+        <label for="timeValue">Tiempo requerido (en días)</label>
+        <p-inputNumber formControlName="timeValue" mode="decimal" inputId="timeValue" placeholder="Ingrese el número" [useGrouping]="false" [min]="0" [max]="9999"> </p-inputNumber>
+      </div>
+      <button pButton type="submit" class="p-button-raised p-button-rounded" label="Actualizar" [disabled]="form.invalid || isLoading"></button>
+    </form>
     <p-messages></p-messages>
   </div>
 </div>
