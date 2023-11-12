@@ -20,7 +20,6 @@ import { CustomerService } from 'src/app/services/customer/customer.service';
 export class RegisterCustomerComponent implements OnInit {
 
   form!: FormGroup;
-  isLoading: boolean = true;
   messages: Message[] = [];
 
   documentTypes: DocumentType[] = [];
@@ -69,6 +68,9 @@ export class RegisterCustomerComponent implements OnInit {
   }
 
   onSubmit(): void {
+    if (this.form.invalid) {
+      return;
+    }
     const formData = this.form.value;
     const customer: CustomerCreationReq = {
       customerTypeId: formData.customerType.customerTypeId,

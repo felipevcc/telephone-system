@@ -19,6 +19,7 @@ import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/paginator';
 import { FileUploadModule } from 'primeng/fileupload';
 import { CalendarModule } from 'primeng/calendar';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -85,7 +86,8 @@ import { TimeSettingComponent } from './containers/time-setting/time-setting.com
     TableModule,
     PaginatorModule,
     FileUploadModule,
-    CalendarModule
+    CalendarModule,
+    MultiSelectModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]
