@@ -79,6 +79,9 @@
             .p-inputtext {
               font-family: var(--font-regular);
             }
+            .p-multiselect-label {
+              max-width: 200px;
+            }
           }
   
           input {

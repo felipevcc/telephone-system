@@ -63,7 +63,7 @@ export class CenterDetailsComponent implements OnInit {
   }
 
   onUpdate(): void {
-    this.router.navigate([`/${Paths.UpdateCustomer}/${this.center.centerId}`]);
+    this.router.navigate([`/${Paths.UpdateCenter}/${this.center.centerId}`]);
   }
 
   getAreasPaged(): void {

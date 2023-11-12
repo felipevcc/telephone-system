@@ -1,3 +1,57 @@
 <app-top-bar></app-top-bar>
 <app-navbar></app-navbar>
-<p>update-customer works!</p>
+
+<div *ngIf="isLoading; else contentBlock">
+
+</div>
+
+<ng-template #contentBlock>
+
+  <div *ngIf="customer; else elseBlock">
+
+    <div class="update-customer-container">
+  
+      <div class="update-customer-container__form-container">
+        <h2>Actualizar cliente</h2>
+        <p>Actualiza los campos necesarios para hacer el envío del formulario</p>
+        
+        <form (ngSubmit)="onSubmit()" [formGroup]="form">
+    
+          <div class="inputs-section">
+    
+            <div class="form-input">
+              <label for="email">Correo electrónico</label>
+              <input type="text" pInputText id="email" name="email" formControlName="email" placeholder="Ingrese el correo" autocomplete="off" />
+            </div>
+            
+            <div class="form-input">
+              <label for="phoneNumber">Número de teléfono</label>
+              <input type="text" pInputText id="phoneNumber" name="phoneNumber" formControlName="phoneNumber" placeholder="Ingrese el número" autocomplete="off" />
+            </div>
+    
+            <div class="form-input">
+              <label for="address">Dirección</label>
+              <input type="text" pInputText id="address" name="address" formControlName="address" placeholder="Ingrese la dirección" autocomplete="off" />
+            </div>
+    
+          </div>
+    
+          <button pButton type="submit" class="p-button-raised p-button-rounded" label="Actualizar" [disabled]="form.invalid"></button>
+        </form>
+    
+        <p-messages [(value)]="messages"></p-messages>
+        
+      </div>
+    </div>    
+
+  </div>
+
+  <ng-template #elseBlock>
+    <div class="customerNotFound">
+      <h2>Cliente no encontrado</h2>
+      <button pButton type="button" [routerLink]="customerPath" class="back-btn p-button-raised p-button-rounded" label="Volver"></button>
+    </div>
+    <p-messages [(value)]="messages" ></p-messages>
+  </ng-template>
+
+</ng-template>
