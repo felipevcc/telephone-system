@@ -1,20 +1,17 @@
 .register-center-container {
   position: relative;
-  height: calc(100vh - 110px);
+  top: 110px;
+  padding: 3%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  //overflow: scroll;
-  //overflow-y: auto;
 
   &__form-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 70%;
-    max-height: 650px;
-    min-height: 600px;
+    height: 600px;
     width: 1000px;
     padding: 3%;
     border-radius: 10px;
@@ -23,10 +20,12 @@
 
     @media (max-width: 1060px) {
       width: 900px;
+      height: 560px;
     }
 
     @media (max-width: 960px) {
       width: 780px;
+      height: 540px;
     }
 
     h2 {

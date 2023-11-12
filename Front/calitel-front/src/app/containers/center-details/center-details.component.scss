@@ -1,27 +1,26 @@
 .center-detail-container {
   position: relative;
-  height: calc(100vh - 110px);
+  top: 110px;
+  padding: 4% 10%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 0 10%;
 
   @media (max-width: 1750px) {
-    padding: 0 5%;
+    padding: 4% 5%;
   }
 
   @media (max-width: 1450px) {
-    padding: 0 0;
+    padding: 2% 0%;
   }
 
   &__detail-container {
+    z-index: 2;
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 75%;
-    max-height: 570px;
-    min-height: 520px;
+    height: 560px;
     width: 700px;
     padding: 4%;
     border-radius: 10px;
@@ -93,12 +92,11 @@
   }
 
   &__areas-table-container {
+    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 75%;
-    max-height: 570px;
-    min-height: 520px;
+    height: 560px;
     width: 700px;
     padding: 4%;
     border-radius: 10px;
@@ -123,8 +121,10 @@
 
 }
 
-.customerNotFound {
-  margin-top: 30px;
+.centerNotFound {
+  position: relative;
+  top: 110px;
+  padding: 3%;
   width: 100%;
   display: flex;
   justify-content: center;

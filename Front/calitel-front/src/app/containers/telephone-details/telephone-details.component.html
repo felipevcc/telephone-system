@@ -50,8 +50,8 @@
     <div class="telephoneNotFound">
       <h2>Número telefónico no encontrado</h2>
       <button pButton type="button" [routerLink]="telephonePath" class="back-btn p-button-raised p-button-rounded" label="Volver"></button>
+      <p-messages [(value)]="messages" ></p-messages>
     </div>
-    <p-messages [(value)]="messages" ></p-messages>
   </ng-template>
 
 </ng-template>

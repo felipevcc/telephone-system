@@ -1,6 +1,7 @@
 .customer-detail-container {
   position: relative;
-  height: calc(100vh - 110px);
+  top: 110px;
+  padding: 2%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -10,11 +11,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 90%;
-    max-height: 670px;
-    min-height: 620px;
-    width: 780px;
-    padding: 4%;
+    height: 670px;
+    width: 850px;
+    padding: 3%;
     border-radius: 10px;
     background-color: var(--color-grayscale100);
     box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.25);
@@ -25,7 +24,7 @@
     }
 
     .info-section {
-      margin-top: 10%;
+      margin-top: 8%;
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       grid-row-gap: 50px;
@@ -49,7 +48,7 @@
     .action-btns {
 
       button {
-        margin-top: 12%;
+        margin-top: 10%;
   
         border: none;
         font-size: 14px;
@@ -92,7 +91,9 @@
 }
 
 .customerNotFound {
-  margin-top: 30px;
+  position: relative;
+  top: 110px;
+  padding: 3%;
   width: 100%;
   display: flex;
   justify-content: center;

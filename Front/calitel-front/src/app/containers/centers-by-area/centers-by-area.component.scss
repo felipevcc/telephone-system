@@ -1,5 +1,6 @@
 .center-table-bar {
   position: relative;
+  top: 110px;
   width: 100%;
   height: 70px;
   display: flex;
@@ -21,6 +22,9 @@
 }
 
 .centers-table {
+  position: relative;
+  top: 110px;
+
   button {
     border: none;
     font-size: 14px;
@@ -49,8 +53,10 @@
   }
 }
 
-.centerNotFound {
-  margin-top: 30px;
+.areaNotFound {
+  position: relative;
+  top: 110px;
+  padding: 3%;
   width: 100%;
   display: flex;
   justify-content: center;

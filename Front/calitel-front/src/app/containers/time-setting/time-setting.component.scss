@@ -1,5 +1,6 @@
 .time-bar {
   position: relative;
+  top: 110px;
   width: 100%;
   height: 70px;
   display: flex;
@@ -17,7 +18,8 @@
 
 .time-container {
   position: relative;
-  height: calc(100vh - 180px);
+  top: 110px;
+  padding: 2%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -27,14 +29,20 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 75%;
-    max-height: 550px;
-    min-height: 480px;
-    width: 580px;
+    height: 520px;
+    width: 700px;
     padding: 4%;
     border-radius: 10px;
     background-color: var(--color-grayscale100);
     box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.25);
+
+    @media (max-width: 1300px) {
+      height: 510px;
+    }
+
+    @media (max-width: 1100px) {
+      height: 500px;
+    }
 
     h2 {
       font-size: 1.25rem;
@@ -53,7 +61,7 @@
     }
 
     .numberInput {
-      margin-top: 11%;
+      margin-top: 8%;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -75,7 +83,7 @@
     }
 
     button {
-      margin-top: 10%;
+      margin-top: 8%;
 
       border: none;
       font-size: 14px;
