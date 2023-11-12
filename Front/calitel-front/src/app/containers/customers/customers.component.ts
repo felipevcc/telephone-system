@@ -42,7 +42,7 @@ export class CustomersComponent implements OnInit {
     });
 
     this.form = this.fb.group({
-      documentType: ['', Validators.required],
+      documentType: [null, Validators.required],
       document: ['', Validators.required]
     });
   }

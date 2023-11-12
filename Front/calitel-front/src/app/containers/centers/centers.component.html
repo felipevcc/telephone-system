@@ -12,8 +12,8 @@
     <p>Selecciona una zona geográfica para consultar sus centrales</p>
 
     <div class="dropdown-input">
-      <label>Zona geográfica</label>
-      <p-dropdown [options]="geographicAreas" [(ngModel)]="selectedArea" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Seleccione la zona">
+      <label for="geographicAreas">Zona geográfica</label>
+      <p-dropdown [options]="geographicAreas" [(ngModel)]="selectedArea" inputId="geographicAreas" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Seleccione la zona">
         <ng-template pTemplate="selectedItem">
             <div class="flex align-items-center gap-2" *ngIf="selectedArea">
                 <div>{{ selectedArea.name }}</div>

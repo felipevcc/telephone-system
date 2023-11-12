@@ -1,3 +1,83 @@
 <app-top-bar></app-top-bar>
 <app-navbar></app-navbar>
-<p>register-customer works!</p>
+
+<div class="register-customer-container">
+  
+  <div class="register-customer-container__form-container">
+    <h2>Registro de nuevo cliente</h2>
+    <p>Completa todos los campos para hacer el envío del formulario</p>
+    
+    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+
+      <div class="inputs-section">
+
+        <div class="form-input">
+          <label for="name">Nombre</label>
+          <input type="text" pInputText id="name" name="name" formControlName="name" placeholder="Ingrese el nombre" autocomplete="off" />
+        </div>
+
+        <div class="form-input">
+          <label for="lastName">Apellido</label>
+          <input type="text" pInputText id="lastName" name="lastName" formControlName="lastName" placeholder="Ingrese el apellido" autocomplete="off" />
+        </div>
+        
+        <div class="form-input">
+          <label for="documentTypes">Tipo de documento</label>
+          <p-dropdown [options]="documentTypes" inputId="documentTypes" optionLabel="description" placeholder="Selecciona el tipo de documento" formControlName="documentType"></p-dropdown>
+        </div>
+        
+        <div class="form-input">
+          <label for="document">Número de documento</label>
+          <input type="text" pInputText id="document" name="document" formControlName="document" placeholder="Ingrese el número" autocomplete="off" />
+        </div>
+        
+        <div class="form-input">
+          <label for="birthdate">Fecha de nacimiento</label>
+          <p-calendar inputId="birthdate" formControlName="birthdate" placeholder="Ingrese la fecha" dateFormat="dd/mm/yy"></p-calendar>
+        </div>
+        
+        <div class="form-input">
+          <label for="customerTypes">Tipo de cliente</label>
+          <p-dropdown [options]="customerTypes" inputId="customerTypes" optionLabel="customerTypeName" placeholder="Selecciona el tipo de documento" formControlName="customerType"></p-dropdown>
+        </div>
+
+        <div class="form-input">
+          <label for="email">Correo electrónico</label>
+          <input type="text" pInputText id="email" name="email" formControlName="email" placeholder="Ingrese el correo" autocomplete="off" />
+        </div>
+        
+        <div class="form-input">
+          <label for="phoneNumber">Número de teléfono</label>
+          <input type="text" pInputText id="phoneNumber" name="phoneNumber" formControlName="phoneNumber" placeholder="Ingrese el número" autocomplete="off" />
+        </div>
+
+        <div class="form-input">
+          <label for="geographicAreas">Zona geográfica (Barrio)</label>
+          <p-dropdown [options]="geographicAreas" formControlName="area" inputId="geographicAreas" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Seleccione la zona">
+            <ng-template pTemplate="selectedItem">
+                <div class="flex align-items-center gap-2" *ngIf="form.value.area">
+                    <div>{{ form.value.area.name }}</div>
+                </div>
+            </ng-template>
+            <ng-template let-area pTemplate="item">
+                <div class="flex align-items-center gap-2">
+                    <div>{{ area.name }}</div>
+                </div>
+            </ng-template>
+          </p-dropdown>
+        </div>
+
+        <div class="form-input">
+          <label for="address">Dirección</label>
+          <input type="text" pInputText id="address" name="address" formControlName="address" placeholder="Ingrese la dirección" autocomplete="off" />
+        </div>
+
+      </div>
+
+      <button pButton type="submit" class="p-button-raised p-button-rounded" label="Crear" [disabled]="form.invalid"></button>
+    </form>
+
+    <p-messages [(value)]="messages"></p-messages>
+    
+  </div>
+</div>

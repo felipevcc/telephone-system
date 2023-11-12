@@ -3,7 +3,7 @@ export interface CustomerCreationReq {
   customerTypeId: number;
   name: string;
   lastName: string;
-  birthDate: string;
+  birthdate: string;
   documentTypeId: number;
   document: string;
   address: string;

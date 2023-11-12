@@ -43,6 +43,13 @@ public class CustomerServiceImp implements CustomerService {
     @Override
     public Customer createCustomer(CustomerCreationDTO newCustomerData) {
         try {
+            // Birthdate validation
+            String birthdate = DateFormat.dateStringFormat(newCustomerData.getBirthdate());
+            if (birthdate == null) {
+                return null;
+            }
+            newCustomerData.setBirthdate(birthdate);
+
             Long newCustomerId = customerCallRepository.createCustomer(newCustomerData);
             if (newCustomerId == null) {
                 return null;
@@ -121,7 +128,7 @@ public class CustomerServiceImp implements CustomerService {
                 Long customerId = customerRepository.getCustomerIdByDocument(csvRecord.get("DOCUMENT"));
                 String birthdate = DateFormat.dateStringFormat(csvRecord.get("BIRTHDATE"));
                 Long areaCode = customerRepository.getAreaIdByAreaCode(Long.parseLong(csvRecord.get("AREA_CODE")));
-                if (customerId != null ||areaCode == null || birthdate == null) {
+                if (customerId != null || areaCode == null || birthdate == null) {
                     invalidCustomers.add(customerRow);
                     continue;
                 }

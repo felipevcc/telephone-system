@@ -18,6 +18,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/paginator';
 import { FileUploadModule } from 'primeng/fileupload';
+import { CalendarModule } from 'primeng/calendar';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -83,7 +84,8 @@ import { TimeSettingComponent } from './containers/time-setting/time-setting.com
     DropdownModule,
     TableModule,
     PaginatorModule,
-    FileUploadModule
+    FileUploadModule,
+    CalendarModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

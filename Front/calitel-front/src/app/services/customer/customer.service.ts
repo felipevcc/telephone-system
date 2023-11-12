@@ -34,7 +34,7 @@ export class CustomerService {
   }
 
   createCustomer(customerData: CustomerCreationReq): Observable<any> {
-    return this.http.post(`${this.apiUrl}${CustomerEndpoints.CustomerDomain}`, customerData);
+    return this.http.post(`http://localhost:8083/api/v1${CustomerEndpoints.CustomerDomain}`, customerData);
   }
 
   updateCustomer(customerId: number, customerData: CustomerUpdateReq): Observable<any> {
