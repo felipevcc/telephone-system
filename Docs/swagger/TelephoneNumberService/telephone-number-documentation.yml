@@ -1,0 +1,227 @@
+openapi: 3.0.3
+info:
+  title: Telephone number microservice - OpenAPI 3.0
+  description: |-
+    Servicio de gestión de números telefónicos
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/api/v1
+tags:
+  - name: Telephone number
+    description: Endpoints de números telefónicos
+paths:
+  /telephoneNumber/{phoneNumber}:
+    get:
+      tags:
+        - Telephone number
+      summary: Obtener número telefónico por su número
+      description: Obtener número telefónico por su número
+      parameters:
+        - $ref: '#/components/parameters/phoneNumber'
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TelephoneNumber'
+        '404':
+          description: No hay resultados
+
+  /telephoneNumber/customer/{customerId}:
+    get:
+      tags:
+        - Telephone number
+      summary: Obtener número telefónico por cliente
+      description: Obtener número telefónico por cliente
+      parameters:
+        - $ref: '#/components/parameters/customerId'
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TelephoneNumber'
+        '404':
+          description: No hay resultados
+
+  /telephoneNumber/trackingProcess:
+    post:
+      tags:
+        - Telephone number
+      summary: Ejecutar proceso de seguimiento de números telefónicos liberados
+      description: Ejecutar proceso de seguimiento de números telefónicos liberados para volver a ponerlos nuevamente en servicio si ya cumplieron con el tiempo mínimo de espera
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: Fallo al correr el proceso
+
+  /telephoneNumber/assign/{customerId}:
+    post:
+      tags:
+        - Telephone number
+      summary: Asignar número telefónico a un cliente
+      description: Asignar número telefónico a un cliente
+      parameters:
+        - $ref: '#/components/parameters/customerId'
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TelephoneNumber'
+        '500':
+          description: Fallo al asignar número
+
+  /telephoneNumber/release/{phoneNumber}:
+    put:
+      tags:
+        - Telephone number
+      summary: Liberar número telefónico de un cliente
+      description: Liberar número telefónico de un cliente
+      parameters:
+        - $ref: '#/components/parameters/phoneNumber'
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TelephoneNumber'
+        '400':
+          description: Error al liberar número o ya se encuentra liberado
+        '500':
+          description: Fallo al liberar número
+
+  /telephoneNumber/downloadCustomerHistory/{customerId}:
+    get:
+      tags:
+        - Telephone number
+      summary: Descargar archivo del historial de los números telefónicos de un cliente
+      description: Descargar archivo del historial de los números telefónicos de un cliente
+      parameters:
+        - $ref: '#/components/parameters/customerId'
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/csv:
+              schema:
+                type: string
+                format: binary
+        '500':
+          description: Fallo al descargar el archivo
+
+  /telephoneNumber/downloadNumberHistory/{phoneNumber}:
+    get:
+      tags:
+        - Telephone number
+      summary: Descargar archivo del historial de un número telefónico
+      description: Descargar archivo del historial de un número telefónico
+      parameters:
+        - $ref: '#/components/parameters/phoneNumber'
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/csv:
+              schema:
+                type: string
+                format: binary
+        '500':
+          description: Fallo al descargar el archivo
+
+  /telephoneNumber/timeSetting:
+    get:
+      tags:
+        - Telephone number
+      summary: Obtener el último intervalo de días establecido
+      description: Obtener el último intervalo de días establecido
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeSetting'
+        '500':
+          description: Fallo al obtener el último intervalo de días establecido
+
+  /telephoneNumber/timeSetting/{timeValue}:
+    post:
+      tags:
+        - Telephone number
+      summary: Establecer un nuevo intervalo de días
+      description: Establecer un nuevo intervalo de días
+      parameters:
+        - $ref: '#/components/parameters/timeValue'
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeSetting'
+        '500':
+          description: Fallo al establecer un nuevo intervalo de días
+
+components:
+  schemas:
+    TelephoneNumber: 
+      type: object
+      properties:
+        numberRecordId:
+          type: integer
+        centerId:
+          type: integer
+        customerId:
+          type: integer
+        phoneNumber:
+          type: string
+        assignmentDate:
+          type: string
+          format: date
+        releaseDate:
+          type: string
+          format: date
+        isActive:
+          type: integer
+    TimeSetting:
+      type: object
+      properties:
+        timeId:
+          type: integer
+        timeValue:
+          type: integer
+        createdAt:
+          type: string
+          format: date
+  parameters:
+    phoneNumber:
+      in: path
+      name: phoneNumber
+      required: true
+      description: Número de teléfono
+      schema:
+        type: integer
+    customerId:
+      in: path
+      name: customerId
+      required: true
+      description: Id del cliente
+      schema:
+        type: integer
+    timeValue:
+      in: path
+      name: timeValue
+      required: true
+      description: Nuevo intervalo de días
+      schema:
+        type: integer

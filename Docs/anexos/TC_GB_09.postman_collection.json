@@ -1,0 +1,803 @@
+{
+	"info": {
+		"_postman_id": "fe2b6a7e-e2e9-45b7-9c31-e030142f8848",
+		"name": "TC_GB_09",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27864851"
+	},
+	"item": [
+		{
+			"name": "Geographic Area Service",
+			"item": [
+				{
+					"name": "AreasPaginator",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/area/paged?centerId=1&page=0&pageSize=5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"area",
+								"paged"
+							],
+							"query": [
+								{
+									"key": "centerId",
+									"value": "1"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "pageSize",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllAreas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/area",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"area"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAreaById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/area/335",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"area",
+								"335"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Geographic Area Microservice"
+		},
+		{
+			"name": "Center Service",
+			"item": [
+				{
+					"name": "CentersPaginator",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/center/paged?areaId=7&page=0&pageSize=5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"center",
+								"paged"
+							],
+							"query": [
+								{
+									"key": "areaId",
+									"value": "7"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "pageSize",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetCenterById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/center/8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"center",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllCentersByArea - Back",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/center/area/150",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"center",
+								"area",
+								"150"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateCenter",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"CentralAB1\",\r\n    \"address\": \"Cra 111 #04-35\",\r\n    \"email\": \"central.ab1@calitel.com\",\r\n    \"phoneNumber\": \"3126457382\",\r\n    \"initialNumber\": 50000000,\r\n    \"finalNumber\": 59999999,\r\n    \"geographicAreasIds\": [65, 77]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/center",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"center"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateCenter",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"address\": \"Cra 121 #41-39\",\r\n    \"email\": \"central.aa1@calitel.com\",\r\n    \"phoneNumber\": \"3147823566\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/center/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"center",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Center Microservice"
+		},
+		{
+			"name": "Customer Service",
+			"item": [
+				{
+					"name": "GetAllCustomerTypes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/customer/customerTypes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"customer",
+								"customerTypes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllDocumentTypes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/customer/documentTypes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"customer",
+								"documentTypes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetCustomerByDocument",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/customer/1/1110363780",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"customer",
+								"1",
+								"1110363780"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetCustomerById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/customer/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"customer",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateCustomer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"customerTypeId\": 2,\r\n    \"name\": \"María\",\r\n    \"lastName\": \"Bonilla\",\r\n    \"birthdate\": \"2001-10-17\",\r\n    \"documentTypeId\": 1,\r\n    \"document\": \"1106378462\",\r\n    \"address\": \"Cll 34 #09-10\",\r\n    \"areaId\": 7,\r\n    \"email\": \"mariabonilla1017@gmail.com\",\r\n    \"phoneNumber\": \"3156256309\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/customer",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"customer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateCustomer",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"address\": \"Cra 121A #42-16 Gratta.\",\r\n    \"email\": \"mateocoll@gmail.com\",\r\n    \"phoneNumber\": \"3149963575\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/customer/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"customer",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DownloadCSV",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `\r",
+									"<style type=\"text/css\">\r",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+									"    .tftable tr {background-color:#ffffff;}\r",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+									"    .tftable tr:hover {background-color:#e0ffff;}\r",
+									"</style>\r",
+									"\r",
+									"<table class=\"tftable\" border=\"1\">\r",
+									"    <tr>\r",
+									"        <th>ID</th>\r",
+									"        <th>First Name</th>\r",
+									"        <th>Last Name</th>\r",
+									"        <th>Date of Birth</th>\r",
+									"        <th>Customer Type</th>\r",
+									"        <th>Identification Number</th>\r",
+									"        <th>Address</th>\r",
+									"        <th>Age</th>\r",
+									"        <th>Email</th>\r",
+									"        <th>Phone Number</th>\r",
+									"    </tr>\r",
+									"    \r",
+									"    {{#each response.split('\\\\n')}}\r",
+									"        {{#if @index}}\r",
+									"            <tr>\r",
+									"                {{#each this.split(',')}}\r",
+									"                    <td>{{this}}</td>\r",
+									"                {{/each}}\r",
+									"            </tr>\r",
+									"        {{/if}}\r",
+									"    {{/each}}\r",
+									"</table>\r",
+									"`;\r",
+									"\r",
+									"function constructVisualizerPayload() {\r",
+									"    var res = pm.response.text();\r",
+									"    var visualizerData = res.split('\\n').filter((line) => line.trim() !== '');\r",
+									"\r",
+									"    return { response: visualizerData };\r",
+									"}\r",
+									"\r",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/customer/download",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"customer",
+								"download"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UploadCSV",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `\r",
+									"<style type=\"text/css\">\r",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+									"    .tftable tr {background-color:#ffffff;}\r",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+									"    .tftable tr:hover {background-color:#e0ffff;}\r",
+									"</style>\r",
+									"\r",
+									"<table class=\"tftable\" border=\"1\">\r",
+									"    <tr>\r",
+									"        <th>ID</th>\r",
+									"        <th>First Name</th>\r",
+									"        <th>Last Name</th>\r",
+									"        <th>Date of Birth</th>\r",
+									"        <th>Customer Type</th>\r",
+									"        <th>Identification Number</th>\r",
+									"        <th>Address</th>\r",
+									"        <th>Age</th>\r",
+									"        <th>Email</th>\r",
+									"        <th>Phone Number</th>\r",
+									"    </tr>\r",
+									"    \r",
+									"    {{#each response.split('\\\\n')}}\r",
+									"        {{#if @index}}\r",
+									"            <tr>\r",
+									"                {{#each this.split(',')}}\r",
+									"                    <td>{{this}}</td>\r",
+									"                {{/each}}\r",
+									"            </tr>\r",
+									"        {{/if}}\r",
+									"    {{/each}}\r",
+									"</table>\r",
+									"`;\r",
+									"\r",
+									"function constructVisualizerPayload() {\r",
+									"    var res = pm.response.text();\r",
+									"    var visualizerData = res.split('\\n').filter((line) => line.trim() !== '');\r",
+									"\r",
+									"    return { response: visualizerData };\r",
+									"}\r",
+									"\r",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/FELIPE/Downloads/customers_backup.csv"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/customer/upload",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"customer",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Telephone Number Service",
+			"item": [
+				{
+					"name": "GetTelephoneNumber",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/telephoneNumber/1400000",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"telephoneNumber",
+								"1400000"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetNumberByCustomer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/telephoneNumber/customer/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"telephoneNumber",
+								"customer",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RunNumberTrackingProcess",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/telephoneNumber/trackingProcess",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"telephoneNumber",
+								"trackingProcess"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AssignTelephoneNumber",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/telephoneNumber/assign/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"telephoneNumber",
+								"assign",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ReleaseTelephoneNumber",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/telephoneNumber/release/1627800",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"telephoneNumber",
+								"release",
+								"1627800"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetCustomerHistoryCSV",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/telephoneNumber/downloadCustomerHistory/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"telephoneNumber",
+								"downloadCustomerHistory",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetNumberHistoryCSV",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/telephoneNumber/downloadNumberHistory/1400000",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"telephoneNumber",
+								"downloadNumberHistory",
+								"1400000"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetTimeSetting",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/telephoneNumber/timeSetting",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"telephoneNumber",
+								"timeSetting"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateTimeSetting",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/telephoneNumber/timeSetting/120",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"telephoneNumber",
+								"timeSetting",
+								"120"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

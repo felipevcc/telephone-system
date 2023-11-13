@@ -1,0 +1,155 @@
+openapi: 3.0.3
+info:
+  title: Geographic area microservice - OpenAPI 3.0
+  description: |-
+    Microservicio para consultar y buscar zonas geográficas (barrios)
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/api/v1
+tags:
+  - name: Areas
+    description: Endpoints de zonas geográficas (barrios de la ciudad de Cali)
+paths:
+
+  /area/paged:
+    get:
+      tags:
+        - Areas
+      summary: Obtener las zonas geográficas paginadas por una central
+      description: Obtener los barrios paginados de la ciudad de Cali que son atendidos por una central
+      parameters:
+        - name: centerId
+          in: query
+          description: ID de la central
+          required: true
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: Número de página
+          required: true
+          schema:
+            type: integer
+        - name: pageSize
+          in: query
+          description: Tamaño de la página
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AreasPage'
+              example:
+                page: 0
+                pageSize: 5
+                totalRecords: 6
+                totalPages: 2
+                geographicAreas:
+                  - areaId: 1
+                    name: Paseo de Los Almendros
+                    code: 596
+                    commune: 5
+                  - areaId: 2
+                    name: Fepicol
+                    code: 798
+                    commune: 7
+                  - areaId: 3
+                    name: Yira Castro
+                    code: 1390
+                    commune: 13
+                  - areaId: 4
+                    name: Lili
+                    code: 1775
+                    commune: 17
+                  - areaId: 31
+                    name: Urbanización Río Lili
+                    code: 2297
+                    commune: 22
+        '404':
+          description: No hay resultados
+        '500':
+          description: Fallo al obtener las zonas geográficas
+
+  /area/{areaId}:
+    get:
+      tags:
+        - Areas
+      summary: Obtener una zona geográfica por su id
+      description: Obtener un barrio por su id
+      parameters:
+        - $ref: '#/components/parameters/areaId'
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Area'
+              example:
+                areaId: 31
+                name: Urbanización Río Lili
+                code: 2297
+                commune: 22
+        '404':
+          description: No hay resultados
+        '500':
+          description: Fallo al obtener zona geográfica
+
+  /area:
+    get:
+      tags:
+        - Areas
+      summary: Obtener zonas geográficas
+      description: Obtener todos lo barrios de la ciudad de Cali (335 barrios) para almacenarlos con Redux en el estado  del frontend
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Area'
+        '500':
+          description: Fallo al obtener zonas geográficas
+
+components:
+  schemas:
+    Area:
+      type: object
+      properties:
+        areaId:
+          type: integer
+        name:
+          type: string
+        code:
+          type: integer
+        commune:
+          type: integer
+    AreasPage:
+      type: object
+      properties:
+        page:
+          type: integer
+        pageSize:
+          type: integer
+        totalRecords:
+          type: integer
+        totalPages:
+          type: integer
+        geographicAreas:
+          type: array
+          items:
+            $ref: '#/components/schemas/Area'
+  parameters:
+    areaId:
+      in: path
+      name: areaId
+      required: true
+      description: Id de la zona geográfica
+      schema:
+        type: integer

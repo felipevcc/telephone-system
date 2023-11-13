@@ -1,0 +1,254 @@
+openapi: 3.0.3
+info:
+  title: Center microservice - OpenAPI 3.0
+  description: |-
+    Microservicio para gestión de centrales
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/api/v1
+tags:
+  - name: Center
+    description: Endpoints de centrales
+paths:
+  /center/paged:
+    get:
+      tags:
+        - Center
+      summary: Obtener las centrales paginadas con atención a una zona geográfica
+      description: Obtener las centrales paginadas con atención a un barrio
+      parameters:
+        - name: areaId
+          in: query
+          description: ID de la zona geográfica
+          required: true
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: Número de página
+          required: true
+          schema:
+            type: integer
+        - name: pageSize
+          in: query
+          description: Tamaño de la página
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CentersPage'
+              example:
+                page: 0
+                pageSize: 5
+                totalRecords: 7
+                totalPages: 2
+                centers:
+                  - centerId: 41
+                    name: CentralAA8
+                    address: "Cra 122 #14-38"
+                    email: central.aa8@calitel.com
+                    phoneNumber: 3167356488
+                    initialNumber: 20000000
+                    finalNumber: 29999999
+                  - centerId: 24
+                    name: CentralAA7
+                    address: "Cra 123B #12-20"
+                    email: central.aa7@calitel.com
+                    phoneNumber: 3146578982
+                    initialNumber: 30000000
+                    finalNumber: 39999999
+                  - centerId: 22
+                    name: CentralAA6
+                    address: "Cll 47C #41-13"
+                    email: central.aa6@calitel.com
+                    phoneNumber: 3146578982
+                    initialNumber: 40000000
+                    finalNumber: 49999999
+                  - centerId: 8
+                    name: CentralAA5
+                    address: "Cll 21A #50-34"
+                    email: central.aa5@calitel.com
+                    phoneNumber: 3187356241
+                    initialNumber: 50000000
+                    finalNumber: 59999999
+                  - centerId: 4
+                    name: CentralAA4
+                    address: "Cll 13A #37-42"
+                    email: central.aa4@calitel.com
+                    phoneNumber: 3715385916
+                    initialNumber: 60000000
+                    finalNumber: 69999999
+        '404':
+          description: No hay resultados
+        '500':
+          description: Fallo al obtener las centrales
+
+  /center:
+    post:
+      tags:
+        - Center
+      summary: Crear central
+      description: Crear una nueva central
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                address:
+                  type: string
+                email:
+                  type: string
+                phoneNumber:
+                  type: string
+                initialNumber:
+                  type: integer
+                finalNumber:
+                  type: integer
+                geographicAreasIds:
+                  type: array
+                  items:
+                    type: integer
+      responses:
+        '400':
+          description: Datos inválidos
+        '500':
+          description: Fallo al crear central
+
+  /center/{centerId}:
+    get:
+      tags:
+        - Center
+      summary: Obtener central por su id
+      description: Obtener central por su id
+      parameters:
+        - $ref: '#/components/parameters/centerId'
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Center'
+              example:
+                centerId: 4
+                name: CentralAA4
+                address: "Cll 13A #37-42"
+                email: central.aa4@calitel.com
+                phoneNumber: 3715385916
+                initialNumber: 60000000
+                finalNumber: 69999999
+        '404':
+          description: No hay resultados
+        '500':
+          description: Fallo al obtener central
+    
+    put:
+      tags:
+        - Center
+      summary: Actualizar datos de central
+      description: Actualizar datos de central
+      parameters:
+        - $ref: '#/components/parameters/centerId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address:
+                  type: string
+                email:
+                  type: string
+                phoneNumber:
+                  type: string
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Center'
+        '404':
+          description: No se encontró la central
+        '500':
+          description: Fallo al actualizar central
+
+  /center/area/{areaId}:
+    get:
+      tags:
+        - Center
+      summary: Obtener las centrales con atención a una zona geográfica
+      description: Obtener las centrales con atención a un barrio
+      parameters:
+        - $ref: '#/components/parameters/areaId'
+      responses:
+        '200':
+          description: Operación exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Center'
+        '500':
+          description: Fallo al obtener centrales
+
+components:
+  schemas:
+    Center:
+      type: object
+      properties:
+        centerId:
+          type: integer
+        name:
+          type: string
+        address:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+        initialNumber:
+          type: integer
+        finalNumber:
+          type: integer
+    CentersPage:
+      type: object
+      properties:
+        page:
+          type: integer
+        pageSize:
+          type: integer
+        totalRecords:
+          type: integer
+        totalPages:
+          type: integer
+        centers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Center'
+  parameters:
+    areaId:
+      in: path
+      name: areaId
+      required: true
+      description: Id de la zona geográfica
+      schema:
+        type: integer
+    centerId:
+      in: path
+      name: centerId
+      required: true
+      description: Id de la central
+      schema:
+        type: integer
