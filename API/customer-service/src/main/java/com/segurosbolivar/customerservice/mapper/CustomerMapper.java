@@ -19,7 +19,9 @@ public class CustomerMapper {
     ModelMapper modelMapper;
 
     public CustomerDTO customerToDTO(Customer customer) {
-        return modelMapper.map(customer, CustomerDTO.class);
+        CustomerDTO mappedCustomer = modelMapper.map(customer, CustomerDTO.class);
+        mappedCustomer.setBirthdate(mappedCustomer.getBirthdate().split("T")[0]);
+        return mappedCustomer;
     }
 
     public CustomerTypeDTO customerTypeToDTO(CustomerType customerType) {
