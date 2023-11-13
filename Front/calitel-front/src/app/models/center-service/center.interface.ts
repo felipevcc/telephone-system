@@ -6,5 +6,4 @@ export interface Center {
   phoneNumber: string;
   initialNumber: number;
   finalNumber: number;
-  createdAt: string;
 }

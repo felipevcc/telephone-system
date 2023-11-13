@@ -1,9 +1,9 @@
 package com.segurosbolivar.centerservice.controller;
 
 import com.segurosbolivar.centerservice.dto.CenterCreationDTO;
+import com.segurosbolivar.centerservice.dto.CenterDTO;
 import com.segurosbolivar.centerservice.dto.CenterUpdateDTO;
 import com.segurosbolivar.centerservice.dto.CentersPageDTO;
-import com.segurosbolivar.centerservice.model.Center;
 import com.segurosbolivar.centerservice.service.CenterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,8 +34,8 @@ public class CenterController {
     }
 
     @GetMapping("/{centerId}")
-    public ResponseEntity<Center> getCenterById(@PathVariable Long centerId) {
-        Center foundCenter = centerService.getCenterById(centerId);
+    public ResponseEntity<CenterDTO> getCenterById(@PathVariable Long centerId) {
+        CenterDTO foundCenter = centerService.getCenterById(centerId);
         if (foundCenter == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -43,13 +43,13 @@ public class CenterController {
     }
 
     @GetMapping("/area/{areaId}")
-    public ResponseEntity<List<Center>> getAllCentersByArea(@PathVariable Long areaId) {
+    public ResponseEntity<List<CenterDTO>> getAllCentersByArea(@PathVariable Long areaId) {
         return ResponseEntity.status(HttpStatus.OK).body(centerService.getAllCentersByArea(areaId));
     }
 
     @PostMapping
-    public ResponseEntity<Center> createCenter(@RequestBody CenterCreationDTO newCenterData) {
-        Center newCenter = centerService.createCenter(newCenterData);
+    public ResponseEntity<CenterDTO> createCenter(@RequestBody CenterCreationDTO newCenterData) {
+        CenterDTO newCenter = centerService.createCenter(newCenterData);
         if (newCenter == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
@@ -57,8 +57,8 @@ public class CenterController {
     }
 
     @PutMapping("/{centerId}")
-    public ResponseEntity<Center> updateCenter(@PathVariable Long centerId, @RequestBody CenterUpdateDTO centerData) {
-        Center updatedCenter = centerService.updateCenter(centerId, centerData);
+    public ResponseEntity<CenterDTO> updateCenter(@PathVariable Long centerId, @RequestBody CenterUpdateDTO centerData) {
+        CenterDTO updatedCenter = centerService.updateCenter(centerId, centerData);
         if (updatedCenter == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }

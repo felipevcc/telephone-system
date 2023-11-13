@@ -1,9 +1,7 @@
 package com.segurosbolivar.centerservice.service;
 
-import com.segurosbolivar.centerservice.dto.CenterCreationDTO;
-import com.segurosbolivar.centerservice.dto.CenterUpdateDTO;
-import com.segurosbolivar.centerservice.dto.CentersPageDTO;
-import com.segurosbolivar.centerservice.dto.GeographicAreaDTO;
+import com.segurosbolivar.centerservice.dto.*;
+import com.segurosbolivar.centerservice.mapper.CenterMapper;
 import com.segurosbolivar.centerservice.model.AreaCenter;
 import com.segurosbolivar.centerservice.model.Center;
 import com.segurosbolivar.centerservice.repository.AreaCenterRepository;
@@ -21,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CenterServiceImp implements CenterService {
@@ -34,6 +33,9 @@ public class CenterServiceImp implements CenterService {
     @Autowired
     RestTemplate restTemplate;
 
+    @Autowired
+    CenterMapper centerMapper;
+
     @Override
     public CentersPageDTO getCentersByAreaId(Long areaId, Integer page, Integer pageSize) {
         CentersPageDTO pagedCentersResponse = new CentersPageDTO();
@@ -44,27 +46,38 @@ public class CenterServiceImp implements CenterService {
         Pageable pageable = PageRequest.of(page, pageSize);
         List<Center> centers = centerRepository.findCentersByArea(areaId, pageable);
 
+        List<CenterDTO> mappedCenters = centers.stream()
+                .map(center -> centerMapper.centerToDTO(center))
+                .collect(Collectors.toList());
+
         pagedCentersResponse.setPage(page);
         pagedCentersResponse.setPageSize(pageSize);
         pagedCentersResponse.setTotalRecords(totalRecords);
         pagedCentersResponse.setTotalPages(totalPages);
-        pagedCentersResponse.setCenters(centers);
+        pagedCentersResponse.setCenters(mappedCenters);
 
         return pagedCentersResponse;
     }
 
     @Override
-    public Center getCenterById(Long centerId) {
-        return centerRepository.findById(centerId).orElse(null);
+    public CenterDTO getCenterById(Long centerId) {
+        Center foundCenter = centerRepository.findById(centerId).orElse(null);
+        if (foundCenter == null) {
+            return null;
+        }
+        return centerMapper.centerToDTO(foundCenter);
     }
 
     @Override
-    public List<Center> getAllCentersByArea(Long areaId) {
-        return centerRepository.findAllCentersByArea(areaId);
+    public List<CenterDTO> getAllCentersByArea(Long areaId) {
+        List<Center> foundCenters = centerRepository.findAllCentersByArea(areaId);
+        return foundCenters.stream()
+                .map(center -> centerMapper.centerToDTO(center))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Center createCenter(CenterCreationDTO newCenterData) {
+    public CenterDTO createCenter(CenterCreationDTO newCenterData) {
         Long newCenterId = null;
         try {
             int lengthInitialNumber = String.valueOf(newCenterData.getInitialNumber()).length();
@@ -113,7 +126,7 @@ public class CenterServiceImp implements CenterService {
     }
 
     @Override
-    public Center updateCenter(Long centerId, CenterUpdateDTO centerData) {
+    public CenterDTO updateCenter(Long centerId, CenterUpdateDTO centerData) {
         try {
             if (!centerRepository.existsById(centerId)) {
                 return null;
