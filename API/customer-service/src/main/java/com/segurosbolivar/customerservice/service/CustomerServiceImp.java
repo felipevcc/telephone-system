@@ -129,17 +129,7 @@ public class CustomerServiceImp implements CustomerService {
 
             Iterable<CSVRecord> csvRecords = csvParser.getRecords();
             for (CSVRecord csvRecord : csvRecords) {
-                CustomerRowDTO customerRow = new CustomerRowDTO();
-                customerRow.setCustomerTypeId(Long.parseLong(csvRecord.get("CUSTOMER_TYPE_ID")));
-                customerRow.setName(csvRecord.get("NAME"));
-                customerRow.setLastName(csvRecord.get("LAST_NAME"));
-                customerRow.setBirthdate(csvRecord.get("BIRTHDATE"));
-                customerRow.setDocumentTypeId(Long.parseLong(csvRecord.get("DOCUMENT_TYPE_ID")));
-                customerRow.setDocument(csvRecord.get("DOCUMENT"));
-                customerRow.setAddress(csvRecord.get("ADDRESS"));
-                customerRow.setAreaCode(Long.parseLong(csvRecord.get("AREA_CODE")));
-                customerRow.setEmail(csvRecord.get("EMAIL"));
-                customerRow.setPhoneNumber(csvRecord.get("PHONE_NUMBER"));
+                CustomerRowDTO customerRow = customerMapper.csvRecordToDTO(csvRecord);
 
                 Long customerId = customerRepository.getCustomerIdByDocument(csvRecord.get("DOCUMENT"));
                 String birthdate = DateFormat.dateStringFormat(csvRecord.get("BIRTHDATE"));

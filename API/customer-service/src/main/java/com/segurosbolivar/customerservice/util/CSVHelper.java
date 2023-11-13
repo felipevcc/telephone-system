@@ -10,6 +10,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class CSVHelper {
                         "DOCUMENT", "ADDRESS", "AREA_CODE", "EMAIL", "PHONE_NUMBER"
                 ).build();
         try (ByteArrayOutputStream out = new ByteArrayOutputStream();
-             CSVPrinter csvPrinter = new CSVPrinter(new PrintWriter(out), format)) {
+             CSVPrinter csvPrinter = new CSVPrinter(new PrintWriter(out, false, StandardCharsets.UTF_8), format)) {
             for (CustomerRowDTO customer : customers) {
                 List<String> rowData = Arrays.asList(
                         String.valueOf(customer.getCustomerTypeId()),
