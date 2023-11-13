@@ -10,7 +10,7 @@ import { saveAs } from 'file-saver';
 })
 export class UploadCustomersComponent implements OnInit {
 
-  maxSize:number = 91210;
+  maxSize:number = 98100;
   uploadedFiles: any[] = [];
 
   constructor(private customerService: CustomerService) { }
