@@ -14,34 +14,51 @@
         <div class="form-input">
           <label for="name">Nombre de la central</label>
           <input type="text" pInputText id="name" name="name" formControlName="name" placeholder="Ingrese el nombre" autocomplete="off" />
+          <small class="p-error" *ngIf="form.get('name')?.dirty && form.get('name')?.hasError('required')">Campo requerido.</small>
+          <small class="p-error" *ngIf="form.get('name')?.hasError('pattern') || form.get('name')?.hasError('maxlength')">Nombre no válido.</small>
         </div>
         
         <div class="form-input">
           <label for="address">Dirección</label>
           <input type="text" pInputText id="address" name="address" formControlName="address" placeholder="Ingrese la dirección" autocomplete="off" />
+          <small class="p-error" *ngIf="form.get('address')?.dirty && form.get('address')?.hasError('required')">Campo requerido.</small>
+          <small class="p-error" *ngIf="form.get('address')?.hasError('maxlength')">Dirección no válida.</small>
         </div>
         
         <div class="form-input">
           <label for="email">Correo electrónico</label>
           <input type="text" pInputText id="email" name="email" formControlName="email" placeholder="Ingrese el correo" autocomplete="off" />
+          <small class="p-error" *ngIf="form.get('email')?.dirty && form.get('email')?.hasError('required')">Campo requerido.</small>
+          <small class="p-error" *ngIf="form.get('email')?.hasError('email') || form.get('email')?.hasError('maxlength')">Correo no válido.</small>
         </div>
 
         <div class="form-input">
           <label for="phoneNumber">Número de teléfono</label>
           <input type="text" pInputText id="phoneNumber" name="phoneNumber" formControlName="phoneNumber" placeholder="Ingrese el número" autocomplete="off" />
+          <small class="p-error" *ngIf="form.get('phoneNumber')?.dirty && form.get('phoneNumber')?.hasError('required')">Campo requerido.</small>
+          <small class="p-error" *ngIf="form.get('phoneNumber')?.hasError('maxlength')">Número no válido.</small>
         </div>
 
         <div class="form-input">
           <label>Rango de números disponibles</label>
           <div class="range-inputs">
-            <p-inputNumber mode="decimal" name="initialNumber" formControlName="initialNumber" placeholder="Rango inicial" [useGrouping]="false" autocomplete="off"> </p-inputNumber>
-            <p-inputNumber mode="decimal" name="finalNumber" formControlName="finalNumber" placeholder="Rango final" [useGrouping]="false" autocomplete="off"> </p-inputNumber>
+            <div class="range-inp">
+              <p-inputNumber mode="decimal" name="initialNumber" formControlName="initialNumber" placeholder="Rango inicial" [useGrouping]="false" autocomplete="off"> </p-inputNumber>
+              <small class="p-error" *ngIf="form.get('initialNumber')?.dirty && form.get('initialNumber')?.hasError('required')">Campo requerido.</small>
+              <small class="p-error" *ngIf="form.get('initialNumber')?.hasError('min') ||  form.get('initialNumber')?.hasError('max')">Número no válido.</small>
+            </div>
+            <div class="range-inp">
+              <p-inputNumber mode="decimal" name="finalNumber" formControlName="finalNumber" placeholder="Rango final" [useGrouping]="false" autocomplete="off"> </p-inputNumber>
+              <small class="p-error" *ngIf="form.get('finalNumber')?.dirty && form.get('finalNumber')?.hasError('required')">Campo requerido.</small>
+              <small class="p-error" *ngIf="form.get('finalNumber')?.hasError('min') || form.get('finalNumber')?.hasError('max')">Número no válido.</small>
+            </div>
           </div>
         </div>
 
         <div class="form-input">
           <label for="geographicAreas">Zona geográficas</label>
           <p-multiSelect inputId="geographicAreas" [options]="geographicAreas" formControlName="areas" optionLabel="name" defaultLabel="Seleccione las zonas"></p-multiSelect>
+          <small class="p-error" *ngIf="form.get('areas')?.dirty && form.get('areas')?.hasError('required')">Campo requerido.</small>
         </div>
 
       </div>

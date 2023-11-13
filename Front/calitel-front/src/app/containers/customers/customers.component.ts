@@ -49,7 +49,8 @@ export class CustomersComponent implements OnInit {
 
   onSearch(): void {
     const formData = this.form.value;
-    this.customerService.getCustomerByDocument(formData.documentType.documentTypeId, formData.document).subscribe({
+    const document = formData.document.replace(/\s/g, '');
+    this.customerService.getCustomerByDocument(formData.documentType.documentTypeId, document).subscribe({
       next: (data) => {
         this.customer = data;
         this.router.navigate([`/${Paths.CustomerDetails}/${this.customer.customerId}`]);

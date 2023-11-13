@@ -38,21 +38,9 @@ export class RegisterCenterComponent implements OnInit {
       email: ['', [Validators.required, Validators.maxLength(50), Validators.email]],
       phoneNumber: ['', [Validators.required, Validators.maxLength(20)]],
       initialNumber: [null, [Validators.required, Validators.min(1000000), Validators.max(99999999)]],
-      finalNumber: [null, [Validators.required, Validators.min(1000001), Validators.max(99999999), this.validateFinalNumber]],
+      finalNumber: [null, [Validators.required, Validators.min(1000001), Validators.max(99999999)]],
       areas: [null, [Validators.required]]
     });
-  }
-
-  validateFinalNumber = (control: any) => {
-    const finalNumber = control.value;
-    if (!finalNumber) {
-      return null;
-    }
-    const initialNumber = this.form.get('initialNumber')?.value;
-    if (!initialNumber) {
-      return null;
-    }
-    return finalNumber - initialNumber + 1 >= 10000000 ? null : { invalidRange: true };
   }
 
   onSubmit() {
@@ -60,6 +48,10 @@ export class RegisterCenterComponent implements OnInit {
       return;
     }
     const formData = this.form.value;
+    if (formData.finalNumber - formData.initialNumber + 1 < 10000000) {
+      this.messages = [{ severity: 'error', detail: Messages.INVALID_RANGE }];
+      return;
+    }
     const center: CenterCreationReq = {
       name: formData.name,
       address: formData.address,
@@ -75,7 +67,7 @@ export class RegisterCenterComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error creating center:', error);
-        this.messages = [{ severity: 'error', detail: Messages.ERROR_SAVE }];
+        this.messages = [{ severity: 'warn', detail: Messages.ERROR_SAVE_CENTER }];
       }
     });
   }

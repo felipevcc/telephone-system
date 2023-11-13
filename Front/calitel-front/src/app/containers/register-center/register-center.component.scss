@@ -60,6 +60,7 @@
           justify-content: center;
           align-items: left;
           width: 100%;
+          position: relative;
   
           label {
             margin-bottom: 3%;
@@ -80,6 +81,7 @@
             }
             .p-multiselect-label {
               max-width: 200px;
+              color: var(--color-grayscale700);
             }
           }
   
@@ -87,16 +89,32 @@
             font-family: var(--font-regular);
           }
 
+          .p-error {
+            position: absolute;
+            bottom: -16px;
+            left: 0;
+          }
+
           .range-inputs {
             display: flex;
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            ::ng-deep .p-element {
+            .range-inp {
               width: 45%;
-              font-family: var(--font-regular);
+              position: relative;
+              ::ng-deep .p-element {
+                width: 100%;
+                font-family: var(--font-regular);
+              }
+              .p-error {
+                position: absolute;
+                bottom: -16px;
+                left: 0;
+              }
             }
           }
+
         }
       }
 

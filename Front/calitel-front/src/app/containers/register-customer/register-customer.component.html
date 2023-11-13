@@ -14,41 +14,55 @@
         <div class="form-input">
           <label for="name">Nombre</label>
           <input type="text" pInputText id="name" name="name" formControlName="name" placeholder="Ingrese el nombre" autocomplete="off" />
+          <small class="p-error" *ngIf="form.get('name')?.dirty && form.get('name')?.hasError('required')">Campo requerido.</small>
+          <small class="p-error" *ngIf="form.get('name')?.hasError('pattern') || form.get('name')?.hasError('maxlength')">Nombre no válido.</small>
         </div>
 
         <div class="form-input">
           <label for="lastName">Apellido</label>
           <input type="text" pInputText id="lastName" name="lastName" formControlName="lastName" placeholder="Ingrese el apellido" autocomplete="off" />
+          <small class="p-error" *ngIf="form.get('lastName')?.dirty && form.get('lastName')?.hasError('required')">Campo requerido.</small>
+          <small class="p-error" *ngIf="form.get('lastName')?.hasError('pattern') || form.get('lastName')?.hasError('maxlength')">Apellido no válido.</small>
         </div>
         
         <div class="form-input">
           <label for="documentTypes">Tipo de documento</label>
           <p-dropdown [options]="documentTypes" inputId="documentTypes" optionLabel="description" placeholder="Selecciona el tipo de documento" formControlName="documentType"></p-dropdown>
+          <small class="p-error" *ngIf="form.get('documentType')?.dirty && form.get('documentType')?.hasError('required')">Campo requerido.</small>
         </div>
         
         <div class="form-input">
           <label for="document">Número de documento</label>
           <input type="text" pInputText id="document" name="document" formControlName="document" placeholder="Ingrese el número" autocomplete="off" />
+          <small class="p-error" *ngIf="form.get('document')?.dirty && form.get('document')?.hasError('required')">Campo requerido.</small>
+          <small class="p-error" *ngIf="form.get('document')?.hasError('pattern') || form.get('document')?.hasError('maxlength')">Documento no válido.</small>
         </div>
         
         <div class="form-input">
           <label for="birthdate">Fecha de nacimiento</label>
           <p-calendar inputId="birthdate" formControlName="birthdate" placeholder="Ingrese la fecha" dateFormat="dd/mm/yy"></p-calendar>
+          <small class="p-error" *ngIf="form.get('birthdate')?.dirty && form.get('birthdate')?.hasError('required')">Campo requerido.</small>
+          <small class="p-error" *ngIf="form.get('birthdate')?.hasError('invalidAge')">Fecha no válida.</small>
         </div>
         
         <div class="form-input">
           <label for="customerTypes">Tipo de cliente</label>
           <p-dropdown [options]="customerTypes" inputId="customerTypes" optionLabel="customerTypeName" placeholder="Selecciona el tipo de documento" formControlName="customerType"></p-dropdown>
+          <small class="p-error" *ngIf="form.get('customerType')?.dirty && form.get('customerType')?.hasError('required')">Campo requerido.</small>
         </div>
 
         <div class="form-input">
           <label for="email">Correo electrónico</label>
           <input type="text" pInputText id="email" name="email" formControlName="email" placeholder="Ingrese el correo" autocomplete="off" />
+          <small class="p-error" *ngIf="form.get('email')?.dirty && form.get('email')?.hasError('required')">Campo requerido.</small>
+          <small class="p-error" *ngIf="form.get('email')?.hasError('email') || form.get('email')?.hasError('maxlength')">Correo no válido.</small>
         </div>
         
         <div class="form-input">
           <label for="phoneNumber">Número de teléfono</label>
           <input type="text" pInputText id="phoneNumber" name="phoneNumber" formControlName="phoneNumber" placeholder="Ingrese el número" autocomplete="off" />
+          <small class="p-error" *ngIf="form.get('phoneNumber')?.dirty && form.get('phoneNumber')?.hasError('required')">Campo requerido.</small>
+          <small class="p-error" *ngIf="form.get('phoneNumber')?.hasError('maxlength')">Número no válido.</small>
         </div>
 
         <div class="form-input">
@@ -65,11 +79,14 @@
                 </div>
             </ng-template>
           </p-dropdown>
+          <small class="p-error" *ngIf="form.get('area')?.dirty && form.get('area')?.hasError('required')">Campo requerido.</small>
         </div>
 
         <div class="form-input">
           <label for="address">Dirección</label>
           <input type="text" pInputText id="address" name="address" formControlName="address" placeholder="Ingrese la dirección" autocomplete="off" />
+          <small class="p-error" *ngIf="form.get('address')?.dirty && form.get('address')?.hasError('required')">Campo requerido.</small>
+          <small class="p-error" *ngIf="form.get('address')?.hasError('maxlength')">Dirección no válida.</small>
         </div>
 
       </div>

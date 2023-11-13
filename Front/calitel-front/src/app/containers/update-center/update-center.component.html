@@ -22,16 +22,22 @@
             <div class="form-input">
               <label for="email">Correo electrónico</label>
               <input type="text" pInputText id="email" name="email" formControlName="email" placeholder="Ingrese el correo" autocomplete="off" />
+              <small class="p-error" *ngIf="form.get('email')?.dirty && form.get('email')?.hasError('required')">Campo requerido.</small>
+              <small class="p-error" *ngIf="form.get('email')?.hasError('email') || form.get('email')?.hasError('maxlength')">Correo no válido.</small>
             </div>
             
             <div class="form-input">
               <label for="phoneNumber">Número de teléfono</label>
               <input type="text" pInputText id="phoneNumber" name="phoneNumber" formControlName="phoneNumber" placeholder="Ingrese el número" autocomplete="off" />
+              <small class="p-error" *ngIf="form.get('phoneNumber')?.dirty && form.get('phoneNumber')?.hasError('required')">Campo requerido.</small>
+              <small class="p-error" *ngIf="form.get('phoneNumber')?.hasError('maxlength')">Número no válido.</small>
             </div>
             
             <div class="form-input">
               <label for="address">Dirección</label>
               <input type="text" pInputText id="address" name="address" formControlName="address" placeholder="Ingrese la dirección" autocomplete="off" />
+              <small class="p-error" *ngIf="form.get('address')?.dirty && form.get('address')?.hasError('required')">Campo requerido.</small>
+              <small class="p-error" *ngIf="form.get('address')?.hasError('maxlength')">Dirección no válida.</small>
             </div>
     
           </div>

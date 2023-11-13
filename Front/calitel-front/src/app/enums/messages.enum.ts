@@ -22,4 +22,7 @@ export enum Messages {
   CUSTOMER_NOT_FOUND = "El cliente no existe",
 
   INVALID_ACTION = "Acción inválida",
+  INVALID_RANGE = "El rango debe ser de al menos 10.000.000 números",
+
+  ERROR_SAVE_CENTER = "Revisa los datos de la central",
 }

@@ -63,6 +63,7 @@
           justify-content: center;
           align-items: left;
           width: 100%;
+          position: relative;
   
           label {
             margin-bottom: 3%;
@@ -85,6 +86,12 @@
   
           input {
             font-family: var(--font-regular);
+          }
+
+          .p-error {
+            position: absolute;
+            bottom: -16px;
+            left: 0;
           }
         }
       }
