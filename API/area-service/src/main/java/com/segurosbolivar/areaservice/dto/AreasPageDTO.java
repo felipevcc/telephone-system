@@ -15,5 +15,5 @@ public class AreasPageDTO {
     private Integer pageSize;
     private Long totalRecords;
     private Integer totalPages;
-    private List<GeographicArea> geographicAreas;
+    private List<GeographicAreaDTO> geographicAreas;
 }

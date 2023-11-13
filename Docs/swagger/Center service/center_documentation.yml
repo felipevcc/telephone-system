@@ -1,0 +1,184 @@
+openapi: 3.0.3
+info:
+  title: Center microservice - OpenAPI 3.0
+  description: |-
+    service to manage centers
+  version: 1.0.0
+servers:
+  - url: https://calitel.center/api/v1
+tags:
+  - name: Center
+    description: Everything about centers
+paths:
+  /center/{area_id}:
+    get:
+      tags:
+        - Center
+      summary: Get centers by geographical area
+      description: Obtain the centers with attention to a geographical area
+      parameters:
+        - $ref: '#/components/parameters/area_id'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Center'
+        '500':
+          description: Failed to get centers
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+  /center:
+    post:
+      tags:
+        - Center
+      summary: Create a new center
+      description: Create a new center
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: integer
+                address:
+                  type: string
+                email:
+                  type: string
+                phone_number:
+                  type: string
+                  format: date
+                initial_number:
+                  type: integer
+                final_number:
+                  type: string
+                areas:
+                  type: array
+                  items:
+                    type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Center'
+        '404':
+          description: Failed to create center
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+  /center/{center_id}:
+    put:
+      tags:
+        - Center
+      summary: Update a center
+      description: Update a center
+      parameters:
+        - $ref: '#/components/parameters/center_id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                address:
+                  type: string
+                email:
+                  type: string
+                phone_number:
+                  type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Center'
+        '404':
+          description: Failed to update center
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+    get:
+      tags:
+        - Center
+      summary: Get center by id
+      description: Obtain a center by id
+      parameters:
+        - $ref: '#/components/parameters/center_id'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Center'
+        '404':
+          description: Failed to get center
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+components:
+  schemas:
+    Center:
+      type: object
+      properties:
+        center_id:
+          type: integer
+        name:
+          type: string
+        address:
+          type: string
+        email:
+          type: string
+        phone_number:
+          type: string
+        initial_number:
+          type: integer
+        final_number:
+          type: integer
+  parameters:
+    area_id:
+      in: path
+      name: area_id
+      required: true
+      description: Area id
+      schema:
+        type: integer
+    center_id:
+      in: path
+      name: center_id
+      required: true
+      description: Center id
+      schema:
+        type: integer

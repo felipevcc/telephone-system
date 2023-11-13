@@ -1,6 +1,8 @@
 package com.segurosbolivar.areaservice.service;
 
 import com.segurosbolivar.areaservice.dto.AreasPageDTO;
+import com.segurosbolivar.areaservice.dto.GeographicAreaDTO;
+import com.segurosbolivar.areaservice.mapper.GeographicAreaMapper;
 import com.segurosbolivar.areaservice.model.GeographicArea;
 import com.segurosbolivar.areaservice.repository.AreaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AreaServiceImp implements AreaService {
@@ -16,14 +19,24 @@ public class AreaServiceImp implements AreaService {
     @Autowired
     AreaRepository areaRepository;
 
+    @Autowired
+    GeographicAreaMapper areaMapper;
+
     @Override
-    public GeographicArea getAreaById(Long areaId) {
-        return areaRepository.findById(areaId).orElse(null);
+    public GeographicAreaDTO getAreaById(Long areaId) {
+        GeographicArea foundArea = areaRepository.findById(areaId).orElse(null);
+        if (foundArea == null) {
+            return null;
+        }
+        return areaMapper.geographicAreaToDTO(foundArea);
     }
 
     @Override
-    public List<GeographicArea> getAllAreas() {
-        return areaRepository.findAllByOrderByAreaId();
+    public List<GeographicAreaDTO> getAllAreas() {
+        List<GeographicArea> foundAreas = areaRepository.findAllByOrderByAreaId();
+        return foundAreas.stream()
+                .map(area -> areaMapper.geographicAreaToDTO(area))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -36,11 +49,15 @@ public class AreaServiceImp implements AreaService {
         Pageable pageable = PageRequest.of(page, pageSize);
         List<GeographicArea> areas = areaRepository.findAreasByCenter(centerId, pageable);
 
+        List<GeographicAreaDTO> mappedAreas = areas.stream()
+                .map(area -> areaMapper.geographicAreaToDTO(area))
+                .collect(Collectors.toList());
+
         pagedAreasResponse.setPage(page);
         pagedAreasResponse.setPageSize(pageSize);
         pagedAreasResponse.setTotalRecords(totalRecords);
         pagedAreasResponse.setTotalPages(totalPages);
-        pagedAreasResponse.setGeographicAreas(areas);
+        pagedAreasResponse.setGeographicAreas(mappedAreas);
 
         return pagedAreasResponse;
     }

@@ -29,7 +29,6 @@ export class UploadCustomersComponent implements OnInit {
       next: (response: HttpResponse<Blob>) => {
         if (!response.body) {
           console.error("Error downloading invalid customers on upload");
-          //this.onDownloadMessages = [{ severity: 'error', detail: Messages.ERROR_GET }];
           return;
         }
         const contentDispositionHeader = response.headers.get('Content-Disposition');

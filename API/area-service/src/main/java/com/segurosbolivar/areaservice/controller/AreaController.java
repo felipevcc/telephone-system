@@ -1,6 +1,7 @@
 package com.segurosbolivar.areaservice.controller;
 
 import com.segurosbolivar.areaservice.dto.AreasPageDTO;
+import com.segurosbolivar.areaservice.dto.GeographicAreaDTO;
 import com.segurosbolivar.areaservice.model.GeographicArea;
 import com.segurosbolivar.areaservice.service.AreaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,8 @@ public class AreaController {
     AreaService areaService;
 
     @GetMapping("/{areaId}")
-    public ResponseEntity<GeographicArea> getAreaById(@PathVariable Long areaId) {
-        GeographicArea foundArea = areaService.getAreaById(areaId);
+    public ResponseEntity<GeographicAreaDTO> getAreaById(@PathVariable Long areaId) {
+        GeographicAreaDTO foundArea = areaService.getAreaById(areaId);
         if (foundArea == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -28,7 +29,7 @@ public class AreaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<GeographicArea>> getAllAreas() {
+    public ResponseEntity<List<GeographicAreaDTO>> getAllAreas() {
         return ResponseEntity.status(HttpStatus.OK).body(areaService.getAllAreas());
     }
 

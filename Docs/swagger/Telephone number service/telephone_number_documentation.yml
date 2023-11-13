@@ -1,0 +1,260 @@
+openapi: 3.0.3
+info:
+  title: Telephone number microservice - OpenAPI 3.0
+  description: |-
+    service to manage telephone numbers
+  version: 1.0.0
+servers:
+  - url: https://calitel.telephone_number/api/v1
+tags:
+  - name: Telephone number
+    description: Everything about telephone numbers
+paths:
+  /telephone_number/{number}:
+    get:
+      tags:
+        - Telephone number
+      summary: Get telephone data by number
+      description: Get telephone data by number
+      parameters:
+        - $ref: '#/components/parameters/number'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Telephone_number'
+        '404':
+          description: Failed to get telephone number
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+  /telephone_number/history/{number}:
+    get:
+      tags:
+        - Telephone number
+      summary: Download telephone number history file
+      description: Download telephone number history file
+      parameters:
+        - $ref: '#/components/parameters/number'
+      responses:
+        '200':
+          description: Successful operation
+        '500':
+          description: Failed to download history file
+
+  /customer/history/{customer_id}:
+    get:
+      tags:
+        - Telephone number
+      summary: Download historical file of a client's telephone numbers
+      description: Download historical file of a client's telephone numbers
+      parameters:
+        - $ref: '#/components/parameters/customer_id'
+      responses:
+        '200':
+          description: Successful operation
+        '500':
+          description: Failed to download history file
+
+  /telephone_number/system_process:
+    get:
+      tags:
+        - Telephone number
+      summary: Run system process
+      description: Manually run the process of tracking released phone numbers to make them available again
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '500':
+          description: Failed to run the process
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+  /telephone_number/time_to_release:
+    put:
+      tags:
+        - Telephone number
+      summary: Update time required for released numbers
+      description: Modify the minimum time required to make released numbers available again
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                time_value:
+                  type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Minimum_time_setting'
+        '404':
+          description: Failed to update time
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+  /assign_number:
+    post:
+      tags:
+        - Telephone number
+      summary: Assign phone number to a customer according to their type
+      description: Assign phone number to a customer according to their type
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                customer_id:
+                  type: integer
+                area_id:
+                  type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  phone_number:
+                    type: string
+        '500':
+          description: Failed to assign number
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+  /release_number:
+    post:
+      tags:
+        - Telephone number
+      summary: Release telephone number
+      description: Release telephone number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                customer_id:
+                  type: integer
+                telephone_number:
+                  type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '500':
+          description: Failed to release number
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+components:
+  schemas:
+    Telephone_number: 
+      type: object
+      properties:
+        number_record_id:
+          type: integer
+        center:
+          type: object
+          properties:
+            center_id:
+              type: integer
+            name:
+              type: string
+            initial_number:
+              type: integer
+            final_number:
+              type: integer
+        customer:
+          type: object
+          properties:
+            customer_id:
+              type: integer
+            customer_type_id:
+              type: integer
+            name:
+              type: string
+            last_name:
+              type: string
+            document_type_id:
+              type: integer
+            document:
+              type: string
+        phone_number:
+          type: string
+        assignment_date:
+          type: string
+          format: date
+        release_date:
+          type: string
+          format: date
+    Minimum_time_setting:
+      type: object
+      properties:
+        time_id:
+          type: integer
+        time_value:
+          type: integer
+  parameters:
+    number:
+      in: path
+      name: number
+      required: true
+      description: Telephone number
+      schema:
+        type: integer
+    customer_id:
+      in: path
+      name: customer_id
+      required: true
+      description: Customer id
+      schema:
+        type: integer

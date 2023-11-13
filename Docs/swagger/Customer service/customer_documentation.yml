@@ -1,0 +1,216 @@
+openapi: 3.0.3
+info:
+  title: Customer microservice - OpenAPI 3.0
+  description: |-
+    service to manage customers
+  version: 1.0.0
+servers:
+  - url: https://calitel.customer/api/v1
+tags:
+  - name: Customer
+    description: Everything about customers
+paths:
+  /customer/{document_type}/{document}:
+    get:
+      tags:
+        - Customer
+      summary: Get customer by document
+      description: Obtain a customer by identification document
+      parameters:
+        - $ref: '#/components/parameters/document_type'
+        - $ref: '#/components/parameters/document'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '404':
+          description: Failed to get customer
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+  /customer:
+    post:
+      tags:
+        - Customer
+      summary: Create a new customer
+      description: Create a new customer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                customer_type_id:
+                  type: integer
+                name:
+                  type: string
+                last_name:
+                  type: string
+                birthdate:
+                  type: string
+                  format: date
+                document_type_id:
+                  type: integer
+                document:
+                  type: string
+                address:
+                  type: string
+                area_id:
+                  type: integer
+                email:
+                  type: string
+                phone_number:
+                  type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '404':
+          description: Failed to create customer
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+  /customer/{customer_id}:
+    put:
+      tags:
+        - Customer
+      summary: Update a customer
+      description: Update a customer
+      parameters:
+        - $ref: '#/components/parameters/customer_id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                last_name:
+                  type: string
+                email:
+                  type: string
+                phone_number:
+                  type: string
+                address:
+                  type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '404':
+          description: Failed to update customer
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+  /customer/upload_file:
+    post:
+      tags:
+        - Customer
+      summary: Upload customer file
+      description: Upload customer file
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Successful operation
+        '404':
+          description: Failed to upload customers
+
+  /customer/download_file:
+    get:
+      tags:
+        - Customer
+      summary: Download customer file
+      description: Download customer file
+      responses:
+        '200':
+          description: Successful operation
+        '500':
+          description: Failed to get customers
+
+components:
+  schemas:
+    Customer:
+      type: object
+      properties:
+        customer_id:
+          type: integer
+        customer_type_id:
+          type: integer
+        name:
+          type: string
+        last_name:
+          type: string
+        birthdate:
+          type: string
+          format: date
+        document_type_id:
+          type: integer
+        document:
+          type: string
+        address:
+          type: string
+        area_id:
+          type: integer
+        email:
+          type: string
+        phone_number:
+          type: string
+        telephone_number:
+          type: string
+  parameters:
+    document_type:
+      in: path
+      name: document_type
+      required: true
+      description: Customer document type
+      schema:
+        type: integer
+    document:
+      in: path
+      name: document
+      required: true
+      description: Customer document
+      schema:
+        type: string
+    customer_id:
+      in: path
+      name: customer_id
+      required: true
+      description: Customer id
+      schema:
+        type: integer
