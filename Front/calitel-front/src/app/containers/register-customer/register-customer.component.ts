@@ -73,15 +73,15 @@ export class RegisterCustomerComponent implements OnInit {
     const formData = this.form.value;
     const customer: CustomerCreationReq = {
       customerTypeId: formData.customerType.customerTypeId,
-      name: formData.name,
-      lastName: formData.lastName,
-      birthdate: formData.birthdate.toISOString().split('T')[0],
+      name: formData.name.trim(),
+      lastName: formData.lastName.trim(),
+      birthdate: formData.birthdate.toISOString().split('T')[0].trim(),
       documentTypeId: formData.documentType.documentTypeId,
-      document: formData.document,
-      address: formData.address,
+      document: formData.document.trim(),
+      address: formData.address.trim(),
       areaId: formData.area.areaId,
-      email: formData.email,
-      phoneNumber: formData.phoneNumber
+      email: formData.email.trim(),
+      phoneNumber: formData.phoneNumber.trim()
     };
     this.customerService.createCustomer(customer).subscribe({
       next: (response) => {

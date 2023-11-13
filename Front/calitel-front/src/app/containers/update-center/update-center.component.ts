@@ -72,9 +72,9 @@ export class UpdateCenterComponent implements OnInit {
     }
     const formData = this.form.value;
     const center: CenterUpdateReq = {
-      email: formData.email,
-      phoneNumber: formData.phoneNumber,
-      address: formData.address
+      email: formData.email.trim(),
+      phoneNumber: formData.phoneNumber.trim(),
+      address: formData.address.trim()
     };
     this.centerService.updateCenter(this.centerId, center).subscribe({
       next: (response) => {

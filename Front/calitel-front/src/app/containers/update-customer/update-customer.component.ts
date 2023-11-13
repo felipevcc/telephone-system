@@ -72,9 +72,9 @@ export class UpdateCustomerComponent implements OnInit {
     }
     const formData = this.form.value;
     const customer: CustomerUpdateReq = {
-      address: formData.address,
-      email: formData.email,
-      phoneNumber: formData.phoneNumber
+      address: formData.address.trim(),
+      email: formData.email.trim(),
+      phoneNumber: formData.phoneNumber.trim()
     };
     this.customerService.updateCustomer(this.customerId, customer).subscribe({
       next: (response) => {

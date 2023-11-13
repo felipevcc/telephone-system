@@ -53,10 +53,10 @@ export class RegisterCenterComponent implements OnInit {
       return;
     }
     const center: CenterCreationReq = {
-      name: formData.name,
-      address: formData.address,
-      email: formData.email,
-      phoneNumber: formData.phoneNumber,
+      name: formData.name.trim(),
+      address: formData.address.trim(),
+      email: formData.email.trim(),
+      phoneNumber: formData.phoneNumber.trim(),
       initialNumber: formData.initialNumber,
       finalNumber: formData.finalNumber,
       geographicAreasIds: formData.areas.map((area: GeographicArea) => area.areaId)
