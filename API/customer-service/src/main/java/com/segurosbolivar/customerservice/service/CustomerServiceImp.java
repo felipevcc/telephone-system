@@ -1,8 +1,7 @@
 package com.segurosbolivar.customerservice.service;
 
-import com.segurosbolivar.customerservice.dto.CustomerCreationDTO;
-import com.segurosbolivar.customerservice.dto.CustomerRowDTO;
-import com.segurosbolivar.customerservice.dto.CustomerUpdateDTO;
+import com.segurosbolivar.customerservice.dto.*;
+import com.segurosbolivar.customerservice.mapper.CustomerMapper;
 import com.segurosbolivar.customerservice.model.Customer;
 import com.segurosbolivar.customerservice.model.CustomerType;
 import com.segurosbolivar.customerservice.model.DocumentType;
@@ -23,7 +22,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerServiceImp implements CustomerService {
@@ -40,8 +39,11 @@ public class CustomerServiceImp implements CustomerService {
     @Autowired
     DocumentTypeRepository documentTypeRepository;
 
+    @Autowired
+    CustomerMapper customerMapper;
+
     @Override
-    public Customer createCustomer(CustomerCreationDTO newCustomerData) {
+    public CustomerDTO createCustomer(CustomerCreationDTO newCustomerData) {
         try {
             // Birthdate validation
             String birthdate = DateFormat.dateStringFormat(newCustomerData.getBirthdate());
@@ -54,7 +56,7 @@ public class CustomerServiceImp implements CustomerService {
             if (newCustomerId == null) {
                 return null;
             }
-            return customerRepository.findById(newCustomerId).orElse(null);
+            return getCustomerById(newCustomerId);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -63,13 +65,13 @@ public class CustomerServiceImp implements CustomerService {
     }
 
     @Override
-    public Customer updateCustomer(Long customerId, CustomerUpdateDTO customerData) {
+    public CustomerDTO updateCustomer(Long customerId, CustomerUpdateDTO customerData) {
         try {
             if (!customerRepository.existsById(customerId)) {
                 return null;
             }
             customerCallRepository.updateCustomer(customerId, customerData);
-            return customerRepository.findById(customerId).orElse(null);
+            return getCustomerById(customerId);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -77,23 +79,37 @@ public class CustomerServiceImp implements CustomerService {
     }
 
     @Override
-    public Customer getCustomerById(Long customerId) {
-        return customerRepository.findById(customerId).orElse(null);
+    public CustomerDTO getCustomerById(Long customerId) {
+        Customer foundCustomer = customerRepository.findById(customerId).orElse(null);
+        if (foundCustomer == null) {
+            return null;
+        }
+        return customerMapper.customerToDTO(foundCustomer);
     }
 
     @Override
-    public Customer getCustomerByDocument(Long documentTypeId, String document) {
-        return customerRepository.getCustomerByDocument(documentTypeId, document);
+    public CustomerDTO getCustomerByDocument(Long documentTypeId, String document) {
+        Customer foundCustomer = customerRepository.getCustomerByDocument(documentTypeId, document);
+        if (foundCustomer == null) {
+            return null;
+        }
+        return customerMapper.customerToDTO(foundCustomer);
     }
 
     @Override
-    public List<CustomerType> getCustomerTypes() {
-        return customerTypeRepository.findAllCustomerTypes();
+    public List<CustomerTypeDTO> getCustomerTypes() {
+        List<CustomerType> customerTypes = customerTypeRepository.findAllCustomerTypes();
+        return customerTypes.stream()
+                .map(customerType -> customerMapper.customerTypeToDTO(customerType))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<DocumentType> getDocumentTypes() {
-        return documentTypeRepository.findAllDocumentTypes();
+    public List<DocumentTypeDTO> getDocumentTypes() {
+        List<DocumentType> documentTypes = documentTypeRepository.findAllDocumentTypes();
+        return documentTypes.stream()
+                .map(documentType -> customerMapper.documentTypeToDTO(documentType))
+                .collect(Collectors.toList());
     }
 
     @Override

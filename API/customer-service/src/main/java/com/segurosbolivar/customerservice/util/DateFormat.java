@@ -31,7 +31,7 @@ public class DateFormat {
 
             int year = calendar.get(Calendar.YEAR);
 
-            // Validate date and that the year is before 5 years ago from the current year
+            // Validate date and that the year is before 10 years ago from the current year
             int currentYear = Calendar.getInstance().get(Calendar.YEAR);
             return year < currentYear - 10;
         } catch (Exception e) {

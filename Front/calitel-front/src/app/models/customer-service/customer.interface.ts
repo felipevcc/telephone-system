@@ -10,5 +10,4 @@ export interface Customer {
   areaId: number;
   email: string;
   phoneNumber: string;
-  createdAt: string;
 }

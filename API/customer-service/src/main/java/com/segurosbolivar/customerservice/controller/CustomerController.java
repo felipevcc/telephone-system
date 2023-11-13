@@ -1,11 +1,6 @@
 package com.segurosbolivar.customerservice.controller;
 
-import com.segurosbolivar.customerservice.dto.CustomerCreationDTO;
-import com.segurosbolivar.customerservice.dto.CustomerRowDTO;
-import com.segurosbolivar.customerservice.dto.CustomerUpdateDTO;
-import com.segurosbolivar.customerservice.model.Customer;
-import com.segurosbolivar.customerservice.model.CustomerType;
-import com.segurosbolivar.customerservice.model.DocumentType;
+import com.segurosbolivar.customerservice.dto.*;
 import com.segurosbolivar.customerservice.service.CustomerService;
 import com.segurosbolivar.customerservice.util.CSVHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +24,8 @@ public class CustomerController {
     CustomerService customerService;
 
     @PostMapping
-    public ResponseEntity<Customer> createCustomer(@RequestBody CustomerCreationDTO newCustomerData) {
-        Customer newCustomer = customerService.createCustomer(newCustomerData);
+    public ResponseEntity<CustomerDTO> createCustomer(@RequestBody CustomerCreationDTO newCustomerData) {
+        CustomerDTO newCustomer = customerService.createCustomer(newCustomerData);
         if (newCustomer == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -38,11 +33,11 @@ public class CustomerController {
     }
 
     @PutMapping("/{customerId}")
-    public ResponseEntity<Customer> updateCustomer(
+    public ResponseEntity<CustomerDTO> updateCustomer(
             @PathVariable Long customerId,
             @RequestBody CustomerUpdateDTO customerData
     ) {
-        Customer updateCustomer = customerService.updateCustomer(customerId, customerData);
+        CustomerDTO updateCustomer = customerService.updateCustomer(customerId, customerData);
         if (updateCustomer == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -50,8 +45,8 @@ public class CustomerController {
     }
 
     @GetMapping("/{customerId}")
-    public ResponseEntity<Customer> getCustomerById(@PathVariable Long customerId) {
-        Customer foundCustomer = customerService.getCustomerById(customerId);
+    public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable Long customerId) {
+        CustomerDTO foundCustomer = customerService.getCustomerById(customerId);
         if (foundCustomer == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -59,11 +54,11 @@ public class CustomerController {
     }
 
     @GetMapping("/{documentType}/{document}")
-    public ResponseEntity<Customer> getCustomerByDocument(
+    public ResponseEntity<CustomerDTO> getCustomerByDocument(
             @PathVariable Long documentType,
             @PathVariable String document
     ) {
-        Customer foundCustomer = customerService.getCustomerByDocument(documentType, document);
+        CustomerDTO foundCustomer = customerService.getCustomerByDocument(documentType, document);
         if (foundCustomer == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -71,8 +66,8 @@ public class CustomerController {
     }
 
     @GetMapping("/customerTypes")
-    public ResponseEntity<List<CustomerType>> getAllCustomerTypes() {
-        List<CustomerType> customerTypes = customerService.getCustomerTypes();
+    public ResponseEntity<List<CustomerTypeDTO>> getAllCustomerTypes() {
+        List<CustomerTypeDTO> customerTypes = customerService.getCustomerTypes();
         if (customerTypes.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -80,8 +75,8 @@ public class CustomerController {
     }
 
     @GetMapping("/documentTypes")
-    public ResponseEntity<List<DocumentType>> getAllDocumentTypes() {
-        List<DocumentType> documentTypes = customerService.getDocumentTypes();
+    public ResponseEntity<List<DocumentTypeDTO>> getAllDocumentTypes() {
+        List<DocumentTypeDTO> documentTypes = customerService.getDocumentTypes();
         if (documentTypes.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
