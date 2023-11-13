@@ -79,14 +79,6 @@ ALTER SESSION SET CURRENT_SCHEMA=APP_ASIG_NUM_TEL;
 @.\references\UK_TELEPHONE_NUMBER.sql
 @.\references\CK_TELEPHONE_AUDIT_ACTIVE.sql
 
--- Type creation
-@.\types\TYP_CENTER_CREATION.sql
-/
-@.\types\TYP_CENTER_UPDATE.sql
-/
-@.\types\TYP_CUSTOMER_UPDATE.sql
-/
-
 -- Package creation
 @.\packages\PCK_CENTER.sql
 /

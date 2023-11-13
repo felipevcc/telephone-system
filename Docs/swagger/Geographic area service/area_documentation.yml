@@ -67,7 +67,7 @@ components:
     Area:
       type: object
       properties:
-        area_id:
+        areaId:
           type: integer
         name:
           type: string
@@ -75,6 +75,21 @@ components:
           type: integer
         commune:
           type: integer
+    AreasPage:
+      type: object
+      properties:
+        page:
+          type: integer
+        pageSize:
+          type: integer
+        totalRecords:
+          type: integer
+        totalPages:
+          type: integer
+        geographicAreas:
+          type: array
+          items:
+            $ref: '#/components/schemas/Area'
   parameters:
     center_id:
       in: path
