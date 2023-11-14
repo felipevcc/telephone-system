@@ -21,7 +21,7 @@
 
     <form (ngSubmit)="onSearch()" [formGroup]="form">
       <div class="form-input">
-        <label for="username">Nombre de usuario</label>
+        <label for="username">Tipo de documento</label>
         <p-dropdown [options]="documentTypes" inputId="username" optionLabel="description" placeholder="Selecciona el tipo de documento" formControlName="documentType"></p-dropdown>
       </div>
       <div class="form-input">
