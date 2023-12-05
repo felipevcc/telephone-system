@@ -1,10 +1,12 @@
-# Microservices for Telephone System
+# Backend
 
-- Geographic area microservice
-- Center microservice
-- Customer microservice
-- Telephone number microservice
+Microservices for Telephone System:
 
-<img src="https://i.imgur.com/aOEZ0Z3.jpg" alt="diagram" height="70%" width="70%">
+- [Geographic area microservice](https://github.com/felipevcc/telephone-system/tree/main/API/area-service).
+- [Center microservice](https://github.com/felipevcc/telephone-system/tree/main/API/center-service).
+- [Customer microservice](https://github.com/felipevcc/telephone-system/tree/main/API/customer-service).
+- [Telephone number microservice](https://github.com/felipevcc/telephone-system/tree/main/API/telephone-number-service).
 
-> TechCamp 2023
+[Eureka server](https://github.com/felipevcc/telephone-system/tree/main/API/eureka-server) for service discovery.
+
+[API Gateway](https://github.com/felipevcc/telephone-system/tree/main/API/api-gateway) for routing requests.

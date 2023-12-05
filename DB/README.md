@@ -14,6 +14,7 @@ If it is not configured, it must be configured with the following command:
 ```bash
 set NLS_LANG=.AL32UTF8
 ```	
+This command sets the environment variable temporarily for the current session. To permanently configure it must be created from the user interface in system environment variables.
 
 Once you have this temporary environment variable, open `sqlplus` from the path `telephone-system/DB/`
 ```bash
@@ -24,5 +25,3 @@ And finally to load the database you must run the configuration script:
 ```
 @SCHEMA_SCRIPT.sql
 ```
-
-> TechCamp 2023
