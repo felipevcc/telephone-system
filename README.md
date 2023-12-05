@@ -82,7 +82,9 @@ ng serve --open
 ## Notes
 
 - To assign telephone numbers to residential customers, numbers related to the customer's name are assigned.
-The telephone number must have from the second digit the numbers related to the first four letters of the name, following the rule of these numbers associated with letters: <img src="https://i.imgur.com/7hQmO0C.png" alt="letters" height="250">
+The telephone number must have from the second digit the numbers related to the first four letters of the name, following the rule of these numbers associated with letters:
+
+  <img src="https://i.imgur.com/7hQmO0C.png" alt="letters" height="250">
 
 - The center associated with the geographical areas (neighborhoods) are already loaded in the database, with sufficient availability to assign numbers. Likewise, the creation of centers can be done through the system but with a minimum range of 10 million, to have sufficient availability of numbers and to be able to comply with the rule of telephone numbers for residential customers.
 
